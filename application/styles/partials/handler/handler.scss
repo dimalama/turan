@@ -1,0 +1,108 @@
+/**
+ * @fileoverview Basic Handler Interface Styles
+ *
+ * @autor Dmitry Lukianenko on 12/19/14.
+ *
+ * @license
+ */
+@import "../../mixins";
+
+.handler-interface {
+
+  core-drawer-panel {
+    .main {
+      padding: 0;
+    }
+  }
+
+  .data-grid {
+    position: relative;
+    height: 250px;
+    min-height: 70%;
+  }
+
+  .top-box-aria {
+    padding: 0 20px;
+  }
+
+  .edit-account,
+  .settings {
+    padding: 0 20px;
+  }
+
+  .settings {
+    padding-top: 20px;
+  }
+
+  .download-file {
+    color: #000000;
+  }
+
+  .control-elem-wrap {
+    width: 100%;
+    position: relative;
+    border-left: 1px solid #d4d4d4;
+    border-right: 1px solid #d4d4d4;
+    border-top: 1px solid #d4d4d4;
+    min-height: 42px;
+    @include box-sizing(border-box);
+    .filter-switch,
+    .print-file,
+    .save-file {
+      position: absolute;
+    }
+    .save-file {
+      right: 0;
+    }
+    .print-file {
+      right: 40px;
+    }
+    .filter-switch {
+      right: 90px;
+      top: 12px;
+    }
+    & /deep/ core-collapse {
+      border: none;
+      padding: 8px 120px 8px 0;
+      margin-top: 45px;
+      border-top: 1px solid #d4d4d4;
+    }
+    .filters-collapse {
+      .paper-input {
+        width: 120px;
+        float: left;
+        margin-left: 8px;
+      }
+      .filter-btn {
+        position: absolute;
+        right: 0;
+        top: 64px;
+        &.cancel {
+          top: 140px;
+        }
+      }
+    }
+  }
+  .access-service-info-results,
+  .access-service-info,
+  .access-service-info-display-query-results {
+    padding: 20px;
+
+  }
+  .access-service-info-results {
+    .buttons-wrapper {
+      margin-bottom: 20px;
+      paper-button {
+        margin-right: 30px;
+      }
+    }
+  }
+  .access-service-info-display-query-results {
+    padding: 20px;
+    .data-grid {
+      position: relative;
+      height: 100%;
+      min-height: 100%;
+    }
+  }
+}

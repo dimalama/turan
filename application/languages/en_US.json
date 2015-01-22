@@ -1,0 +1,456 @@
+{
+  "SYSTEM_MENU": {
+    "ACCOUNT": "Account",
+    "SETTINGS": "Settings",
+    "LOGOUT": "Log Out",
+    "EDIT_ACCOUNT": "Edit Account",
+    "EDIT_SETTINGS": "Edit Settings"
+  },
+  "USER_INFO": {
+    "ENTER_AS": "You entered as:",
+    "ROLE": "Role:",
+    "ORGAN": "Organ:"
+  },
+  "LOGIN_PAGE": {
+    "LOGIN_FIELD": {
+      "PLACEHOLDER": "Enter your login",
+      "ERRORS": {
+        "INCORRECT": "Incorrect login!",
+        "REQUIRED": "Login is required!"
+      }
+    },
+    "PASSWORD_FIELD": {
+      "PLACEHOLDER": "Enter your password",
+      "ERRORS": {
+        "INCORRECT": "Incorrect password!",
+        "REQUIRED": "Password is required!"
+      }
+    },
+    "BUTTON": {
+      "NAME": "LOG IN"
+    }
+  },
+  "SUPER_ADMINISTRATOR": {
+    "MENU": {
+      "USER_LIST": "User List",
+      "ORGAN_LIST": "Organ List",
+      "MTII": "Manage tasks for<br/>intercepted information",
+      "MSPI": "Manage sanctions for<br/>processing information",
+      "MSASI": "Manage sanctions for<br/>accessing service<br/>information",
+      "EM": "Equipment monitoring"
+    }
+  },
+  "EDIT_ACCOUNT": {
+    "ACCOUNT_FIELD": {
+      "PLACEHOLDER": "Enter your account name",
+      "ERRORS": {
+        "ALREADY_TAKEN": "Such account name has already taken!",
+        "REQUIRED": "Account name is required!"
+      }
+    },
+    "OLD_PASSWORD_FIELD": {
+      "PLACEHOLDER": "Enter your old password",
+      "ERRORS": {
+        "INCORRECT": "Incorrect old password!",
+        "REQUIRED": "Old password is required!"
+      }
+    },
+    "NEW_PASSWORD_FIELD": {
+      "PLACEHOLDER": "Enter your new password"
+    },
+    "REPEAT_PASSWORD_FIELD": {
+      "PLACEHOLDER": "Repeat new password",
+      "ERRORS": {
+        "MISMATCH": "Passwords do not match!"
+      }
+    },
+    "BUTTONS": {
+      "SAVE": "Save",
+      "CANCEL": "Cancel"
+    }
+  },
+  "SYSTEM_SETTINGS": {
+    "DROPDOWN_MENU": {
+      "LABEL": "English"
+    },
+    "BUTTONS": {
+      "SAVE": "Save",
+      "CANCEL": "Cancel"
+    }
+  },
+  "USER_LIST": {
+    "STATUS": {
+      "ENABLE": "Enable",
+      "DISABLE": "Disable"
+    },
+    "TOOLTIP": {
+      "ADD": "Add new user",
+      "REMOVE": "Remove users",
+      "STATUS_MENU": "Change status"
+    }
+  },
+  "ORGAN_LIST": {
+    "TOOLTIP": {
+      "ADD": "Add new organ",
+      "REMOVE": "Remove organs"
+    }
+  },
+  "MANAGE_TASK_INTERCEPT_INFO": {
+    "TOOLTIP": {
+      "ADD": "Add new task",
+      "REMOVE": "Remove tasks"
+    }
+  },
+  "ADD_NEW_USER": {
+    "TITLE": "Fill out information about new user",
+    "INPUTS": {
+      "NAME": {
+        "PLACEHOLDER": "Enter user name",
+        "ERRORS": {
+          "REQUIRED": "User name is required!"
+        }
+      }
+    },
+    "DROPDOWN": {
+      "ROLE": {
+        "PLACEHOLDER": "Choose role",
+        "SUPERADMINISTRATOR": "Superadministrator",
+        "ADMINISTRATOR": "Administrator",
+        "HANDLER": "Handler",
+        "SUPERVISOR": "Supervisor"
+      },
+      "STATUS": {
+        "PLACEHOLDER": "Choose status",
+        "ENABLE": "Enable",
+        "DISABLE": "Disable"
+      }
+    },
+    "BUTTONS": {
+      "SAVE": "Save",
+      "CANCEL": "Cancel"
+    }
+  },
+  "DATETIMEPICKER": {
+    "PLACEHOLDER": "Choose date and time"
+  },
+  "DIALOG": {
+    "CREATE_QUERY_ACCESS_SERVICE_INFO": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "CREATE QUERY ERROR!"
+      }
+    },
+    "SHOW_RESULTS_SERVICE_INFO_QUERY": {
+      "ERROR": {
+        "OK": "Ok",
+        "TITLE": "SHOW QUERY RESULTS ERROR!"
+      }
+    },
+    "CANCEL_SERVICE_INFO_QUERY": {
+      "OK": "Yes",
+      "CANCEL": "No",
+      "TITLE": "CANCEL QUERY!",
+      "BODY": "You are about to cancel qeury. Do you really want to cancel it?",
+      "ERROR": {
+        "OK": "Ok",
+        "TITLE": "CANCEL QUERY ERROR!"
+      }
+    },
+    "REMOVE_USER": {
+      "TITLE": "DELETE USER(S)!",
+      "BODY": {
+        "FIRST_PART": "You are about to delete ",
+        "SECOND_PART": " user(s)! Do you really want to delete these/that user(s)?"
+      },
+      "OK": "Yes",
+      "CANCEL": "No",
+      "ERROR": {
+        "TITLE": "DELETE USER(S) ERROR!",
+        "OK": "Ok"
+      }
+    },
+    "EDIT_ACCOUNT": {
+      "TITLE": "Account information has been updated!",
+      "BODY": "Account information has been successfully updated!",
+      "OK": "OK"
+    },
+    "CHANGE_STATUS": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "CHANGE STATUS ERROR!"
+      }
+    },
+    "ADD_NEW_ORGAN": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "ADD NEW ORGAN ERROR!"
+      }
+    },
+    "ADD_NEW_USER": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "ADD NEW USER ERROR!"
+      }
+    },
+    "REMOVE_ORGAN": {
+      "OK": "Ok",
+      "CANCEL": "Cancel",
+      "TITLE": "DELETE ORGAN(S)!",
+      "BODY": {
+        "FIRST_PART": "You are about to delete ",
+        "SECOND_PART": " organ(s). Do you really want to delete them?"
+      },
+      "ERROR": {
+        "TITLE": "DELETE ORGAN(S) ERROR!"
+      }
+    },
+    "REMOVE_TASK_INTERCEPT_INFO": {
+      "OK": "Ok",
+      "CANCEL": "Cancel",
+      "TITLE": "DELETE TASK(S)!",
+      "BODY": {
+        "FIRST_PART": "You are about to delete ",
+        "SECOND_PART": " task(s). Do you really want to delete them?"
+      },
+      "ERROR": {
+        "TITLE": "DELETE TASK(S) ERROR!"
+      }
+    },
+    "ADD_TASK_INTERCEPT_INFO": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "ADD TASK ERROR!"
+      }
+    },
+    "GET_DATA": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "DATA REQUEST ERROR!"
+      }
+    },
+    "REMOVE_SANCTION_PROCESS_INFO": {
+      "ERROR": {
+        "TITLE": "DELETE SANCTION(S) ERROR!",
+        "OK": "Ok"
+      },
+      "TITLE": "Delete sanction(s)!",
+      "BODY": {
+        "FIRST_PART": "You are about to delete ",
+        "SECOND_PART": " sanction(s). Do you really want to delete them?"
+      },
+      "OK": "Yes",
+      "CANCEL": "No"
+    },
+    "ADD_SANCTION_PROCESS_INFO": {
+      "ERROR": {
+        "TITLE": "ADD SANCTION ERROR!"
+      },
+      "OK": "Ok"
+    },
+    "ADD_SANCTION_ACCESS_SERVICE_INFO": {
+      "ERROR": {
+        "TITLE": "ADD SANCTION ERROR!"
+      },
+      "OK": "Ok"
+    },
+    "REMOVE_SANCTION_ACCESS_SERVICE_INFO": {
+      "ERROR": {
+        "TITLE": "DELETE SANCTION(S) ERROR!",
+        "OK": "Ok"
+      },
+      "TITLE": "Delete sanction(s)!",
+      "BODY": {
+        "FIRST_PART": "You are about to delete ",
+        "SECOND_PART": " sanction(s). Do you really want to delete them?"
+      },
+      "OK": "Yes",
+      "CANCEL": "No"
+    }
+  },
+  "ADD_NEW_ORGAN": {
+    "TITLE": "Add new organ",
+    "INPUTS": {
+      "ORGAN_NAME": {
+        "PLACEHOLDER": "Enter organ name",
+        "ERRORS": {
+          "REQUIRED": "Organ name is required!"
+        }
+      }
+    },
+    "BUTTONS": {
+      "SAVE": "Save",
+      "CANCEL": "Cancel"
+    }
+  },
+  "ADD_NEW_TASK_INTERCEPT_INFO": {
+    "TITLE": "Add new task",
+    "INPUTS": {
+      "ASSIGMENT_NUMBER":{
+        "PLACEHOLDER": "Enter assigment number",
+        "ERRORS": {
+          "REQUIRED": "This is required field!"
+        }
+      },
+      "ALIAS": {
+        "PLACEHOLDER": "Enter target alias",
+        "ERRORS": {
+          "REQUIRED": "This is required field"
+        }
+      },
+      "TIME_FRAME_START": {
+        "PLACEHOLDER": "Choose start time and date"
+      },
+      "TIME_FRAME_END": {
+        "PLACEHOLDER": "Choose end time and date"
+      },
+      "ID": {
+        "PLACEHOLDER": "Enter id",
+        "ERRORS": {
+          "REQUIRED": "ID field is required!"
+        }
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "Enter comment"
+      }
+    },
+    "DROPDOWN": {
+      "ID_TYPE": {
+        "PLACEHOLDER": "Choose id type"
+      },
+      "SIGN": {
+        "PLACEHOLDER": "Choose sign of gathered data"
+      },
+      "ORGAN": {
+        "PLACEHOLDER": "Choose organ"
+      }
+    },
+    "BUTTONS": {
+      "SAVE": "Save",
+      "CANCEL": "Cancel"
+    }
+  },
+  "HANDLER": {
+    "LIST_TASK_INTERCEPT": "List of authorized task<br/>to intercept",
+    "FILTERS": "Filters:",
+    "CREATE_QUERY": "Create query",
+    "CANCEL_QUERY": "Cancel query",
+    "SHOW_DATA": "Show data",
+    "DOWNLOAD": {
+      "WAV": "Download wav file",
+      "PCAP": "Download pcap file"
+    }
+  },
+  "TOOLTIP": {
+    "FILTER": "Filter",
+    "PRINT": "Print",
+    "SAVE": "Save"
+  },
+  "FILTERS": {
+    "APPLY": "Apply",
+    "RESET": "Reset"
+  },
+  "MANAGE_SANCTIONS_PROCESS_INFO": {
+    "TOOLTIP": {
+      "ADD": "Add sanction",
+      "REMOVE": "Remove sanction"
+    },
+    "ADD_NEW_SANCTION": {
+      "TITLE": "Add new sanction",
+      "INPUTS": {
+        "NUMBER": {
+          "PLACEHOLDER": "Enter task number",
+          "ERRORS": {
+            "REQUIRED": "This field is required!"
+          }
+        },
+        "TIME_FRAME_START": {
+          "PLACEHOLDER": "Choose the start date"
+        },
+        "TIME_FRAME_END": {
+          "PLACEHOLDER": "Choose the end date"
+        }
+      },
+      "DROPDOWN": {
+        "USER": {
+          "PLACEHOLDER": "Choose user"
+        },
+        "ORGAN": {
+          "PLACEHOLDER": "Choose organ"
+        }
+      },
+      "BUTTONS": {
+        "ADD_USER": "Add user",
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      }
+    }
+  },
+  "MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO": {
+    "TOOLTIP": {
+      "ADD": "Add sanction",
+      "REMOVE": "Remove sanction"
+    },
+    "ADD_NEW_SANCTION": {
+      "TITLE": "Add new sanction",
+      "INPUTS": {
+        "NUMBER": {
+          "PLACEHOLDER": "Enter task number",
+          "ERRORS": {
+            "REQUIRED": "This field is required!"
+          }
+        },
+        "TIME_FRAME_START": {
+          "PLACEHOLDER": "Choose the start date"
+        },
+        "TIME_FRAME_END": {
+          "PLACEHOLDER": "Choose the end date"
+        }
+      },
+      "DROPDOWN": {
+        "USER": {
+          "PLACEHOLDER": "Choose user"
+        },
+        "ORGAN": {
+          "PLACEHOLDER": "Choose organ"
+        }
+      },
+      "BUTTONS": {
+        "ADD_USER": "Add user",
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      }
+    }
+  },
+  "CREATE_QUERY_ACCESS_SERVICE_INFO": {
+    "TITLE": "Create query to access service information",
+    "INPUTS": {
+      "ASSIGMENT_NUMBER": {
+        "PLACEHOLDER": "Enter assignment number",
+        "ERRORS": {
+          "REQUIRED": "This field is required!"
+        }
+      },
+      "TIME_FRAME_START": {
+        "PLACEHOLDER": "Select date from"
+      },
+      "TIME_FRAME_END": {
+        "PLACEHOLDER": "Select date to"
+      },
+      "ID": {
+        "PLACEHOLDER": "Enter id"
+      }
+    },
+    "DROPDOWN": {
+      "ID_TYPE": {
+        "PLACEHOLDER": "Choose id type",
+        "ERRORS": {
+          "REQUIRED": "This field is required!"
+        }
+      }
+    },
+    "BUTTONS": {
+      "SAVE": "Save",
+      "CANCEL": "Cancel"
+    }
+  }
+}

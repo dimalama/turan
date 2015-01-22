@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": ";;;;;;;AASE,6EAA+C;EAC7C,KAAK,EAAE,KAAK;EACZ,gBAAgB,EAAE,OAAO;AAE3B;8CACgB;EACd,UAAU,EAAE,IAAI;AAElB,6CAAe;EACb,aAAa,EAAE,GAAG;AAEpB,4CAAc;EACZ,QAAQ,EAAE,QAAQ;EAClB,KAAK,EAAE,IAAI;EACX,GAAG,EAAE,KAAK",
+"sources": ["addNewProcessInfoSanction.scss"],
+"names": [],
+"file": "addNewProcessInfoSanction.css"
+}

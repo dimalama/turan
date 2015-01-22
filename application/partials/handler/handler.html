@@ -1,0 +1,747 @@
+<div ng-controller="HandlerController" class="handler-interface">
+    <core-toolbar class="medium-tall">
+        <h2 flex class="bottom" ng-if="content == 'content-1'"
+            translate="HANDLER.LIST_TASK_INTERCEPT"></h2>
+
+        <h2 flex class="bottom" ng-if="content == 'content-7'"
+            translate="SYSTEM_MENU.EDIT_ACCOUNT"></h2>
+
+        <h2 flex class="bottom" ng-if="content == 'content-8'">{{'SYSTEM_MENU.EDIT_SETTINGS' |
+            translate}}</h2>
+
+        <div flex class="user-info">
+            <div class="user">{{'USER_INFO.ENTER_AS' | translate}} {{$parent.currentUser.name}}
+            </div>
+            <div class="role">{{'USER_INFO.ROLE' | translate}} {{$parent.currentUser.roleName}}
+            </div>
+            <div class="organ">{{'USER_INFO.ORGAN' | translate}} {{$parent.currentUser.organ}}</div>
+        </div>
+        <core-menu-button id="system-settings-menu">
+            <core-icon-button icon="more-vert"></core-icon-button>
+            <core-dropdown class="dropdown" halign="right" layered>
+                <core-menu>
+                    <core-item class="system-menu-item" icon="account-box"
+                               label="{{'SYSTEM_MENU.ACCOUNT' | translate}}"
+                               ng-click="showMenuContent(7)"></core-item>
+                    <br>
+                    <core-item class="system-menu-item" icon="settings"
+                               label="{{'SYSTEM_MENU.SETTINGS' | translate}}"
+                               ng-click="showMenuContent(8)"></core-item>
+                    <br>
+                    <core-item class="system-menu-item" src="/images/logout-icon.png"
+                               label="{{'SYSTEM_MENU.LOGOUT' | translate}}"
+                               ng-controller="AuthenticationController" ng-click="logOut()"></core-item>
+                </core-menu>
+            </core-dropdown>
+        </core-menu-button>
+    </core-toolbar>
+    <core-drawer-panel id="interface">
+        <div drawer class="drawer light-grayish-cyan">
+            <treecontrol class="tree-light"
+                         tree-model="handlerData"
+                         options="treeOptions"
+                         on-selection="showSelected(node)"
+                         selected-node="selectedNode">
+                <span ng-click="nodeClick($event, node.categoryType)">{{node.category}}</span>
+                <span class="node-amount">{{node.tasksAmount}}</span>
+                <span ng-click="nodeClick($event, node.categoryType); taskClick($event, node)">{{node.taskName}}</span>
+                <span class="node-amount">{{node.protocolsAmount}}</span>
+                <span class="node-amount">{{node.queriesAmount}}</span>
+                <span ng-click="nodeClick($event, node.categoryType)">{{node.protocolName}}</span>
+                <span ng-click="nodeClick($event, node.categoryType)">{{node.queryName}}</span>
+                <span class="node-amount">{{node.recordsAmount}}</span>
+            </treecontrol>
+        </div>
+        <div main class="main">
+            <div ng-if="content == 'content-1'" class="container" vertical layout>
+                <div class="top-box-aria">
+                    <div class="control-elem-wrap">
+                        <core-tooltip label="{{'TOOLTIP.FILTER' | translate}}"
+                                      class="filter-switch">
+                            <label>
+                                {{'HANDLER.FILTERS' | translate}}
+                                <paper-toggle-button ng-click="toggleFilters($event)"></paper-toggle-button>
+                            </label>
+                        </core-tooltip>
+                        <core-tooltip label="{{'TOOLTIP.PRINT' | translate}}"
+                                      class="print-file"
+                                      position="bottom"
+                                      ng-click="">
+                            <core-icon-button icon="print"></core-icon-button>
+                        </core-tooltip>
+                        <core-tooltip label="{{'TOOLTIP.SAVE' | translate}}"
+                                      class="save-file"
+                                      position="bottom"
+                                      ng-click="">
+                            <core-icon-button icon="save"></core-icon-button>
+                        </core-tooltip>
+
+
+                        <core-collapse class="filters-collapse" opened="{{showFilters}}">
+
+
+                            <paper-input-decorator label="Collected Time"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Source IP"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Source Port"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Dist IP"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Dist Port"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Protocol Type"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Radius User"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Location information"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="From"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="To"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Call ID"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Response Code"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Src Audio Port"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Src Video Port"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Dst Audio Port"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Dst Video Port"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Src Audio Connection"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Dst Audio Connection"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+                            <paper-input-decorator label="Action"
+                                                   floatingLabel
+                                                   class="paper-input"
+                                                   error=""
+                                                   isInvalid="false">
+                                <input type="text"
+                                       name=""
+                                       is="core-input"
+                                        >
+                            </paper-input-decorator>
+
+
+                            <paper-button raised class="filter-btn colored save" ng-click="">{{'FILTERS.APPLY' |
+                                translate}}
+                            </paper-button>
+                            <paper-button raised class="filter-btn cancel" ng-click="">{{'FILTERS.RESET' | translate}}
+                            </paper-button>
+
+
+                        </core-collapse>
+
+
+                    </div>
+                    <div ui-grid="gridOptions"
+                         ui-grid-selection
+                         ui-grid-pagination
+                         ui-grid-move-columns
+                         ui-grid-resize-columns
+                         ui-grid-pinning
+                         external-scopes="dataGridModel"
+                         class="data-grid"></div>
+                    <div class="paging">
+                        <core-icon-button icon="chevron-left" ng-click="previousPage()"></core-icon-button>
+                        <paper-button raised class="number {{page == 1 ? 'colored' : ''}}" id="page-{{page}}"
+                                      ng-click="goToPage(page)" ng-repeat="page in pagesArray">
+                            {{page}}
+                        </paper-button>
+                        <core-icon-button icon="chevron-right" ng-click="nextPage()"></core-icon-button>
+                    </div>
+
+
+                </div>
+                <core-splitter direction="up"></core-splitter>
+                <div class="videogular-audio-container" ng-show="showAudioPlayer">
+                    <videogular vg-theme="audioPlayerConfig.theme"
+                                vg-player-ready="onPlayerReady">
+                        <vg-audio vg-src="audioPlayerConfig.sources"></vg-audio>
+                        <vg-controls>
+                            <vg-play-pause-button></vg-play-pause-button>
+                            <vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
+                            <vg-scrubBar>
+                                <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+                            </vg-scrubBar>
+                            <vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
+                            <vg-volume>
+                                <vg-mutebutton></vg-mutebutton>
+                            </vg-volume>
+                        </vg-controls>
+                    </videogular>
+                </div>
+                <br/>
+                <a href="{{linkWavFile}}" target="_blank" class="download-file" ng-show="showDownloadWavFile">
+                    <core-icon icon="file-download"></core-icon>
+                    {{'HANDLER.DOWNLOAD.WAV' | translate}}</a>
+                <br/>
+                <a href="{{linkPcapFile}}" target="_blank" class="download-file" ng-show="showDownloadPcapFile">
+                    <core-icon icon="file-download"></core-icon>
+                    {{'HANDLER.DOWNLOAD.PCAP' | translate}}</a>
+            </div>
+            <div ng-if="content == 'content-2'" class="access-service-info-results">
+                <div class="buttons-wrapper" horizontal layout>
+                    <paper-button raised class="colored" ng-click="accessServiceInfoModel.createQuery.open(addNewQueryAccessServiceInfoForm)">
+                        {{'HANDLER.CREATE_QUERY' | translate}}
+                    </paper-button>
+                    <paper-button raised class="colored" ng-show="showQueryResultsBtn"
+                                  ng-click="accessServiceInfoModel.showResults()">{{'HANDLER.SHOW_DATA' | translate}}
+                    </paper-button>
+                    <paper-button raised class="" ng-show="showCancelQueryBtn"
+                                  ng-click="accessServiceInfoModel.cancelQuery()">{{'HANDLER.CANCEL_QUERY' | translate}}
+                    </paper-button>
+                </div>
+                <div ui-grid="queryGridOptions"
+                     ui-grid-move-columns
+                     ui-grid-resize-columns
+                     ui-grid-pinning
+                     class="data-grid"></div>
+            </div>
+            <div ng-if="content == 'content-3'" class="access-service-info">
+                <paper-button raised class="colored" ng-click="accessServiceInfoModel.createQuery.open(addNewQueryAccessServiceInfoForm)">
+                    {{'HANDLER.CREATE_QUERY' | translate}}
+                </paper-button>
+            </div>
+            <div ng-if="content == 'content-4'" class="access-service-info-display-query-results">
+                <div class="control-elem-wrap">
+                    <core-tooltip label="{{'TOOLTIP.FILTER' | translate}}"
+                                  class="filter-switch">
+                        <label>
+                            {{'HANDLER.FILTERS' | translate}}
+                            <paper-toggle-button ng-click="toggleFilters($event)"></paper-toggle-button>
+                        </label>
+                    </core-tooltip>
+                    <core-tooltip label="{{'TOOLTIP.PRINT' | translate}}"
+                                  class="print-file"
+                                  position="bottom"
+                                  ng-click="">
+                        <core-icon-button icon="print"></core-icon-button>
+                    </core-tooltip>
+                    <core-tooltip label="{{'TOOLTIP.SAVE' | translate}}"
+                                  class="save-file"
+                                  position="bottom"
+                                  ng-click="">
+                        <core-icon-button icon="save"></core-icon-button>
+                    </core-tooltip>
+
+
+                    <core-collapse class="filters-collapse" opened="{{showFilters}}">
+
+
+                        <paper-input-decorator label="Collected Time"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Source IP"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Source Port"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Dist IP"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Dist Port"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Protocol Type"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Radius User"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Location information"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="From"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="To"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Call ID"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Response Code"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Src Audio Port"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Src Video Port"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Dst Audio Port"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Dst Video Port"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Src Audio Connection"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Dst Audio Connection"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+                        <paper-input-decorator label="Action"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error=""
+                                               isInvalid="false">
+                            <input type="text"
+                                   name=""
+                                   is="core-input"
+                                    >
+                        </paper-input-decorator>
+
+
+                        <paper-button raised class="filter-btn colored save" ng-click="">{{'FILTERS.APPLY' |
+                            translate}}
+                        </paper-button>
+                        <paper-button raised class="filter-btn cancel" ng-click="">{{'FILTERS.RESET' |
+                            translate}}
+                        </paper-button>
+
+
+                    </core-collapse>
+
+
+                </div>
+                <div ui-grid="gridOptions"
+                     ui-grid-selection
+                     ui-grid-pagination
+                     ui-grid-move-columns
+                     ui-grid-resize-columns
+                     ui-grid-pinning
+                     external-scopes="dataGridModel"
+                     class="data-grid"></div>
+                <div class="paging">
+                    <core-icon-button icon="chevron-left" ng-click="previousPage()"></core-icon-button>
+                    <paper-button raised class="number {{page == 1 ? 'colored' : ''}}" id="page-{{page}}"
+                                  ng-click="goToPage(page)" ng-repeat="page in pagesArray">
+                        {{page}}
+                    </paper-button>
+                    <core-icon-button icon="chevron-right" ng-click="nextPage()"></core-icon-button>
+                </div>
+            </div>
+            <div ng-if="content == 'content-7'" ng-controller="AccountController" class="edit-account">
+                <form name="editAccountForm" novalidate>
+                    <paper-input-decorator label="{{'EDIT_ACCOUNT.ACCOUNT_FIELD.PLACEHOLDER' | translate}}"
+                                           floatingLabel
+                                           class="paper-input"
+                                           error="{{editAccount.errors.accountNameError ? ('EDIT_ACCOUNT.ACCOUNT_FIELD.ERRORS.ALREADY_TAKEN' | translate) : ('EDIT_ACCOUNT.ACCOUNT_FIELD.ERRORS.REQUIRED' | translate)}}"
+                                           isInvalid="{{editAccountForm.accountName.$dirty && editAccountForm.accountName.$invalid}}">
+                        <input type="text"
+                               name="accountName"
+                               is="core-input"
+                               ng-model="editAccount.credentials.accountName"
+                               required>
+                    </paper-input-decorator>
+                    <paper-input-decorator label="{{'EDIT_ACCOUNT.OLD_PASSWORD_FIELD.PLACEHOLDER' | translate}}"
+                                           floatingLabel
+                                           class="paper-input"
+                                           error="{{editAccount.errors.oldPasswordError ? ('EDIT_ACCOUNT.OLD_PASSWORD_FIELD.ERRORS.INCORRECT' | translate) : ('EDIT_ACCOUNT.OLD_PASSWORD_FIELD.ERRORS.REQUIRED' | translate)}}"
+                                           isInvalid="{{editAccountForm.oldPassword.$dirty && editAccountForm.oldPassword.$invalid}}">
+                        <input type="password"
+                               name="oldPassword"
+                               is="core-input"
+                               ng-model="editAccount.credentials.oldPassword"
+                               required>
+                    </paper-input-decorator>
+                    <paper-input-decorator label="{{'EDIT_ACCOUNT.NEW_PASSWORD_FIELD.PLACEHOLDER' | translate}}"
+                                           floatingLabel
+                                           class="paper-input">
+                        <input type="password"
+                               name="newPassword"
+                               id="newPassword"
+                               is="core-input"
+                               ng-model="editAccount.credentials.newPassword"
+                               pw-check="repeatNewPassword">
+                    </paper-input-decorator>
+                    <paper-input-decorator
+                            label="{{'EDIT_ACCOUNT.REPEAT_PASSWORD_FIELD.PLACEHOLDER' | translate}}"
+                            floatingLabel
+                            class="paper-input"
+                            error="{{'EDIT_ACCOUNT.REPEAT_PASSWORD_FIELD.ERRORS.MISMATCH' | translate}}"
+                            isInvalid="{{passwordsMismatch }}">
+                        <input type="password"
+                               name="repeatNewPassword"
+                               id="repeatNewPassword"
+                               is="core-input"
+                               ng-model="editAccount.credentials.repeatNewPassword">
+                    </paper-input-decorator>
+                    <paper-button raised class="colored save" ng-click="editAccountForm.$valid ?
+                                                                            submitEditAccount(editAccountForm) :
+                                                                            editAccountForm.oldPassword.$dirty = true">
+                        {{'EDIT_ACCOUNT.BUTTONS.SAVE' | translate}}
+                    </paper-button>
+                    <paper-button raised class="cancel" ng-click="cancelEditAccount(editAccountForm)">
+                        {{'EDIT_ACCOUNT.BUTTONS.CANCEL' | translate}}
+                    </paper-button>
+                </form>
+            </div>
+            <div ng-if="content == 'content-8'" class="settings" ng-controller="SettingsController">
+                <core-dropdown-menu class="dropdown-elem" id="language-menu" label="{{languageName}}">
+                    <core-dropdown class="dropdown dropdown-elem">
+                        <core-selector>
+                            <core-item class="dropdown-elem" label="English"
+                                       ng-click="setLanguage('en_US')"></core-item>
+                            <core-item class="dropdown-elem" label="Русский"
+                                       ng-click="setLanguage('ru_RU')"></core-item>
+                            <core-item class="dropdown-elem" label="Қазақ"
+                                       ng-click="setLanguage('kz_KZ')"></core-item>
+                        </core-selector>
+                    </core-dropdown>
+                </core-dropdown-menu>
+                <paper-button raised class="colored save" ng-click="save()">{{'SYSTEM_SETTINGS.BUTTONS.SAVE' |
+                    translate}}
+                </paper-button>
+                <paper-button raised class="cancel" ng-click="cancel()">{{'SYSTEM_SETTINGS.BUTTONS.CANCEL' |
+                    translate}}
+                </paper-button>
+            </div>
+        </div>
+    </core-drawer-panel>
+    <modal-window ng-show="accessServiceInfoModel.createQuery.openCreateNewQuery" class="">
+        <h2 class="title big">{{'CREATE_QUERY_ACCESS_SERVICE_INFO.TITLE' | translate}}</h2>
+
+        <form name="addNewQueryAccessServiceInfoForm" novalidate>
+            <paper-input-decorator
+                    label="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.ASSIGMENT_NUMBER.PLACEHOLDER' | translate}}"
+                    floatingLabel
+                    class="paper-input"
+                    error="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.ASSIGMENT_NUMBER.ERRORS.REQUIRED' | translate}}"
+                    isInvalid="{{addNewQueryAccessServiceInfoForm.number.$dirty && addNewQueryAccessServiceInfoForm.number.$invalid}}">
+                <input type="text"
+                       name="number"
+                       is="core-input"
+                       ng-model="accessServiceInfoModel.createQuery.query.number"
+                       required>
+            </paper-input-decorator>
+            <datetime-picker id="timeframe-starts"
+                             class="datetime-picker"
+                             label="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.TIME_FRAME_START.PLACEHOLDER' | translate}}"></datetime-picker>
+            <datetime-picker id="timeframe-ends"
+                             class="datetime-picker"
+                             label="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.TIME_FRAME_END.PLACEHOLDER' | translate}}"></datetime-picker>
+            <core-dropdown-menu class="dropdown-elem id-type-dropdown"
+                                label="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.DROPDOWN.ID_TYPE.PLACEHOLDER' | translate}}"
+                                id="id-type-dropdown"
+                                initstate="{{accessServiceInfoModel.createQuery.dropdownsInitState}}">
+                <core-dropdown class="dropdown dropdown-elem">
+                    <core-selector selected="">
+                        <core-item class="dropdown-elem"
+                                   label="Phone"
+                                   ng-click="accessServiceInfoModel.createQuery.idTypeChange('Phone')"></core-item>
+                        <core-item class="dropdown-elem"
+                                   label="Cell phone"
+                                   ng-click="accessServiceInfoModel.createQuery.idTypeChange('Cellphone')"></core-item>
+                    </core-selector>
+                </core-dropdown>
+            </core-dropdown-menu>
+            <paper-input-decorator
+                    label="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.ID.PLACEHOLDER' | translate}}"
+                    floatingLabel
+                    class="paper-input"
+                    error="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.ID.ERRORS.REQUIRED' | translate}}"
+                    isInvalid="{{addNewQueryAccessServiceInfoForm.id.$dirty && addNewQueryAccessServiceInfoForm.id.$invalid}}">
+                <input type="text"
+                       name="id"
+                       is="core-input"
+                       ng-model="accessServiceInfoModel.createQuery.query.id"
+                       required>
+            </paper-input-decorator>
+            <core-overlay layered backdrop autoCloseDisabled
+                          opened="{{accessServiceInfoModel.createQuery.openCreateNewQuery}}"></core-overlay>
+            <paper-button raised
+                          class="buttons colored save"
+                          ng-click="addNewQueryAccessServiceInfoForm.$valid ?
+                                        accessServiceInfoModel.createQuery.save() :
+                                        addNewQueryAccessServiceInfoForm.query.number.$dirty = true">
+                {{'CREATE_QUERY_ACCESS_SERVICE_INFO.BUTTONS.SAVE' |
+                translate}}
+            </paper-button>
+            <paper-button raised
+                          class="buttons cancel"
+                          ng-click="accessServiceInfoModel.createQuery.close()">
+                {{'CREATE_QUERY_ACCESS_SERVICE_INFO.BUTTONS.CANCEL' |
+                translate}}
+            </paper-button>
+        </form>
+    </modal-window>
+</div>

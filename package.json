@@ -1,0 +1,19 @@
+{
+    "name": "Turan",
+    "version": "0.0.1",
+    "author": "Dmitry Lukianenko",
+    "private": true,
+    "dependencies": {
+    },
+    "devDependencies": {
+        "grunt": "~0.4.5",
+        "grunt-contrib-clean": "^0.5.0",
+        "grunt-contrib-cssmin": "^0.10.0",
+        "grunt-contrib-htmlmin": "^0.3.0",
+        "grunt-contrib-jshint": "~0.8.0",
+        "grunt-contrib-sass": "*",
+        "grunt-contrib-watch": "*",
+        "grunt-htmlhint": "^0.4.0",
+        "matchdep": "^0.3"
+    }
+}

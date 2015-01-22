@@ -1,0 +1,42 @@
+/**
+ * @fileoverview Add Nnew Task Intercept Information Styles
+ *
+ * @autor Dmitry Lukianenko on 12/19/14.
+ *
+ * @license
+ */
+.add-new-task-intercept-info .left {
+  float: left; }
+.add-new-task-intercept-info .right {
+  float: right; }
+.add-new-task-intercept-info .paper-input,
+.add-new-task-intercept-info .datetime-picker,
+.add-new-task-intercept-info .id-type-dropdown,
+.add-new-task-intercept-info .sign-gather-data-dropdown {
+  width: 200px; }
+.add-new-task-intercept-info .id-type-dropdown,
+.add-new-task-intercept-info .sign-gather-data-dropdown {
+  background-color: #FFFFFF;
+  margin-top: 25px; }
+.add-new-task-intercept-info .organ-dropdown {
+  width: 200px !important;
+  margin-top: 25px; }
+.add-new-task-intercept-info .datetime-picker /deep/ paper-input-decorator {
+  width: 200px; }
+.add-new-task-intercept-info .paper-comment,
+.add-new-task-intercept-info .comment {
+  width: 441px;
+  height: 60px; }
+.add-new-task-intercept-info .paper-comment {
+  margin-top: 40px; }
+.add-new-task-intercept-info .comment {
+  resize: none; }
+.add-new-task-intercept-info .buttons {
+  position: absolute;
+  bottom: 60px; }
+  .add-new-task-intercept-info .buttons.save {
+    left: 135px; }
+  .add-new-task-intercept-info .buttons.cancel {
+    right: 135px; }
+
+/*# sourceMappingURL=addNewTaskInterceptInfo.css.map */

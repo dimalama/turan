@@ -1,0 +1,145 @@
+<link rel="import" href="components/core-overlay/core-overlay.html">
+<link rel="import" href="components/paper-input/paper-input-decorator.html">
+<link rel="import" href="components/paper-input/paper-input.html">
+<link rel="import" href="components/paper-spinner/paper-spinner.html">
+<link rel="stylesheet" type="text/css" href="/styles/partials/login.css">
+
+<polymer-element name="login-modal-window" attributes="opened autoCloseDisabled" noscript>
+    <template>
+        <style>
+            :host {
+                /* font style */
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 14px;
+
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+
+                -webkit-user-select: none;
+                -moz-user-select: none;
+
+                overflow: hidden;
+                padding: 30px 42px;
+
+                /* shadow for login modal window */
+                box-shadow: 5px 10px 30px rgba(0, 0, 0, 1.2);
+                -webkit-box-shadow: 5px 10px 30px rgba(0, 0, 0, 1.2);
+                -moz-box-shadow: 5px 10px 30px rgba(0, 0, 0, 1.2);
+
+                background: url("../images/1px-background-gradient-stripe.png") repeat-x;
+
+                width: 526px;
+                height: 532px;
+
+                z-index: 12;
+
+                /* centered element */
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                margin-top: -266px;
+                margin-left: -263px;
+            }
+
+            .icon {
+                background: url("../images/logo.png") 0 0 no-repeat;
+                width: 196px;
+                height: 225px;
+                opacity: 0.4;
+                position: absolute;
+                left: 165px;
+                top: 145px;
+            }
+        </style>
+        <i class="icon"></i>
+        <content></content>
+    </template>
+</polymer-element>
+<polymer-element name="login-button" attributes="opened autoCloseDisabled" noscript>
+    <template>
+        <style>
+            :host {
+                /* font style */
+                font-family: Arial, Helvetica, sans-serif;
+                color: white;
+                font-size: 14px;
+                text-shadow: rgba(0, 0, 0, .4) 0 1px 0;
+                text-decoration: none;
+                vertical-align: middle;
+
+                /* radius */
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                border-radius: 10px;
+
+                /* shadow */
+                -webkit-box-shadow: rgba(0, 0, 0, .75) 5px 5px 5px;
+                -moz-box-shadow: rgba(0, 0, 0, .75) 5px 5px 5px;
+                box-shadow: rgba(0, 0, 0, .75) 5px 5px 5px;
+
+                background: #7788be;
+                padding: 8px 105px;
+                position: absolute;
+                left: 134px;
+                top: 315px;
+                cursor: pointer;
+            }
+
+            :host(:hover) {
+                background: #4A63B5;
+                color: #ccc;
+            }
+
+            :host(:active) {
+                background: #4A63B5;
+            }
+        </style>
+        <content></content>
+    </template>
+</polymer-element>
+
+<login-modal-window ng-controller="AuthenticationController">
+    <core-overlay id="overlay" layered backdrop autoCloseDisabled opened="{{overlayState}}"></core-overlay>
+    <form name="authenticationForm" novalidate>
+        <paper-input-decorator class="paper-input login"
+                               label="{{ 'LOGIN_PAGE.LOGIN_FIELD.PLACEHOLDER' | translate }}"
+                               floatingLabel
+                               error="{{errors.usernameError ? ('LOGIN_PAGE.LOGIN_FIELD.ERRORS.INCORRECT' | translate) : ('LOGIN_PAGE.LOGIN_FIELD.ERRORS.REQUIRED' | translate)}}"
+                               isInvalid="{{authenticationForm.username.$dirty && authenticationForm.username.$invalid}}">
+            <input is="core-input"
+                   type="text"
+                   name="username"
+                   ng-model="credentials.username"
+                   required>
+        </paper-input-decorator>
+        <paper-input-decorator class="paper-input password"
+                               label="{{'LOGIN_PAGE.PASSWORD_FIELD.PLACEHOLDER' | translate}}"
+                               floatingLabel
+                               error="{{errors.passwordError ? ('LOGIN_PAGE.PASSWORD_FIELD.ERRORS.INCORRECT' | translate) : ('LOGIN_PAGE.PASSWORD_FIELD.ERRORS.REQUIRED' | translate)}}"
+                               isInvalid="{{authenticationForm.password.$dirty && authenticationForm.password.$invalid}}">
+            <input type="password"
+                   name="password"
+                   is="core-input"
+                   ng-model="credentials.password"
+                   ng-keyup="authenticationForm.$valid && $event.keyCode === 13 && logIn(authenticationForm)" required>
+        </paper-input-decorator>
+        <login-button ng-click="authenticationForm.$valid ?
+                                    logIn(authenticationForm) :
+                                    authenticationForm.password.$dirty = true ?
+                                        authenticationForm.username.$dirty = true :
+                                        authenticationForm.username.$dirty ">
+            <!--
+            if authenticationForm.$valid
+            then logIn()
+            else if (authenticationForm.password.$dirty = true) //always true
+            then authenticationForm.login.$dirty = true
+            else authenticationForm.login.$dirty // without change
+            -->
+            {{'LOGIN_PAGE.BUTTON.NAME' | translate}}
+        </login-button>
+        <paper-spinner ng-show="showSpinner" active></paper-spinner>
+    </form>
+</login-modal-window>
+
+
+

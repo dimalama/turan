@@ -1,0 +1,22 @@
+/**
+ * @fileoverview Login page styles
+ *
+ * @autor Dmitry Lukianenko on 12/19/14.
+ *
+ * @license
+ */
+login-modal-window paper-input-decorator {
+  position: absolute;
+  left: 108px; }
+  login-modal-window paper-input-decorator.login {
+    top: 160px; }
+  login-modal-window paper-input-decorator.password {
+    top: 222px; }
+login-modal-window paper-spinner {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 400px;
+  left: 240px; }
+
+/*# sourceMappingURL=login.css.map */

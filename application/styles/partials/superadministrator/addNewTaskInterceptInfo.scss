@@ -1,0 +1,65 @@
+/**
+ * @fileoverview Add Nnew Task Intercept Information Styles
+ *
+ * @autor Dmitry Lukianenko on 12/19/14.
+ *
+ * @license
+ */
+
+.add-new-task-intercept-info {
+  .left {
+    float: left;
+  }
+  .right {
+    float: right;
+  }
+
+  .paper-input,
+  .datetime-picker,
+  .id-type-dropdown,
+  .sign-gather-data-dropdown {
+    width: 200px;
+  }
+
+  .id-type-dropdown,
+  .sign-gather-data-dropdown {
+    background-color: #FFFFFF;
+    margin-top: 25px;
+  }
+
+  .organ-dropdown {
+    width: 200px !important;
+    margin-top: 25px;
+  }
+
+  .datetime-picker {
+    & /deep/ paper-input-decorator {
+      width: 200px;
+    }
+  }
+
+  .paper-comment,
+  .comment {
+    width: 441px;
+    height: 60px;
+  }
+
+  .paper-comment {
+    margin-top: 40px;
+  }
+
+  .comment {
+    resize: none;
+  }
+
+  .buttons {
+    position: absolute;
+    bottom: 60px;
+    &.save {
+      left: 135px;
+    }
+    &.cancel {
+      right: 135px;
+    }
+  }
+}

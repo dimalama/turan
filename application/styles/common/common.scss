@@ -1,0 +1,288 @@
+/**
+ * @fileoverview Common styles for all project
+ *
+ * @autor Dmitry Lukianenko on 12/19/14.
+ *
+ * @license
+ */
+@import "../mixins";
+
+body {
+  &.firefox {
+    font-size: 14px;
+  }
+}
+
+.title {
+  text-align: center;
+  &.big {
+    font-size: 24px;
+  }
+}
+
+// show cursor on system menu elements
+body /deep/ core-item.system-menu-item {
+  cursor: pointer;
+}
+
+// top part of interfaces
+core-toolbar {
+  background: #42659b;
+  @include box-shadow(0px, 8px, 10px, rgba(0, 0, 0, 0.9));
+  color: #ffffff;
+  .user-info {
+    font-size: 14px;
+    text-align: right;
+    margin-top: 55px;
+    .user {
+    }
+    .role,
+    .organ {
+      margin-top: 17px;
+    }
+  }
+}
+
+//left side aria of the interfaces
+core-drawer-panel {
+  top: 140px;
+
+  //styling for left interface menu
+  core-menu {
+    margin: 0;
+  }
+
+  /deep/ core-item {
+    padding: 12px;
+    cursor: pointer !important;
+    &:hover {
+      background: #dedede;
+    }
+  }
+  //---------------
+
+  .drawer,
+  .main {
+    background: #eeeeee;
+  }
+  .drawer {
+    border-right: 1px solid #a0a0a0;
+    &.light-grayish-cyan {
+      background-color: #d6e3e7;
+    }
+  }
+  .main {
+    padding: 0 20px;
+  }
+}
+
+// input fields styles
+.paper-input {
+  width: 307px;
+  color: #000000;
+
+  & /deep/ ::-webkit-input-placeholder {
+    /* input placeholder color */
+    color: #5b5b5b;
+  }
+
+  & /deep/ ::-moz-placeholder {
+    /* input placeholder color */
+    color: #5b5b5b;
+  }
+
+  & /deep/ :-ms-input-placeholder {
+    /* input placeholder color */
+    color: #5b5b5b;
+  }
+
+  & /deep/ .unfocused-underline {
+    /* line color when the input is unfocused */
+    background-color: #5b5b5b;
+  }
+
+  & /deep/ .focused-underline {
+    /* line color when the input is focused */
+    background-color: #000000;
+  }
+
+  & /deep/ .label-text {
+    /* float lable color */
+    color: #5b5b5b;
+  }
+
+  &[focused] /deep/ .floated-label .label-text {
+    /* floating label color when the input is focused */
+    color: #5b5b5b;
+  }
+
+  &.invalid /deep/ .focused-underline {
+    /* line and color when the input is invalid and focused */
+    background-color: #FA1010;
+  }
+
+  &.invalid[focused] /deep/ .floated-label .label-text,
+  &[focused] /deep/ .error {
+    /* floating label, error message had error icon color when the input is invalid and focused */
+    color: #FA1010;
+  }
+
+  & /deep/ .error {
+    /* error message color when the input invalid and unfocused */
+    color: #FA1010;
+  }
+
+  &.invalid /deep/ .unfocused-underline {
+    /* line color when the input is unfocused and invalid */
+    background-color: #FA1010;
+  }
+}
+
+//buttons
+html /deep/ paper-button {
+  @include box-shadow(0px, 5px, 10px, rgba(160, 160, 160, 0.9));
+  &.colored {
+    color: #4285f4;
+  }
+  &[raised].colored {
+    background: #4285f4;
+    color: #fff;
+  }
+}
+
+core-icon-button[icon="add-circle"] {
+  color: #0f9d58;
+}
+
+core-icon-button[icon="remove-circle"] {
+  color: #d34336;
+}
+
+//-----------
+
+// styling the dropdown element
+html /deep/ core-dropdown-menu.dropdown-elem {
+  box-sizing: border-box;
+  width: 170px;
+  background-color: #eeeeee;
+  border-bottom: 1px solid #000000;
+}
+
+html /deep/ core-dropdown.dropdown-elem {
+  box-sizing: border-box;
+  min-width: 170px;
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+core-item.dropdown-elem {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+html /deep/ core-collapse {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+//-------------------------
+
+// styling data grid
+.data-grid {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+}
+
+.paging {
+  position: relative;
+  top: 8px;
+  .number,
+  core-icon-button {
+    float: left;
+  }
+  .number {
+    min-width: 34px;
+  }
+}
+
+//------------------
+
+/*----------Styling toggle button:--------*/
+
+paper-toggle-button::shadow #toggleContainer {
+  width: 47px;
+}
+
+//To change the toggle color:
+paper-toggle-button::shadow .toggle {
+  background-color: #a0a0a0;
+}
+
+//To change the ink color:
+
+paper-toggle-button::shadow .toggle-ink {
+  color: #009688;
+}
+
+//To change the checked toggle color:
+paper-toggle-button::shadow [checked] .toggle {
+  background-color: #4285f4;
+
+}
+
+//To change the checked ink color:
+paper-toggle-button::shadow [checked] .toggle-ink {
+  color: #4285f4;
+}
+
+//To change the toggle bar and toggle button colors separately:
+paper-toggle-button::shadow .toggle-bar {
+  background-color: #5a5a5a;
+  height: 1px !important;
+  width: 47px !important;
+  top: 8px;
+}
+
+paper-toggle-button::shadow .toggle-button {
+  width: 12px !important;
+  height: 12px !important;
+  border: solid 2px #5a5a5a;
+  -webkit-box-shadow: 0px 0px 0px transparent !important;
+  -khtml-box-shadow: 0px 0px 0px transparent !important;
+  -moz-box-shadow: 0px 0px 0px transparent !important;
+  -ms-box-shadow: 0px 0px 0px transparent !important;
+  -o-box-shadow: 0px 0px 0px transparent !important;
+  box-shadow: 0px 0px 0px transparent !important;
+  cursor: pointer;
+  background-color: #eeeeee;
+  top: 0 !important;
+}
+
+paper-toggle-button::shadow [checked] .toggle-button {
+  border: solid 2px #4285f4;
+  transform: translate(32px, 0) !important;
+}
+
+//------------
+
+// Tree control
+treecontrol {
+  .node-amount {
+    color: #1903ef;
+  }
+}
+
+//-----------------
+
+// Videogular
+.videogular-audio-container {
+  overflow: hidden;
+  margin: 20px;
+  height: 35px;
+  @include box-shadow(2px, 2px, 2px, rgba(160, 160, 160, 0.9));
+}
+
+//--------------------------

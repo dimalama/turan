@@ -1,0 +1,21 @@
+/**
+ * @fileoverview Add Sanction for Processing Information Styling
+ *
+ * @autor Dmitry Lukianenko on 12/19/14.
+ *
+ * @license
+ */
+.add-new-sanction-process-info core-dropdown-menu.dropdown-elem.user-dropdown {
+  width: 307px;
+  background-color: #FFFFFF; }
+.add-new-sanction-process-info .user-dropdown,
+.add-new-sanction-process-info .organ-dropdown {
+  margin-top: 25px; }
+.add-new-sanction-process-info .user-dropdown {
+  margin-bottom: 5px; }
+.add-new-sanction-process-info .add-user-btn {
+  position: absolute;
+  right: 40px;
+  top: 129px; }
+
+/*# sourceMappingURL=addNewProcessInfoSanction.css.map */

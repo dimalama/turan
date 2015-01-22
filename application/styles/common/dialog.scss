@@ -1,0 +1,16 @@
+html /deep/ #dialog {
+  .ng-hide {
+    display: none;
+  }
+  margin-left: -193px;
+  margin-top: -91px;
+  left: 50%;
+  top: 50%;
+
+  &.error::shadow {
+    h1 {
+      color: red;
+    }
+  }
+
+}

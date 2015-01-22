@@ -1,0 +1,11 @@
+html /deep/ #dialog {
+  margin-left: -193px;
+  margin-top: -91px;
+  left: 50%;
+  top: 50%; }
+  html /deep/ #dialog .ng-hide {
+    display: none; }
+  html /deep/ #dialog.error::shadow h1 {
+    color: red; }
+
+/*# sourceMappingURL=dialog.css.map */

@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": ";;;;;;;AASA,0BAAa;EACX,GAAG,EAAE,KAAK;EACV,QAAQ,EAAE,QAAQ;EAClB,+BAAO;IACL,IAAI,EAAE,IAAI;EAEZ,iCAAS;IACP,IAAI,EAAE,KAAK",
+"sources": ["editAccount.scss"],
+"names": [],
+"file": "editAccount.css"
+}

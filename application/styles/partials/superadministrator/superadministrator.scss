@@ -1,0 +1,93 @@
+/**
+ * @fileoverview Superadministrator interface styling
+ *
+ * @autor Dmitry Lukianenko on 12/19/14.
+ *
+ * @license
+ */
+
+@import "../../mixins";
+
+.user-list,
+.organ-list,
+.manage-task-intercepted-info,
+.manage-sanctions-process-info,
+.manage-sanctions-accessing-service-info {
+  padding: 20px 0;
+
+  .control-elem-wrap {
+    width: 100%;
+    position: relative;
+    border-left: 1px solid #d4d4d4;
+    border-right: 1px solid #d4d4d4;
+    border-top: 1px solid #d4d4d4;
+    height: 42px;
+    @include box-sizing(border-box);
+    .remove-circle-btn,
+    .add-circle-btn,
+    .status-menu-btn {
+      position: absolute;
+    }
+  }
+
+}
+
+.organ-list,
+.manage-task-intercepted-info,
+.manage-sanctions-process-info,
+.manage-sanctions-accessing-service-info {
+  .remove-circle-btn {
+    right: 0;
+  }
+  .add-circle-btn {
+    right: 40px;
+  }
+
+}
+
+.organ-list,
+.manage-sanctions-process-info,
+.manage-sanctions-accessing-service-info {
+  .buttons {
+    position: absolute;
+    bottom: 60px;
+    &.save {
+      left: 42px;
+    }
+    &.cancel {
+      left: 268px;
+    }
+  }
+}
+
+.user-list {
+  .status-menu-btn {
+    right: 0;
+  }
+  .remove-circle-btn {
+    right: 40px;
+  }
+  .add-circle-btn {
+    right: 80px;
+  }
+}
+
+//styling status menu for user list
+body /deep/ core-dropdown.status-menu {
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 120px;
+  height: 130px;
+}
+body /deep/ core-menu.status-menu {
+  margin: 0;
+}
+body /deep/ core-item.status-menu {
+  padding: 12px;
+  cursor: pointer;
+  &:hover {
+    background: #dedede;
+  }
+}
+//----------------------------------

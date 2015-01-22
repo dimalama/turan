@@ -1,0 +1,16 @@
+/**
+ * @fileoverview Edit Account styles
+ *
+ * @autor Dmitry Lukianenko on 12/19/14.
+ *
+ * @license
+ */
+.edit-account paper-button {
+  top: 325px;
+  position: absolute; }
+  .edit-account paper-button.save {
+    left: 20px; }
+  .edit-account paper-button.cancel {
+    left: 240px; }
+
+/*# sourceMappingURL=editAccount.css.map */

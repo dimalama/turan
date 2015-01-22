@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html ng-app="Turan">
+    <head>
+        <title>Turan</title>
+        <meta charset="UTF-8" />
+
+        <!-- Load platform support before any code that touches the DOM. -->
+        <script src="/../components/webcomponentsjs/webcomponents.min.js"></script>
+
+        <link rel="import" href="/../components/polymer/polymer.html">
+        <link rel="import" href="/../components/core-ajax/core-ajax.html">
+
+        <link rel="import" href="/../components/core-drawer-panel/core-drawer-panel.html">
+        <link rel="import" href="/../components/core-media-query/core-media-query.html">
+        <link rel="import" href="/../components/core-selector/core-selector.html">
+        <link rel="import" href="/../components/core-selection/core-selection.html">
+        <link rel="import" href="/../components/core-toolbar/core-toolbar.html">
+        <link rel="import" href="/../components/core-icon-button/core-icon-button.html">
+        <link rel="import" href="/../components/core-icons/core-icons.html">
+        <link rel="import" href="/../components/core-menu-button/core-menu-button.html">
+        <link rel="import" href="/../components/core-dropdown/core-dropdown.html">
+        <link rel="import" href="/../components/core-dropdown-menu/core-dropdown-menu.html">
+        <link rel="import" href="/../components/core-menu/core-menu.html">
+        <link rel="import" href="/../components/core-collapse/core-collapse.html">
+        <link rel="import" href="/../components/core-item/core-item.html">
+        <link rel="import" href="/../components/core-tooltip/core-tooltip.html">
+        <link rel="import" href="/../components/core-range/core-range.html">
+        <link rel="import" href="/../components/core-splitter/core-splitter.html">
+
+        <link rel="import" href="/../components/paper-input/paper-input-decorator.html">
+        <link rel="import" href="/../components/paper-button/paper-button.html">
+        <link rel="import" href="/../components/paper-slider/paper-slider.html">
+        <link rel="import" href="/../components/paper-progress/paper-progress.html">
+        <link rel="import" href="/../components/paper-dialog/paper-dialog.html">
+        <link rel="import" href="/../components/paper-toggle-button/paper-toggle-button.html">
+        <link rel="import" href="/../components/paper-radio-button/paper-radio-button.html">
+
+        <link rel="import" href="/../components/polymer-datetime-picker/datetime-picker/datetime-picker.html">
+        <link rel="import" href="/../components/font-roboto/roboto.html">
+
+        <link rel="import" href="/../elements/modal-window.html">
+
+
+        <!--[if gte IE 9]>
+        <style type="text/css">
+            .gradient {
+                filter: none;
+            }
+        </style>
+        <![endif]-->
+
+        <link rel="stylesheet" type="text/css" href="/styles/reset.css">
+
+        <link rel="stylesheet" type="text/css" href="/styles/common/common.css" shim-shadowdom>
+        <link rel="stylesheet" type="text/css" href="/styles/common/editAccount.css" shim-shadowdom>
+        <link rel="stylesheet" type="text/css" href="/styles/common/settings.css" shim-shadowdom>
+        <link rel="stylesheet" type="text/css" href="/styles/common/dialog.css" shim-shadowdom>
+
+
+        <link rel="stylesheet" type="text/css" href="/styles/libs/ui-grid/ui-grid.css">
+        <!-- link for CSS when using the tree as a Dom element -->
+        <link rel="stylesheet" type="text/css" href="/libs/angular-tree-control/css/tree-control.css">
+        <!-- link for CSS when using the tree as an attribute -->
+        <link rel="stylesheet" type="text/css" href="/libs/angular-tree-control/css/tree-control-attribute.css">
+
+
+        <link rel="stylesheet" type="text/css" href="/styles/partials/superadministrator/superadministrator.css" shim-shadowdom>
+
+        <link rel="stylesheet" type="text/css" href="/styles/partials/superadministrator/addNewUser.css" shim-shadowdom>
+        <link rel="stylesheet" type="text/css" href="/styles/partials/superadministrator/addNewOrgan.css" shim-shadowdom>
+        <link rel="stylesheet" type="text/css" href="/styles/partials/superadministrator/addNewTaskInterceptInfo.css" shim-shadowdom>
+        <link rel="stylesheet" type="text/css" href="/styles/partials/superadministrator/addNewProcessInfoSanction.css" shim-shadowdom>
+        <link rel="stylesheet" type="text/css" href="/styles/partials/superadministrator/addNewAccessServiceInfoSanction.css" shim-shadowdom>
+
+        <link rel="stylesheet" type="text/css" href="/styles/partials/handler/handler.css" shim-shadowdom>
+
+    </head>
+    <body ng-controller="TuranController" unresolved>
+        <ng-view></ng-view>
+
+        <dialog dialog="dialog"></dialog>
+
+        <!-- LIBRARIES -->
+        <script src="/../libs/angular/angular.js" type="text/javascript"></script>
+        <script src="/../libs/angular-route/angular-route.js" type="text/javascript"></script>
+        <script src="/../libs/angular-cookies/angular-cookies.js" type="text/javascript"></script>
+
+        <script src="/../libs/angular-translate/angular-translate.js" type="text/javascript"></script>
+        <script src="/../libs/angular-translate-loader-static-files/angular-translate-loader-static-files.js" type="text/javascript"></script>
+        <script src="/../libs/angular-translate-storage-local/angular-translate-storage-local.js" type="text/javascript"></script>
+        <script src="/../libs/angular-translate-storage-cookie/angular-translate-storage-cookie.js" type="text/javascript"></script>
+
+        <script src="/../libs/angular-local-storage/dist/angular-local-storage.js" type="text/javascript"></script>
+        <script src="/../libs/angular-ui-grid/ui-grid.js" type="text/javascript"></script>
+        <script src="/../libs/angular-tree-control/angular-tree-control.js" type="text/javascript"></script>
+
+        <script src="/../libs/angular-sanitize/angular-sanitize.min.js"></script>
+        <script src="/../libs/videogular/videogular.js"></script>
+        <script src="/../libs/videogular-controls/controls.js"></script>
+        <script src="/../libs/videogular-overlay-play/overlay-play.js"></script>
+        <script src="/../libs/videogular-poster/poster.js"></script>
+        <script src="/../libs/videogular-buffering/buffering.js"></script>
+
+        <script src="application.js" type="text/javascript"></script>
+
+        <!-- MODULES -->
+        <script src="/../modules/TranslateModule.js" type="text/javascript"></script>
+
+        <!-- CONTROLLERS -->
+        <script src="/../controllers/TuranController.js" type="text/javascript"></script>
+        <script src="/../controllers/AuthenticationController.js" type="text/javascript"></script>
+        <script src="/../controllers/SuperadministratorController.js" type="text/javascript"></script>
+        <script src="/../controllers/HandlerController.js" type="text/javascript"></script>
+        <script src="/../controllers/AccountController.js" type="text/javascript"></script>
+        <script src="/../controllers/SettingsController.js" type="text/javascript"></script>
+
+        <!-- SERVICES -->
+        <script src="/../services/AuthenticationService.js" type="text/javascript"></script>
+        <script src="/../services/SessionService.js" type="text/javascript"></script>
+        <script src="/../services/MenuService.js" type="text/javascript"></script>
+        <script src="/../services/DialogService.js" type="text/javascript"></script>
+        <script src="/../services/DataGridPagingService.js" type="text/javascript"></script>
+        <script src="/../services/DataGridSelectService.js" type="text/javascript"></script>
+        <script src="/../services/DateTimePickerService.js" type="text/javascript"></script>
+        <script src="/../services/BrowserService.js" type="text/javascript"></script>
+
+        <!-- DIRECTIVES -->
+        <script src="/../directives/PasswordMatchCheck.js" type="text/javascript"></script>
+        <script src="/../directives/Dialog.js" type="text/javascript"></script>
+
+        <!-- COMPONENTS -->
+
+    </body>
+</html>

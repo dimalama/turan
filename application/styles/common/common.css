@@ -1,0 +1,267 @@
+/**
+ * @fileoverview Common styles for all project
+ *
+ * @autor Dmitry Lukianenko on 12/19/14.
+ *
+ * @license
+ */
+/* -------------------------------------------------------------
+List of CSS3 Sass Mixins File to be @imported and @included as you need
+The purpose of this library is to facilitate the use of CSS3 on different browsers avoiding HARD TO READ and NEVER
+ENDING css files
+note: All CSS3 Properties are being supported by Safari 5
+more info: http://www.findmebyip.com/litmus/#css3-properties
+Mixins available:
+-   css3-prefix             - arguments: Property, Value
+-   background-gradient     - arguments: Start Color: #3C3C3C, End Color: #999999
+-   background-radial       - arguments: Start Color: #FFFFFF, Start position: 0%, End Color: #000000, End position: 100%
+-   background-size         - arguments: Width: 100%, Height: 100%
+-   background-opacity      - arguments: Color: #000, Opacity: .85
+-   border-radius           - arguments: Radius: 5px
+-   border-radius-separate  - arguments: Top Left: 5px, Top Left: 5px, Bottom Left: 5px, Bottom Right: 5px
+-   box                     - arguments: Orientation: horizontal, Pack: center, Align: center
+-   box-rgba                - arguments: R: 60, G: 3, B: 12, Opacity: 0.23, Color: #3C3C3C
+-   box-shadow              - arguments: X: 2px, Y: 2px, Blur: 5px, Color: rgba(0,0,0,.4)
+-   box-sizing              - arguments: Type: border-box
+-   columns                 - arguments: Count: 3, Gap: 10
+-   double-borders          - arguments: Color One: #3C3C3C, Color Two: #999999, Radius: 0
+-   flex                    - arguments: Value: 1
+-   flip                    - arguments: ScaleX: -1
+-   font-face               - arguments: Font Family: myFont, Eot File Src: myFont.eot, Woff File Src: myFont.woff, Ttf File Src: myFont.ttf
+-   opacity                 - arguments: Opacity: 0.5
+-   outline radius          - arguments: Radius: 5px
+-   resize                  - arguments: Direction: both
+-   rotate                  - arguments: Degree: 0, M11: 0, M12: 0, M21: 0, M22: 0
+CSS Matrix Rotation Calculator http://www.boogdesign.com/examples/transforms/matrix-calculator.html
+-   text-shadow             - arguments: X: 2px, Y: 2px, Blur: 5px, Color: rgba(0,0,0,.4)
+-   transform               - arguments: Parameters: null
+-   transform-style         - arguments: Style: preserve-3d
+-   transition              - Default arguments: What: all, Length: 1s, Easing: ease-in-out
+-                            - Examples: @include transition (all 2s ease-in-out);
+-                                        @include transition (opacity 1s ease-in 2s, width 2s ease-out);
+-   triple-borders          - arguments: Color One: #3C3C3C, Color Two: #999999, Color Three: #000000, Radius: 0
+-   keyframes               - arguments: Animation name
+- content:   Animation css
+-   animation               - arguments: name duration timing-function delay iteration-count direction fill-mode play-state
+(http://www.w3schools.com/cssref/css3_pr_animation.asp)
+------------------------------------------------------------- */
+/* ADDS A BROWSER PREFIX TO THE PROPERTY */
+/* BACKGROUND GRADIENT */
+/* BACKGROUND RADIAL */
+/* BACKGROUND SIZE */
+/* BACKGROUND COLOR OPACITY */
+/* BORDER RADIUS */
+/* BOX */
+/* BOX RGBA */
+/* BOX SHADOW */
+/* BOX SIZING */
+/* COLUMNS */
+/* DOUBLE BORDERS */
+/* FLEX */
+/* FLIP */
+/* FONT FACE */
+/* OPACITY */
+/* OUTLINE RADIUS */
+/* RESIZE */
+/* ROTATE*/
+/* TEXT SHADOW */
+/* TRANSFORM  */
+/* TRANSFORM STYLE */
+/* TRANSITION */
+/* TRIPLE BORDERS */
+/* KEYFRAMES */
+/* ANIMATION */
+body.firefox {
+  font-size: 14px; }
+
+.title {
+  text-align: center; }
+  .title.big {
+    font-size: 24px; }
+
+body /deep/ core-item.system-menu-item {
+  cursor: pointer; }
+
+core-toolbar {
+  background: #42659b;
+  -webkit-box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.9);
+  -khtml-box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.9);
+  -moz-box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.9);
+  -ms-box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.9);
+  -o-box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.9);
+  box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.9);
+  color: #ffffff; }
+  core-toolbar .user-info {
+    font-size: 14px;
+    text-align: right;
+    margin-top: 55px; }
+    core-toolbar .user-info .role,
+    core-toolbar .user-info .organ {
+      margin-top: 17px; }
+
+core-drawer-panel {
+  top: 140px; }
+  core-drawer-panel core-menu {
+    margin: 0; }
+  core-drawer-panel /deep/ core-item {
+    padding: 12px;
+    cursor: pointer !important; }
+    core-drawer-panel /deep/ core-item:hover {
+      background: #dedede; }
+  core-drawer-panel .drawer,
+  core-drawer-panel .main {
+    background: #eeeeee; }
+  core-drawer-panel .drawer {
+    border-right: 1px solid #a0a0a0; }
+    core-drawer-panel .drawer.light-grayish-cyan {
+      background-color: #d6e3e7; }
+  core-drawer-panel .main {
+    padding: 0 20px; }
+
+.paper-input {
+  width: 307px;
+  color: #000000; }
+  .paper-input /deep/ ::-webkit-input-placeholder {
+    /* input placeholder color */
+    color: #5b5b5b; }
+  .paper-input /deep/ ::-moz-placeholder {
+    /* input placeholder color */
+    color: #5b5b5b; }
+  .paper-input /deep/ :-ms-input-placeholder {
+    /* input placeholder color */
+    color: #5b5b5b; }
+  .paper-input /deep/ .unfocused-underline {
+    /* line color when the input is unfocused */
+    background-color: #5b5b5b; }
+  .paper-input /deep/ .focused-underline {
+    /* line color when the input is focused */
+    background-color: #000000; }
+  .paper-input /deep/ .label-text {
+    /* float lable color */
+    color: #5b5b5b; }
+  .paper-input[focused] /deep/ .floated-label .label-text {
+    /* floating label color when the input is focused */
+    color: #5b5b5b; }
+  .paper-input.invalid /deep/ .focused-underline {
+    /* line and color when the input is invalid and focused */
+    background-color: #FA1010; }
+  .paper-input.invalid[focused] /deep/ .floated-label .label-text, .paper-input[focused] /deep/ .error {
+    /* floating label, error message had error icon color when the input is invalid and focused */
+    color: #FA1010; }
+  .paper-input /deep/ .error {
+    /* error message color when the input invalid and unfocused */
+    color: #FA1010; }
+  .paper-input.invalid /deep/ .unfocused-underline {
+    /* line color when the input is unfocused and invalid */
+    background-color: #FA1010; }
+
+html /deep/ paper-button {
+  -webkit-box-shadow: 0px 5px 10px rgba(160, 160, 160, 0.9);
+  -khtml-box-shadow: 0px 5px 10px rgba(160, 160, 160, 0.9);
+  -moz-box-shadow: 0px 5px 10px rgba(160, 160, 160, 0.9);
+  -ms-box-shadow: 0px 5px 10px rgba(160, 160, 160, 0.9);
+  -o-box-shadow: 0px 5px 10px rgba(160, 160, 160, 0.9);
+  box-shadow: 0px 5px 10px rgba(160, 160, 160, 0.9); }
+  html /deep/ paper-button.colored {
+    color: #4285f4; }
+  html /deep/ paper-button[raised].colored {
+    background: #4285f4;
+    color: #fff; }
+
+core-icon-button[icon="add-circle"] {
+  color: #0f9d58; }
+
+core-icon-button[icon="remove-circle"] {
+  color: #d34336; }
+
+html /deep/ core-dropdown-menu.dropdown-elem {
+  box-sizing: border-box;
+  width: 170px;
+  background-color: #eeeeee;
+  border-bottom: 1px solid #000000; }
+
+html /deep/ core-dropdown.dropdown-elem {
+  box-sizing: border-box;
+  min-width: 170px;
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 3px; }
+
+core-item.dropdown-elem {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; }
+
+html /deep/ core-collapse {
+  border: 1px solid #ccc;
+  padding: 8px; }
+
+.data-grid {
+  position: relative;
+  height: 100%;
+  min-height: 100%; }
+
+.paging {
+  position: relative;
+  top: 8px; }
+  .paging .number,
+  .paging core-icon-button {
+    float: left; }
+  .paging .number {
+    min-width: 34px; }
+
+/*----------Styling toggle button:--------*/
+paper-toggle-button::shadow #toggleContainer {
+  width: 47px; }
+
+paper-toggle-button::shadow .toggle {
+  background-color: #a0a0a0; }
+
+paper-toggle-button::shadow .toggle-ink {
+  color: #009688; }
+
+paper-toggle-button::shadow [checked] .toggle {
+  background-color: #4285f4; }
+
+paper-toggle-button::shadow [checked] .toggle-ink {
+  color: #4285f4; }
+
+paper-toggle-button::shadow .toggle-bar {
+  background-color: #5a5a5a;
+  height: 1px !important;
+  width: 47px !important;
+  top: 8px; }
+
+paper-toggle-button::shadow .toggle-button {
+  width: 12px !important;
+  height: 12px !important;
+  border: solid 2px #5a5a5a;
+  -webkit-box-shadow: 0px 0px 0px transparent !important;
+  -khtml-box-shadow: 0px 0px 0px transparent !important;
+  -moz-box-shadow: 0px 0px 0px transparent !important;
+  -ms-box-shadow: 0px 0px 0px transparent !important;
+  -o-box-shadow: 0px 0px 0px transparent !important;
+  box-shadow: 0px 0px 0px transparent !important;
+  cursor: pointer;
+  background-color: #eeeeee;
+  top: 0 !important; }
+
+paper-toggle-button::shadow [checked] .toggle-button {
+  border: solid 2px #4285f4;
+  transform: translate(32px, 0) !important; }
+
+treecontrol .node-amount {
+  color: #1903ef; }
+
+.videogular-audio-container {
+  overflow: hidden;
+  margin: 20px;
+  height: 35px;
+  -webkit-box-shadow: 2px 2px 2px rgba(160, 160, 160, 0.9);
+  -khtml-box-shadow: 2px 2px 2px rgba(160, 160, 160, 0.9);
+  -moz-box-shadow: 2px 2px 2px rgba(160, 160, 160, 0.9);
+  -ms-box-shadow: 2px 2px 2px rgba(160, 160, 160, 0.9);
+  -o-box-shadow: 2px 2px 2px rgba(160, 160, 160, 0.9);
+  box-shadow: 2px 2px 2px rgba(160, 160, 160, 0.9); }
+
+/*# sourceMappingURL=common.css.map */

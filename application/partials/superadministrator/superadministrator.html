@@ -1,0 +1,775 @@
+<div ng-controller="SuperadministratorController">
+    <core-toolbar class="medium-tall">
+        <h2 flex class="bottom" ng-if="content == 'content-1'">{{'SUPER_ADMINISTRATOR.MENU.USER_LIST' | translate}}</h2>
+
+        <h2 flex class="bottom" ng-if="content == 'content-2'">{{'SUPER_ADMINISTRATOR.MENU.ORGAN_LIST' |
+            translate}}</h2>
+
+        <h2 flex class="bottom" ng-if="content == 'content-3'" translate="SUPER_ADMINISTRATOR.MENU.MTII"></h2>
+
+        <h2 flex class="bottom" ng-if="content == 'content-4'" translate="SUPER_ADMINISTRATOR.MENU.MSPI"></h2>
+
+        <h2 flex class="bottom" ng-if="content == 'content-5'" translate="SUPER_ADMINISTRATOR.MENU.MSASI"></h2>
+
+        <h2 flex class="bottom" ng-if="content == 'content-6'">{{'SUPER_ADMINISTRATOR.MENU.EM' | translate}}</h2>
+
+        <h2 flex class="bottom" ng-if="content == 'content-7'"
+            translate="SYSTEM_MENU.EDIT_ACCOUNT"></h2>
+
+        <h2 flex class="bottom" ng-if="content == 'content-8'">{{'SYSTEM_MENU.EDIT_SETTINGS' |
+            translate}}</h2>
+
+        <div flex class="user-info">
+            <div class="user">{{'USER_INFO.ENTER_AS' | translate}} {{$parent.currentUser.name}}
+            </div>
+            <div class="role">{{'USER_INFO.ROLE' | translate}} {{$parent.currentUser.roleName}}
+            </div>
+            <div class="organ">{{'USER_INFO.ORGAN' | translate}} {{$parent.currentUser.organ}}</div>
+        </div>
+        <core-menu-button id="system-settings-menu">
+            <core-icon-button icon="more-vert"></core-icon-button>
+            <core-dropdown class="dropdown" halign="right" layered>
+                <core-menu>
+                    <core-item class="system-menu-item" icon="account-box"
+                               label="{{'SYSTEM_MENU.ACCOUNT' | translate}}"
+                               ng-click="showMenuContent(7)"></core-item>
+                    <br>
+                    <core-item class="system-menu-item" icon="settings"
+                               label="{{'SYSTEM_MENU.SETTINGS' | translate}}"
+                               ng-click="showMenuContent(8)"></core-item>
+                    <br>
+                    <core-item class="system-menu-item" src="/images/logout-icon.png"
+                               label="{{'SYSTEM_MENU.LOGOUT' | translate}}"
+                               ng-controller="AuthenticationController" ng-click="logOut()"></core-item>
+                </core-menu>
+            </core-dropdown>
+        </core-menu-button>
+    </core-toolbar>
+    <core-drawer-panel id="interface" drawerWidth="{{drawerWidth}}">
+        <div drawer class="drawer">
+            <core-menu>
+                <core-item src="/images/user-list-icon.png" label="{{'SUPER_ADMINISTRATOR.MENU.USER_LIST' | translate}}"
+                           ng-click="showMenuContent(1)"></core-item>
+                <core-item src="/images/heart-icon.png" label="{{'SUPER_ADMINISTRATOR.MENU.ORGAN_LIST' | translate}}"
+                           ng-click="showMenuContent(2)"></core-item>
+                <core-item src="/images/mtii-icon.png" label="" ng-click="showMenuContent(3)"
+                           translate="SUPER_ADMINISTRATOR.MENU.MTII"></core-item>
+                <core-item src="/images/mspi-icon.png" label="" ng-click="showMenuContent(4)"
+                           translate="SUPER_ADMINISTRATOR.MENU.MSPI"></core-item>
+                <core-item src="/images/msasi-icon.png" label="" ng-click="showMenuContent(5)"
+                           translate="SUPER_ADMINISTRATOR.MENU.MSASI"></core-item>
+                <core-item src="/images/em-icon.png" label="{{'SUPER_ADMINISTRATOR.MENU.EM' | translate}}"
+                           ng-click="showMenuContent(6)"></core-item>
+            </core-menu>
+        </div>
+        <div main class="main">
+            <div ng-if="content == 'content-1'" class="user-list" id="user-list">
+                <div class="control-elem-wrap">
+                    <core-tooltip label="{{'USER_LIST.TOOLTIP.ADD' | translate}}"
+                                  class="add-circle-btn"
+                                  position="bottom"
+                                  ng-click="addNewUserModel.open(addNewUserForm)">
+                        <core-icon-button icon="add-circle"></core-icon-button>
+                    </core-tooltip>
+                    <core-tooltip label="{{'USER_LIST.TOOLTIP.REMOVE' | translate}}"
+                                  class="remove-circle-btn"
+                                  position="bottom"
+                                  ng-click="removeUserModel.remove()">
+                        <core-icon-button icon="remove-circle"></core-icon-button>
+                    </core-tooltip>
+                    <core-tooltip label="{{'USER_LIST.TOOLTIP.STATUS_MENU' | translate}}" class="status-menu-btn"
+                                  position="bottom">
+                        <core-menu-button>
+                            <core-icon-button icon="menu"></core-icon-button>
+                            <core-dropdown class="dropdown status-menu" halign="right" layered>
+                                <core-menu class="status-menu">
+                                    <core-item class="status-menu"
+                                               label="{{'USER_LIST.STATUS.ENABLE' | translate}}"
+                                               ng-click="changeUserStatusModel.changeStatus(1)"></core-item>
+                                    <core-item class="status-menu"
+                                               label="{{'USER_LIST.STATUS.DISABLE' | translate}}"
+                                               ng-click="changeUserStatusModel.changeStatus(0)"></core-item>
+                                </core-menu>
+                            </core-dropdown>
+                        </core-menu-button>
+                    </core-tooltip>
+                </div>
+                <div ui-grid="gridOptions"
+                     ui-grid-selection
+                     ui-grid-pagination
+                     ui-grid-move-columns
+                     ui-grid-resize-columns
+                     ui-grid-pinning
+                     ui-grid-edit
+                     ui-grid-row-edit
+                     external-scopes="dataGridModel"
+                     class="data-grid"></div>
+                <div class="paging">
+                    <core-icon-button icon="chevron-left" ng-click="previousPage()"></core-icon-button>
+                    <paper-button raised class="number {{page == 1 ? 'colored' : ''}}" id="page-{{page}}"
+                                  ng-click="goToPage(page)" ng-repeat="page in pagesArray">
+                        {{page}}
+                    </paper-button>
+                    <core-icon-button icon="chevron-right" ng-click="nextPage()"></core-icon-button>
+                </div>
+
+            </div>
+            <div ng-if="content == 'content-2'" class="organ-list" id="organ-list">
+                <div class="control-elem-wrap">
+                    <core-tooltip label="{{'ORGAN_LIST.TOOLTIP.ADD' | translate}}"
+                                  class="add-circle-btn"
+                                  position="bottom"
+                                  ng-click="addNewOrganModel.open(addNewOrganForm)">
+                        <core-icon-button icon="add-circle"></core-icon-button>
+                    </core-tooltip>
+                    <core-tooltip label="{{'ORGAN_LIST.TOOLTIP.REMOVE' | translate}}"
+                                  class="remove-circle-btn"
+                                  position="bottom"
+                                  ng-click="removeOrganModel.remove()">
+                        <core-icon-button icon="remove-circle"></core-icon-button>
+                    </core-tooltip>
+                </div>
+                <div ui-grid="gridOptions"
+                     ui-grid-selection
+                     ui-grid-pagination
+                     ui-grid-move-columns
+                     ui-grid-resize-columns
+                     ui-grid-pinning
+                     ui-grid-edit
+                     ui-grid-row-edit
+                     external-scopes="dataGridModel"
+                     class="data-grid"></div>
+                <div class="paging">
+                    <core-icon-button icon="chevron-left" ng-click="previousPage()"></core-icon-button>
+                    <paper-button raised class="number {{page == 1 ? 'colored' : ''}}" id="page-{{page}}"
+                                  ng-click="goToPage(page)" ng-repeat="page in pagesArray">
+                        {{page}}
+                    </paper-button>
+                    <core-icon-button icon="chevron-right" ng-click="nextPage()"></core-icon-button>
+                </div>
+                <modal-window ng-show="addNewOrganModel.openAddNewOrgan">
+                    <h2 class="title big">{{'ADD_NEW_ORGAN.TITLE' | translate}}</h2>
+
+                    <form name="addNewOrganForm" novalidate>
+                        <paper-input-decorator label="{{'ADD_NEW_ORGAN.INPUTS.ORGAN_NAME.PLACEHOLDER' | translate}}"
+                                               floatingLabel
+                                               class="paper-input"
+                                               error="{{'ADD_NEW_ORGAN.INPUTS.ORGAN_NAME.ERRORS.REQUIRED' | translate}}"
+                                               isInvalid="{{addNewOrganForm.organName.$dirty && addNewOrganForm.organName.$invalid}}">
+                            <input type="text"
+                                   name="organName"
+                                   is="core-input"
+                                   ng-model="addNewOrganModel.organName"
+                                   required>
+                        </paper-input-decorator>
+                        <br/>
+                        <core-overlay layered backdrop autoCloseDisabled
+                                      opened="{{addNewOrganModel.openAddNewOrgan}}"></core-overlay>
+                        <paper-button raised
+                                      class="buttons colored save"
+                                      ng-click="addNewOrganForm.$valid ?
+                                        addNewOrganModel.save() :
+                                        addNewOrganForm.organName.$dirty = true">
+                            {{'ADD_NEW_ORGAN.BUTTONS.SAVE' |
+                            translate}}
+                        </paper-button>
+                        <paper-button raised
+                                      class="buttons cancel"
+                                      ng-click="addNewOrganModel.close()">
+                            {{'ADD_NEW_ORGAN.BUTTONS.CANCEL' |
+                            translate}}
+                        </paper-button>
+                    </form>
+                </modal-window>
+            </div>
+            <div ng-if="content == 'content-3'" class="manage-task-intercepted-info" id="manage-task-intercepted-info">
+                <div class="control-elem-wrap">
+                    <core-tooltip label="{{'MANAGE_TASK_INTERCEPT_INFO.TOOLTIP.ADD' | translate}}"
+                                  class="add-circle-btn"
+                                  position="bottom"
+                                  ng-click="addNewTaskInterceptInfoModel.open(addNewTaskInterceptInfoForm)">
+                        <core-icon-button icon="add-circle"></core-icon-button>
+                    </core-tooltip>
+                    <core-tooltip label="{{'MANAGE_TASK_INTERCEPT_INFO.TOOLTIP.REMOVE' | translate}}"
+                                  class="remove-circle-btn"
+                                  position="bottom"
+                                  ng-click="removeTaskInterceptInfoModel.remove()">
+                        <core-icon-button icon="remove-circle"></core-icon-button>
+                    </core-tooltip>
+                </div>
+                <div ui-grid="gridOptions"
+                     ui-grid-selection
+                     ui-grid-pagination
+                     ui-grid-move-columns
+                     ui-grid-resize-columns
+                     ui-grid-pinning
+                     ui-grid-edit
+                     ui-grid-row-edit
+                     external-scopes="dataGridModel"
+                     class="data-grid"></div>
+                <div class="paging">
+                    <core-icon-button icon="chevron-left" ng-click="previousPage()"></core-icon-button>
+                    <paper-button raised class="number {{page == 1 ? 'colored' : ''}}" id="page-{{page}}"
+                                  ng-click="goToPage(page)" ng-repeat="page in pagesArray">
+                        {{page}}
+                    </paper-button>
+                    <core-icon-button icon="chevron-right" ng-click="nextPage()"></core-icon-button>
+                </div>
+                <modal-window ng-show="addNewTaskInterceptInfoModel.openAddNewTask" class="add-new-task-intercept-info">
+                    <h2 class="title big">{{'ADD_NEW_TASK_INTERCEPT_INFO.TITLE' | translate}}</h2>
+
+                    <form name="addNewTaskInterceptInfoForm" novalidate>
+                        <paper-input-decorator
+                                label="{{'ADD_NEW_TASK_INTERCEPT_INFO.INPUTS.ASSIGMENT_NUMBER.PLACEHOLDER' | translate}}"
+                                floatingLabel
+                                class="paper-input left"
+                                error="{{'ADD_NEW_TASK_INTERCEPT_INFO.INPUTS.ASSIGMENT_NUMBER.ERRORS.REQUIRED' | translate}}"
+                                isInvalid="{{addNewTaskInterceptInfoForm.number.$dirty && addNewTaskInterceptInfoForm.number.$invalid}}">
+                            <input type="text"
+                                   name="number"
+                                   is="core-input"
+                                   ng-model="addNewTaskInterceptInfoModel.task.number"
+                                   required>
+                        </paper-input-decorator>
+                        <paper-input-decorator
+                                label="{{'ADD_NEW_TASK_INTERCEPT_INFO.INPUTS.ALIAS.PLACEHOLDER' | translate}}"
+                                floatingLabel
+                                class="paper-input right"
+                                error="{{'ADD_NEW_TASK_INTERCEPT_INFO.INPUTS.ALIAS.ERRORS.REQUIRED' | translate}}"
+                                isInvalid="{{addNewTaskInterceptInfoForm.alias.$dirty && addNewTaskInterceptInfoForm.alias.$invalid}}">
+                            <input type="text"
+                                   name="alias"
+                                   is="core-input"
+                                   ng-model="addNewTaskInterceptInfoModel.task.alias"
+                                   required>
+                        </paper-input-decorator>
+                        <datetime-picker id="intercept-timeframe-starts"
+                                         class="datetime-picker left"
+                                         label="{{'ADD_NEW_TASK_INTERCEPT_INFO.INPUTS.TIME_FRAME_START.PLACEHOLDER' | translate}}"></datetime-picker>
+                        <datetime-picker id="intercept-timeframe-ends"
+                                         class="datetime-picker right"
+                                         label="{{'ADD_NEW_TASK_INTERCEPT_INFO.INPUTS.TIME_FRAME_END.PLACEHOLDER' | translate}}"></datetime-picker>
+                        <core-dropdown-menu class="dropdown-elem id-type-dropdown left"
+                                            label="{{'ADD_NEW_TASK_INTERCEPT_INFO.DROPDOWN.ID_TYPE.PLACEHOLDER' | translate}}"
+                                            id="intercept-info-id-type-dropdown"
+                                            initstate="{{addNewTaskInterceptInfoModel.dropdownsInitState}}">
+                            <core-dropdown class="dropdown dropdown-elem">
+                                <core-selector selected="">
+                                    <core-item class="dropdown-elem"
+                                               label="Phone"
+                                               ng-click="addNewTaskInterceptInfoModel.idTypeChange('Phone')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="Cell phone"
+                                               ng-click="addNewTaskInterceptInfoModel.idTypeChange('Cellphone')"></core-item>
+                                </core-selector>
+                            </core-dropdown>
+                        </core-dropdown-menu>
+                        <core-dropdown-menu class="dropdown-elem sign-gather-data-dropdown right"
+                                            label="{{'ADD_NEW_TASK_INTERCEPT_INFO.DROPDOWN.SIGN.PLACEHOLDER' | translate}}"
+                                            initstate="{{addNewTaskInterceptInfoModel.dropdownsInitState}}"
+                                            id="intercept-info-sign-dropdown">
+                            <core-dropdown class="dropdown dropdown-elem">
+                                <core-selector selected="">
+                                    <core-item class="dropdown-elem" label="Full"
+                                               ng-click="addNewTaskInterceptInfoModel.signChange(0)"></core-item>
+                                    <core-item class="dropdown-elem" label="Static"
+                                               ng-click="addNewTaskInterceptInfoModel.signChange(1)"></core-item>
+                                </core-selector>
+                            </core-dropdown>
+                        </core-dropdown-menu>
+                        <paper-input-decorator
+                                label="{{'ADD_NEW_TASK_INTERCEPT_INFO.INPUTS.ID.PLACEHOLDER' | translate}}"
+                                floatingLabel
+                                class="paper-input left"
+                                error="{{'ADD_NEW_TASK_INTERCEPT_INFO.INPUTS.ID.ERRORS.REQUIRED' | translate}}"
+                                isInvalid="{{addNewTaskInterceptInfoForm.id.$dirty && addNewTaskInterceptInfoForm.id.$invalid}}">
+                            <input type="text"
+                                   name="id"
+                                   is="core-input"
+                                   ng-model="addNewTaskInterceptInfoModel.task.id"
+                                   required>
+                        </paper-input-decorator>
+                        <core-dropdown-menu class="dropdown-elem organ-dropdown right"
+                                            label="{{'ADD_NEW_TASK_INTERCEPT_INFO.DROPDOWN.ORGAN.PLACEHOLDER' | translate}}"
+                                            initstate="{{addNewTaskInterceptInfoModel.dropdownsInitState}}"
+                                            id="intercept-info-organ-dropdown">
+                            <core-dropdown class="dropdown dropdown-elem">
+                                <core-selector selected="">
+                                    <core-item class="dropdown-elem"
+                                               label="FBI"
+                                               ng-click="addNewTaskInterceptInfoModel.organChange('FBI')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="CIA"
+                                               ng-click="addNewTaskInterceptInfoModel.organChange('CIA')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="LAPD"
+                                               ng-click="addNewTaskInterceptInfoModel.organChange('LAPD')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="NYPD"
+                                               ng-click="addNewUserModel.organChange('NYPD')"></core-item>
+                                </core-selector>
+                            </core-dropdown>
+                        </core-dropdown-menu>
+                        <paper-autogrow-textarea class="paper-comment left">
+                            <textarea class="comment"
+                                      name="comment"
+                                      ng-model="addNewTaskInterceptInfoModel.task.comment"
+                                      placeholder="{{'ADD_NEW_TASK_INTERCEPT_INFO.INPUTS.COMMENT.PLACEHOLDER' | translate}}"></textarea>
+                        </paper-autogrow-textarea>
+                        <core-overlay layered backdrop autoCloseDisabled
+                                      opened="{{addNewTaskInterceptInfoModel.openAddNewTask}}"></core-overlay>
+                        <paper-button raised
+                                      class="buttons colored save"
+                                      ng-click="addNewTaskInterceptInfoForm.$valid ?
+                                        addNewTaskInterceptInfoModel.save() :
+                                        addNewTaskInterceptInfoForm.task.number.$dirty = true">
+                            {{'ADD_NEW_TASK_INTERCEPT_INFO.BUTTONS.SAVE' |
+                            translate}}
+                        </paper-button>
+                        <paper-button raised
+                                      class="buttons cancel"
+                                      ng-click="addNewTaskInterceptInfoModel.close()">
+                            {{'ADD_NEW_TASK_INTERCEPT_INFO.BUTTONS.CANCEL' |
+                            translate}}
+                        </paper-button>
+                    </form>
+                </modal-window>
+            </div>
+            <div ng-if="content == 'content-4'"
+                 class="manage-sanctions-process-info"
+                 id="manage-sanctions-process-info">
+                <div class="control-elem-wrap">
+                    <core-tooltip label="{{'MANAGE_SANCTIONS_PROCESS_INFO.TOOLTIP.ADD' | translate}}"
+                                  class="add-circle-btn"
+                                  position="bottom"
+                                  ng-click="addProcessInfoSanctionModel.open(processInfoSanctionForm)">
+                        <core-icon-button icon="add-circle"></core-icon-button>
+                    </core-tooltip>
+                    <core-tooltip label="{{'MANAGE_SANCTIONS_PROCESS_INFO.TOOLTIP.REMOVE' | translate}}"
+                                  class="remove-circle-btn"
+                                  position="bottom"
+                                  ng-click="removeProcessInfoSanctionModel.remove()">
+                        <core-icon-button icon="remove-circle"></core-icon-button>
+                    </core-tooltip>
+                </div>
+                <div ui-grid="gridOptions"
+                     ui-grid-selection
+                     ui-grid-pagination
+                     ui-grid-move-columns
+                     ui-grid-resize-columns
+                     ui-grid-pinning
+                     ui-grid-edit
+                     ui-grid-row-edit
+                     external-scopes="dataGridModel"
+                     class="data-grid"></div>
+                <div class="paging">
+                    <core-icon-button icon="chevron-left" ng-click="previousPage()"></core-icon-button>
+                    <paper-button raised class="number {{page == 1 ? 'colored' : ''}}" id="page-{{page}}"
+                                  ng-click="goToPage(page)" ng-repeat="page in pagesArray">
+                        {{page}}
+                    </paper-button>
+                    <core-icon-button icon="chevron-right" ng-click="nextPage()"></core-icon-button>
+                </div>
+                <modal-window ng-show="addProcessInfoSanctionModel.openAddNewProcessInfoSanction"
+                              class="add-new-sanction-process-info">
+                    <h2 class="title big">{{'MANAGE_SANCTIONS_PROCESS_INFO.ADD_NEW_SANCTION.TITLE' | translate}}</h2>
+
+                    <form name="processInfoSanctionForm" novalidate>
+                        <paper-input-decorator
+                                label="{{'MANAGE_SANCTIONS_PROCESS_INFO.ADD_NEW_SANCTION.INPUTS.NUMBER.PLACEHOLDER' | translate}}"
+                                floatingLabel
+                                class="paper-input"
+                                error="{{'MANAGE_SANCTIONS_PROCESS_INFO.ADD_NEW_SANCTION.INPUTS.NUMBER.ERRORS.REQUIRED' | translate}}"
+                                isInvalid="{{processInfoSanctionForm.number.$dirty && processInfoSanctionForm.number.$invalid}}">
+                            <input type="text"
+                                   name="number"
+                                   is="core-input"
+                                   ng-model="addProcessInfoSanctionModel.sanction.number"
+                                   required>
+                        </paper-input-decorator>
+                        <core-dropdown-menu class="dropdown-elem user-dropdown"
+                                            label="{{'MANAGE_SANCTIONS_PROCESS_INFO.ADD_NEW_SANCTION.DROPDOWN.USER.PLACEHOLDER' | translate}}"
+                                            initstate="{{addProcessInfoSanctionModel.dropdownsInitState}}"
+                                            id="sanction-process-info-user-dropdown">
+                            <core-dropdown class="dropdown dropdown-elem">
+                                <core-selector selected="">
+                                    <core-item class="dropdown-elem"
+                                               label="USER1"
+                                               ng-click="addProcessInfoSanctionModel.userChange('USER1')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="USER2"
+                                               ng-click="addProcessInfoSanctionModel.userChange('USER2')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="USER3"
+                                               ng-click="addProcessInfoSanctionModel.userChange('USER3')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="USER4"
+                                               ng-click="addProcessInfoSanctionModel.userChange('USER4')"></core-item>
+                                </core-selector>
+                            </core-dropdown>
+                        </core-dropdown-menu>
+                        <core-dropdown-menu class="dropdown-elem organ-dropdown"
+                                            label="{{'MANAGE_SANCTIONS_PROCESS_INFO.ADD_NEW_SANCTION.DROPDOWN.ORGAN.PLACEHOLDER' | translate}}"
+                                            initstate="{{addProcessInfoSanctionModel.dropdownsInitState}}"
+                                            id="sanction-process-info-organ-dropdown">
+                            <core-dropdown class="dropdown dropdown-elem">
+                                <core-selector selected="">
+                                    <core-item class="dropdown-elem"
+                                               label="FBI"
+                                               ng-click="addProcessInfoSanctionModel.organChange('FBI')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="CIA"
+                                               ng-click="addProcessInfoSanctionModel.organChange('CIA')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="LAPD"
+                                               ng-click="addProcessInfoSanctionModel.organChange('LAPD')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="NYPD"
+                                               ng-click="addProcessInfoSanctionModel.organChange('NYPD')"></core-item>
+                                </core-selector>
+                            </core-dropdown>
+                        </core-dropdown-menu>
+                        <datetime-picker id="sanction-process-info-starts"
+                                         class="datetime-picker"
+                                         label="{{'MANAGE_SANCTIONS_PROCESS_INFO.ADD_NEW_SANCTION.INPUTS.TIME_FRAME_START.PLACEHOLDER' | translate}}"></datetime-picker>
+                        <datetime-picker id="sanction-process-info-ends"
+                                         class="datetime-picker"
+                                         label="{{'MANAGE_SANCTIONS_PROCESS_INFO.ADD_NEW_SANCTION.INPUTS.TIME_FRAME_END.PLACEHOLDER' | translate}}"></datetime-picker>
+
+                        <paper-button raised
+                                      class="colored add-user-btn"
+                                      ng-click="addNewUserModel.open(addNewUserForm)">
+                            {{'MANAGE_SANCTIONS_PROCESS_INFO.ADD_NEW_SANCTION.BUTTONS.ADD_USER' |
+                            translate}}
+                        </paper-button>
+                        <br/>
+                        <core-overlay layered backdrop autoCloseDisabled
+                                      opened="{{addProcessInfoSanctionModel.openAddNewProcessInfoSanction}}"></core-overlay>
+                        <paper-button raised
+                                      class="buttons colored save"
+                                      ng-click="processInfoSanctionForm.$valid ?
+                                        addProcessInfoSanctionModel.save() :
+                                        processInfoSanctionForm.number.$dirty = true">
+                            {{'MANAGE_SANCTIONS_PROCESS_INFO.ADD_NEW_SANCTION.BUTTONS.SAVE' |
+                            translate}}
+                        </paper-button>
+                        <paper-button raised
+                                      class="buttons cancel"
+                                      ng-click="addProcessInfoSanctionModel.close()">
+                            {{'MANAGE_SANCTIONS_PROCESS_INFO.ADD_NEW_SANCTION.BUTTONS.CANCEL' |
+                            translate}}
+                        </paper-button>
+                    </form>
+                </modal-window>
+            </div>
+            <div ng-if="content == 'content-5'"
+                 class="manage-sanctions-accessing-service-info"
+                 id="manage-sanctions-accessing-service-info">
+                <div class="control-elem-wrap">
+                    <core-tooltip label="{{'MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO.TOOLTIP.ADD' | translate}}"
+                                  class="add-circle-btn"
+                                  position="bottom"
+                                  ng-click="addAccessServiceInfoSanctionModel.open(accessServiceInfoSanctionForm)">
+                        <core-icon-button icon="add-circle"></core-icon-button>
+                    </core-tooltip>
+                    <core-tooltip label="{{'MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO.TOOLTIP.REMOVE' | translate}}"
+                                  class="remove-circle-btn"
+                                  position="bottom"
+                                  ng-click="removeAccessServiceInfoSanctionModel.remove()">
+                        <core-icon-button icon="remove-circle"></core-icon-button>
+                    </core-tooltip>
+                </div>
+                <div ui-grid="gridOptions"
+                     ui-grid-selection
+                     ui-grid-pagination
+                     ui-grid-move-columns
+                     ui-grid-resize-columns
+                     ui-grid-pinning
+                     ui-grid-edit
+                     ui-grid-row-edit
+                     external-scopes="dataGridModel"
+                     class="data-grid"></div>
+                <div class="paging">
+                    <core-icon-button icon="chevron-left" ng-click="previousPage()"></core-icon-button>
+                    <paper-button raised class="number {{page == 1 ? 'colored' : ''}}" id="page-{{page}}"
+                                  ng-click="goToPage(page)" ng-repeat="page in pagesArray">
+                        {{page}}
+                    </paper-button>
+                    <core-icon-button icon="chevron-right" ng-click="nextPage()"></core-icon-button>
+                </div>
+
+
+
+
+                <modal-window ng-show="addAccessServiceInfoSanctionModel.openAddNewAccessingServiceInfoSanction"
+                              class="add-new-sanction-accessing-service-info">
+                    <h2 class="title big">{{'MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO.ADD_NEW_SANCTION.TITLE' | translate}}</h2>
+
+                    <form name="accessServiceInfoSanctionForm" novalidate>
+                        <paper-input-decorator
+                                label="{{'MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO.ADD_NEW_SANCTION.INPUTS.NUMBER.PLACEHOLDER' | translate}}"
+                                floatingLabel
+                                class="paper-input"
+                                error="{{'MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO.ADD_NEW_SANCTION.INPUTS.NUMBER.ERRORS.REQUIRED' | translate}}"
+                                isInvalid="{{accessServiceInfoSanctionForm.number.$dirty && accessServiceInfoSanctionForm.number.$invalid}}">
+                            <input type="text"
+                                   name="number"
+                                   is="core-input"
+                                   ng-model="addAccessServiceInfoSanctionModel.sanction.number"
+                                   required>
+                        </paper-input-decorator>
+                        <core-dropdown-menu class="dropdown-elem user-dropdown"
+                                            label="{{'MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO.ADD_NEW_SANCTION.DROPDOWN.USER.PLACEHOLDER' | translate}}"
+                                            initstate="{{addAccessServiceInfoSanctionModel.dropdownsInitState}}"
+                                            id="sanction-access-service-info-user-dropdown">
+                            <core-dropdown class="dropdown dropdown-elem">
+                                <core-selector selected="">
+                                    <core-item class="dropdown-elem"
+                                               label="USER1"
+                                               ng-click="addAccessServiceInfoSanctionModel.userChange('USER1')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="USER2"
+                                               ng-click="addAccessServiceInfoSanctionModel.userChange('USER2')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="USER3"
+                                               ng-click="addAccessServiceInfoSanctionModel.userChange('USER3')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="USER4"
+                                               ng-click="addAccessServiceInfoSanctionModel.userChange('USER4')"></core-item>
+                                </core-selector>
+                            </core-dropdown>
+                        </core-dropdown-menu>
+                        <core-dropdown-menu class="dropdown-elem organ-dropdown"
+                                            label="{{'MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO.ADD_NEW_SANCTION.DROPDOWN.ORGAN.PLACEHOLDER' | translate}}"
+                                            initstate="{{addAccessServiceInfoSanctionModel.dropdownsInitState}}"
+                                            id="sanction-access-service-info-organ-dropdown">
+                            <core-dropdown class="dropdown dropdown-elem">
+                                <core-selector selected="">
+                                    <core-item class="dropdown-elem"
+                                               label="FBI"
+                                               ng-click="addAccessServiceInfoSanctionModel.organChange('FBI')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="CIA"
+                                               ng-click="addAccessServiceInfoSanctionModel.organChange('CIA')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="LAPD"
+                                               ng-click="addAccessServiceInfoSanctionModel.organChange('LAPD')"></core-item>
+                                    <core-item class="dropdown-elem"
+                                               label="NYPD"
+                                               ng-click="addAccessServiceInfoSanctionModel.organChange('NYPD')"></core-item>
+                                </core-selector>
+                            </core-dropdown>
+                        </core-dropdown-menu>
+                        <datetime-picker id="sanction-access-service-info-starts"
+                                         class="datetime-picker"
+                                         label="{{'MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO.ADD_NEW_SANCTION.INPUTS.TIME_FRAME_START.PLACEHOLDER' | translate}}"></datetime-picker>
+                        <datetime-picker id="sanction-access-service-info-ends"
+                                         class="datetime-picker"
+                                         label="{{'MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO.ADD_NEW_SANCTION.INPUTS.TIME_FRAME_END.PLACEHOLDER' | translate}}"></datetime-picker>
+
+                        <paper-button raised
+                                      class="colored add-user-btn"
+                                      ng-click="addNewUserModel.open(addNewUserForm)">
+                            {{'MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO.ADD_NEW_SANCTION.BUTTONS.ADD_USER' |
+                            translate}}
+                        </paper-button>
+                        <br/>
+                        <core-overlay layered backdrop autoCloseDisabled
+                                      opened="{{addAccessServiceInfoSanctionModel.openAddNewAccessingServiceInfoSanction}}"></core-overlay>
+                        <paper-button raised
+                                      class="buttons colored save"
+                                      ng-click="accessServiceInfoSanctionForm.$valid ?
+                                        addAccessServiceInfoSanctionModel.save() :
+                                        accessServiceInfoSanctionForm.number.$dirty = true">
+                            {{'MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO.ADD_NEW_SANCTION.BUTTONS.SAVE' |
+                            translate}}
+                        </paper-button>
+                        <paper-button raised
+                                      class="buttons cancel"
+                                      ng-click="addAccessServiceInfoSanctionModel.close()">
+                            {{'MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO.ADD_NEW_SANCTION.BUTTONS.CANCEL' |
+                            translate}}
+                        </paper-button>
+                    </form>
+                </modal-window>
+
+
+
+
+
+
+
+
+
+
+            </div>
+            <div ng-if="content == 'content-6'">Equipment monitoring content</div>
+            <div ng-if="content == 'content-7'" ng-controller="AccountController" class="edit-account">
+                <form name="editAccountForm" novalidate>
+                    <paper-input-decorator label="{{'EDIT_ACCOUNT.ACCOUNT_FIELD.PLACEHOLDER' | translate}}"
+                                           floatingLabel
+                                           class="paper-input"
+                                           error="{{editAccount.errors.accountNameError ? ('EDIT_ACCOUNT.ACCOUNT_FIELD.ERRORS.ALREADY_TAKEN' | translate) : ('EDIT_ACCOUNT.ACCOUNT_FIELD.ERRORS.REQUIRED' | translate)}}"
+                                           isInvalid="{{editAccountForm.accountName.$dirty && editAccountForm.accountName.$invalid}}">
+                        <input type="text"
+                               name="accountName"
+                               is="core-input"
+                               ng-model="editAccount.credentials.accountName"
+                               required>
+                    </paper-input-decorator>
+                    <paper-input-decorator label="{{'EDIT_ACCOUNT.OLD_PASSWORD_FIELD.PLACEHOLDER' | translate}}"
+                                           floatingLabel
+                                           class="paper-input"
+                                           error="{{editAccount.errors.oldPasswordError ? ('EDIT_ACCOUNT.OLD_PASSWORD_FIELD.ERRORS.INCORRECT' | translate) : ('EDIT_ACCOUNT.OLD_PASSWORD_FIELD.ERRORS.REQUIRED' | translate)}}"
+                                           isInvalid="{{editAccountForm.oldPassword.$dirty && editAccountForm.oldPassword.$invalid}}">
+                        <input type="password"
+                               name="oldPassword"
+                               is="core-input"
+                               ng-model="editAccount.credentials.oldPassword"
+                               required>
+                    </paper-input-decorator>
+                    <paper-input-decorator label="{{'EDIT_ACCOUNT.NEW_PASSWORD_FIELD.PLACEHOLDER' | translate}}"
+                                           floatingLabel
+                                           class="paper-input">
+                        <input type="password"
+                               name="newPassword"
+                               id="newPassword"
+                               is="core-input"
+                               ng-model="editAccount.credentials.newPassword"
+                               pw-check="repeatNewPassword">
+                    </paper-input-decorator>
+                    <paper-input-decorator label="{{'EDIT_ACCOUNT.REPEAT_PASSWORD_FIELD.PLACEHOLDER' | translate}}"
+                                           floatingLabel
+                                           class="paper-input"
+                                           error="{{'EDIT_ACCOUNT.REPEAT_PASSWORD_FIELD.ERRORS.MISMATCH' | translate}}"
+                                           isInvalid="{{passwordsMismatch }}">
+                        <input type="password"
+                               name="repeatNewPassword"
+                               id="repeatNewPassword"
+                               is="core-input"
+                               ng-model="editAccount.credentials.repeatNewPassword">
+                    </paper-input-decorator>
+                    <paper-button raised class="colored save" ng-click="editAccountForm.$valid ?
+                                                                            submitEditAccount(editAccountForm) :
+                                                                            editAccountForm.oldPassword.$dirty = true">
+                        {{'EDIT_ACCOUNT.BUTTONS.SAVE' | translate}}
+                    </paper-button>
+                    <paper-button raised class="cancel" ng-click="cancelEditAccount(editAccountForm)">
+                        {{'EDIT_ACCOUNT.BUTTONS.CANCEL' | translate}}
+                    </paper-button>
+                </form>
+            </div>
+            <div ng-if="content == 'content-8'" class="settings" ng-controller="SettingsController">
+                <core-dropdown-menu class="dropdown-elem" id="language-menu" label="{{languageName}}">
+                    <core-dropdown class="dropdown dropdown-elem">
+                        <core-selector>
+                            <core-item class="dropdown-elem" label="English"
+                                       ng-click="setLanguage('en_US')"></core-item>
+                            <core-item class="dropdown-elem" label="Русский"
+                                       ng-click="setLanguage('ru_RU')"></core-item>
+                            <core-item class="dropdown-elem" label="Қазақ"
+                                       ng-click="setLanguage('kz_KZ')"></core-item>
+                        </core-selector>
+                    </core-dropdown>
+                </core-dropdown-menu>
+                <paper-button raised class="colored save" ng-click="save()">{{'SYSTEM_SETTINGS.BUTTONS.SAVE' |
+                    translate}}
+                </paper-button>
+                <paper-button raised class="cancel" ng-click="cancel()">{{'SYSTEM_SETTINGS.BUTTONS.CANCEL' |
+                    translate}}
+                </paper-button>
+            </div>
+            <modal-window ng-show="addNewUserModel.openAddNewUser">
+                <h2 class="title big">{{'ADD_NEW_USER.TITLE' | translate}}</h2>
+
+                <form name="addNewUserForm" novalidate>
+                    <paper-input-decorator label="{{'ADD_NEW_USER.INPUTS.NAME.PLACEHOLDER' | translate}}"
+                                           class="paper-input"
+                                           floatingLabel
+                                           error="{{'ADD_NEW_USER.INPUTS.NAME.ERRORS.REQUIRED' | translate}}"
+                                           isInvalid="{{addNewUserForm.name.$dirty && addNewUserForm.name.$invalid}}">
+                        <input type="text"
+                               name="name"
+                               is="core-input"
+                               ng-model="addNewUserModel.user.name"
+                               required>
+                    </paper-input-decorator>
+                    <datetime-picker id="add-new-user-date-time-picker" class="datetime-picker"
+                                     label="{{'DATETIMEPICKER.PLACEHOLDER' | translate}}"></datetime-picker>
+                    <core-dropdown-menu class="dropdown-elem role-dropdown"
+                                        id="role-dropdown"
+                                        initstate="{{addNewUserModel.dropdownsInitState}}"
+                                        label="{{'ADD_NEW_USER.DROPDOWN.ROLE.PLACEHOLDER' | translate}}">
+                        <core-dropdown class="dropdown dropdown-elem">
+                            <core-selector selected="">
+                                <core-item class="dropdown-elem"
+                                           label="{{'ADD_NEW_USER.DROPDOWN.ROLE.SUPERADMINISTRATOR' | translate}}"
+                                           ng-click="addNewUserModel.roleChange(1)"></core-item>
+                                <core-item class="dropdown-elem"
+                                           label="{{'ADD_NEW_USER.DROPDOWN.ROLE.ADMINISTRATOR' | translate}}"
+                                           ng-click="addNewUserModel.roleChange(2)"></core-item>
+                                <core-item class="dropdown-elem"
+                                           label="{{'ADD_NEW_USER.DROPDOWN.ROLE.HANDLER' | translate}}"
+                                           ng-click="addNewUserModel.roleChange(3)"></core-item>
+                                <core-item class="dropdown-elem"
+                                           label="{{'ADD_NEW_USER.DROPDOWN.ROLE.SUPERVISOR' | translate}}"
+                                           ng-click="addNewUserModel.roleChange(4)"></core-item>
+                            </core-selector>
+                        </core-dropdown>
+                    </core-dropdown-menu>
+                    <br/>
+                    <core-dropdown-menu class="dropdown-elem organ-dropdown"
+                                        label="Choose organ"
+                                        initstate="{{addNewUserModel.dropdownsInitState}}"
+                                        id="organ-dropdown">
+                        <core-dropdown class="dropdown dropdown-elem">
+                            <core-selector selected="">
+                                <core-item class="dropdown-elem" label="FBI"
+                                           ng-click="addNewUserModel.organChange('FBI')"></core-item>
+                                <core-item class="dropdown-elem" label="CIA"
+                                           ng-click="addNewUserModel.organChange('CIA')"></core-item>
+                                <core-item class="dropdown-elem" label="LAPD"
+                                           ng-click="addNewUserModel.organChange('LAPD')"></core-item>
+                                <core-item class="dropdown-elem" label="NYPD"
+                                           ng-click="addNewUserModel.organChange('NYPD')"></core-item>
+                            </core-selector>
+                        </core-dropdown>
+                    </core-dropdown-menu>
+                    <br/>
+                    <core-dropdown-menu class="dropdown-elem status-dropdown"
+                                        label="{{'ADD_NEW_USER.DROPDOWN.STATUS.PLACEHOLDER' | translate}}"
+                                        initstate="{{addNewUserModel.dropdownsInitState}}"
+                                        id="status-dropdown">
+                        <core-dropdown class="dropdown dropdown-elem">
+                            <core-selector selected="">
+                                <core-item class="dropdown-elem"
+                                           label="{{'ADD_NEW_USER.DROPDOWN.STATUS.ENABLE' | translate}}"
+                                           ng-click="addNewUserModel.statusChange(1)"></core-item>
+                                <core-item class="dropdown-elem"
+                                           label="{{'ADD_NEW_USER.DROPDOWN.STATUS.DISABLE' | translate}}"
+                                           ng-click="addNewUserModel.statusChange(0)"></core-item>
+                            </core-selector>
+                        </core-dropdown>
+                    </core-dropdown-menu>
+                    <br/>
+                    <core-overlay layered backdrop autoCloseDisabled
+                                  opened="{{addNewUserModel.openAddNewUser}}"></core-overlay>
+                    <paper-button raised
+                                  class="add-new-user-buttons colored save"
+                                  ng-click="addNewUserForm.$valid ?
+                                        addNewUserModel.save() :
+                                        addNewUserForm.name.$dirty = true">
+                        {{'ADD_NEW_USER.BUTTONS.SAVE' |
+                        translate}}
+                    </paper-button>
+                    <paper-button raised
+                                  class="add-new-user-buttons cancel"
+                                  ng-click="addNewUserModel.close()">
+                        {{'ADD_NEW_USER.BUTTONS.CANCEL' |
+                        translate}}
+                    </paper-button>
+                </form>
+            </modal-window>
+        </div>
+    </core-drawer-panel>
+</div>

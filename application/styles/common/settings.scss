@@ -1,0 +1,23 @@
+/**
+ * @fileoverview System settings styles
+ *
+ * @autor Dmitry Lukianenko on 12/19/14.
+ *
+ * @license
+ */
+
+.settings {
+  padding-top: 20px;
+  paper-button {
+    top: 325px;
+    position: absolute;
+    &.save {
+      left: 20px;
+    }
+    &.cancel {
+      left: 240px;
+    }
+
+  }
+
+}

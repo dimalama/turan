@@ -1,0 +1,25 @@
+
+
+<paper-dialog backdrop
+              autoCloseDisabled
+              layered
+              id="dialog"
+              transition="core-transition-center"
+              closeSelector="#dialog-ok, #dialog-cancel"
+              opened="{{dialog.open}}"
+              heading="{{dialog.title}}"
+              class="{{dialog.cssClass}}">
+    <p>{{dialog.body}}</p>
+    <br/>
+    <paper-button id="dialog-ok"
+                  raised
+                  class="colored"
+                  affirmative
+                  autofocus>{{dialog.okBtn}}</paper-button>
+    <paper-button raised
+                  ng-click="dialog.cancel()"
+                  ng-show="dialog.showCancelBtn"
+                  class="cancel"
+                  id="dialog-cancel"
+                  dismissive>{{dialog.cancelBtn}}</paper-button>
+</paper-dialog>

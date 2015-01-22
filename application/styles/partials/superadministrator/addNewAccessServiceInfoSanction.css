@@ -1,0 +1,21 @@
+/**
+ * @fileoverview Add Sanction for Accessing Service Information Styling
+ *
+ * @autor Dmitry Lukianenko on 12/19/14.
+ *
+ * @license
+ */
+.add-new-sanction-accessing-service-info core-dropdown-menu.dropdown-elem.user-dropdown {
+  width: 307px;
+  background-color: #FFFFFF; }
+.add-new-sanction-accessing-service-info .user-dropdown,
+.add-new-sanction-accessing-service-info .organ-dropdown {
+  margin-top: 25px; }
+.add-new-sanction-accessing-service-info .user-dropdown {
+  margin-bottom: 5px; }
+.add-new-sanction-accessing-service-info .add-user-btn {
+  position: absolute;
+  right: 40px;
+  top: 129px; }
+
+/*# sourceMappingURL=addNewAccessServiceInfoSanction.css.map */
