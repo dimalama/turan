@@ -20,6 +20,11 @@ body {
   }
 }
 
+html /deep/ picker-popup {
+  top: 145px !important;
+  left: 42px !important;
+}
+
 // show cursor on system menu elements
 body /deep/ core-item.system-menu-item {
   cursor: pointer;
@@ -180,6 +185,11 @@ core-item.dropdown-elem {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  padding: 12px;
+  cursor: pointer !important;
+  &:hover {
+    background: #dedede;
+  }
 }
 
 html /deep/ core-collapse {

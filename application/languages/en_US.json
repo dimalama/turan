@@ -134,6 +134,12 @@
     "PLACEHOLDER": "Choose date and time"
   },
   "DIALOG": {
+    "FILTER_QUERY": {
+      "ERROR": {
+        "TITLE": "FILTERING DATA ERROR!",
+        "OK": "Ok"
+      }
+    },
     "CREATE_QUERY_ACCESS_SERVICE_INFO": {
       "OK": "Ok",
       "ERROR": {

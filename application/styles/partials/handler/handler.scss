@@ -7,6 +7,12 @@
  */
 @import "../../mixins";
 
+html /deep/ core-dropdown-menu.dropdown-elem.handler-id-type-dropdown {
+  width: 307px;
+  background-color: #FFFFFF;
+  margin: 30px 0 10px 0;
+}
+
 .handler-interface {
 
   core-drawer-panel {
@@ -104,5 +110,20 @@
       height: 100%;
       min-height: 100%;
     }
+  }
+  .create-query-buttons {
+    position: absolute;
+    bottom: 60px;
+    &.save {
+      left: 42px;
+    }
+    &.cancel {
+      left: 268px;
+    }
+  }
+  .control-tree-spinner {
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
   }
 }

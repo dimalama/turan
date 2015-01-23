@@ -49,9 +49,10 @@
                 <span class="node-amount">{{node.queriesAmount}}</span>
                 <span ng-click="nodeClick($event, node.categoryType)">{{node.protocolName}}</span>
                 <span ng-click="nodeClick($event, node.categoryType)">{{node.queryName}}</span>
-                <span class="node-amount">{{node.recordsAmount}}</span>
+                <span class="node-amount">{{node.recordsAmount}}&nbsp;<paper-spinner class="control-tree-spinner" ng-show="node.recordsAmount ? true : false" active></paper-spinner></span>
             </treecontrol>
         </div>
+        <paper-spinner active></paper-spinner>
         <div main class="main">
             <div ng-if="content == 'content-1'" class="container" vertical layout>
                 <div class="top-box-aria">
@@ -272,10 +273,10 @@
                             </paper-input-decorator>
 
 
-                            <paper-button raised class="filter-btn colored save" ng-click="">{{'FILTERS.APPLY' |
+                            <paper-button raised class="filter-btn colored save" ng-click="filterModel.applyFilters(1)">{{'FILTERS.APPLY' |
                                 translate}}
                             </paper-button>
-                            <paper-button raised class="filter-btn cancel" ng-click="">{{'FILTERS.RESET' | translate}}
+                            <paper-button raised class="filter-btn cancel" ng-click="filterModel.resetFilters()">{{'FILTERS.RESET' | translate}}
                             </paper-button>
 
 
@@ -570,10 +571,10 @@
                         </paper-input-decorator>
 
 
-                        <paper-button raised class="filter-btn colored save" ng-click="">{{'FILTERS.APPLY' |
+                        <paper-button raised class="filter-btn colored save" ng-click="filterModel.applyFilters(2)">{{'FILTERS.APPLY' |
                             translate}}
                         </paper-button>
-                        <paper-button raised class="filter-btn cancel" ng-click="">{{'FILTERS.RESET' |
+                        <paper-button raised class="filter-btn cancel" ng-click="filterModel.resetFilters()">{{'FILTERS.RESET' |
                             translate}}
                         </paper-button>
 
@@ -699,7 +700,7 @@
             <datetime-picker id="timeframe-ends"
                              class="datetime-picker"
                              label="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.TIME_FRAME_END.PLACEHOLDER' | translate}}"></datetime-picker>
-            <core-dropdown-menu class="dropdown-elem id-type-dropdown"
+            <core-dropdown-menu class="dropdown-elem handler-id-type-dropdown"
                                 label="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.DROPDOWN.ID_TYPE.PLACEHOLDER' | translate}}"
                                 id="id-type-dropdown"
                                 initstate="{{accessServiceInfoModel.createQuery.dropdownsInitState}}">
@@ -729,7 +730,7 @@
             <core-overlay layered backdrop autoCloseDisabled
                           opened="{{accessServiceInfoModel.createQuery.openCreateNewQuery}}"></core-overlay>
             <paper-button raised
-                          class="buttons colored save"
+                          class="create-query-buttons colored save"
                           ng-click="addNewQueryAccessServiceInfoForm.$valid ?
                                         accessServiceInfoModel.createQuery.save() :
                                         addNewQueryAccessServiceInfoForm.query.number.$dirty = true">
@@ -737,7 +738,7 @@
                 translate}}
             </paper-button>
             <paper-button raised
-                          class="buttons cancel"
+                          class="create-query-buttons cancel"
                           ng-click="accessServiceInfoModel.createQuery.close()">
                 {{'CREATE_QUERY_ACCESS_SERVICE_INFO.BUTTONS.CANCEL' |
                 translate}}

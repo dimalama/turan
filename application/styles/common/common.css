@@ -79,6 +79,10 @@ body.firefox {
   .title.big {
     font-size: 24px; }
 
+html /deep/ picker-popup {
+  top: 145px !important;
+  left: 42px !important; }
+
 body /deep/ core-item.system-menu-item {
   cursor: pointer; }
 
@@ -190,7 +194,11 @@ html /deep/ core-dropdown.dropdown-elem {
 core-item.dropdown-elem {
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis; }
+  text-overflow: ellipsis;
+  padding: 12px;
+  cursor: pointer !important; }
+  core-item.dropdown-elem:hover {
+    background: #dedede; }
 
 html /deep/ core-collapse {
   border: 1px solid #ccc;

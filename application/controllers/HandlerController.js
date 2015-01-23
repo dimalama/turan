@@ -42,7 +42,20 @@
         accessServiceInfoQueryResultsError: 'access-service-info-query-resulting-error',
         accessServiceInfoQueryResultsSuccess: 'access-service-info-query-result-success',
         createQueryAccessServiceInfoError: 'creating-query-access-service-info-error',
-        createQueryAccessServiceInfoSuccess: 'query-access-service-info-created-successfully'
+        createQueryAccessServiceInfoSuccess: 'query-access-service-info-created-successfully',
+        filterQueryError: 'filter-query-error',
+        filterQuerySuccess: 'filter-query-success'
+    }).constant('HANDLER_CATEGORY_TYPE', {
+        authorizedTaskIntercept: 1,
+        accessServiceInfo: 2
+    }).constant('HANDLER_MENU_TYPE', {
+        empty: 0,
+        authorizedTaskInterceptResult: 1,
+        accessServiceInfoQueryInfo: 2,
+        btnCreateQuery: 3,
+        accessServiceInfoQueryResult: 4,
+        editAccount: 7,
+        editSettings: 8
     });
 
     Handler.controller('HandlerController',
@@ -56,6 +69,8 @@
             'dataGridSelectService',
             'datetimePickerService',
             'HANDLER_EVENTS',
+            'HANDLER_CATEGORY_TYPE',
+            'HANDLER_MENU_TYPE',
             'uiGridConstants',
             '$translate',
             '$interval',
@@ -69,6 +84,8 @@
                       dataGridSelectService,
                       datetimePickerService,
                       HANDLER_EVENTS,
+                      HANDLER_CATEGORY_TYPE,
+                      HANDLER_MENU_TYPE,
                       uiGridConstants,
                       $translate,
                       $interval,
@@ -485,8 +502,8 @@
                 $scope.taskClick = function ($event, node) {
 
                     //if it is access service information
-                    if (node.categoryType === 2) {
-                        $scope.showMenuContent(3); // show content only with btn create query
+                    if (node.categoryType === HANDLER_CATEGORY_TYPE.accessServiceInfo) {
+                        $scope.showMenuContent(HANDLER_MENU_TYPE.btnCreateQuery); // show content only with btn create query
                         $scope.currentTask = node.taskName;
                     }
                 };
@@ -505,7 +522,6 @@
                     $scope.pagesArray = dataGridPagingService.getPagesArray();
 
                     gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-                        console.info('row change');
                         var _row = row;
 
                         if (_row.isSelected) {
@@ -544,12 +560,12 @@
                 $scope.showSelected = function (node) {
 
                     if (typeof node === 'undefined') {
-                        $scope.showMenuContent(0);
+                        $scope.showMenuContent(HANDLER_MENU_TYPE.empty);
                         return true;
                     }
 
                     //if it is access service information
-                    if (node.categoryType === 2) {
+                    if (node.categoryType === HANDLER_CATEGORY_TYPE.accessServiceInfo) {
 
                         $scope.currentQuery = node.queryName;
 
@@ -617,7 +633,7 @@
                     $scope.content = ( 'content-' + index );
 
                     //for system menu
-                    if ((index === 7) || (index === 8)) {
+                    if ((index === HANDLER_MENU_TYPE.editAccount) || (index === HANDLER_MENU_TYPE.editSettings)) {
 
                         $scope.clearSelectedNode();
                     }
@@ -683,9 +699,11 @@
 
                                 } else { // if server canceled query
 
+
+                                    //to emulate response
                                     $scope.gridOptions.data = $scope.sipData;
 
-                                    $scope.showMenuContent(4);
+                                    $scope.showMenuContent(HANDLER_MENU_TYPE.accessServiceInfoQueryResult);
 
                                     $rootScope.$broadcast(HANDLER_EVENTS.accessServiceInfoQueryResultsSuccess);
                                 }
@@ -809,8 +827,8 @@
 
                                     } else { //server return success for creation new query to access service info
 
-                                        $scope.handlerData[1].children.forEach(function(arrElement, index){
-                                            if(arrElement.taskName === $scope.currentTask){
+                                        $scope.handlerData[1].children.forEach(function (arrElement, index) {
+                                            if (arrElement.taskName === $scope.currentTask) {
                                                 $scope.handlerData[1].children[index].children.push(_data.result);
                                                 return true;
                                             }
@@ -893,7 +911,7 @@
                                             }
                                         });
 
-                                        $scope.showMenuContent(0);
+                                        $scope.showMenuContent(HANDLER_MENU_TYPE.empty);
 
                                         $rootScope.$broadcast(HANDLER_EVENTS.accessServiceInfoQueryCancelSuccess);
                                     }
@@ -930,6 +948,87 @@
                 $scope.toggleFilters = function () {
                     $scope.showFilters = $scope.showFilters ? false : true;
                 };
+
+
+                $scope.filterModel = {
+
+                    filter: {},
+                    filterInitState: angular.copy(this.filter),
+
+                    /**
+                     * Send query to filter dataset
+                     * @param {Int} filterFor
+                     * @public
+                     */
+                    applyFilters: function (filterFor) {
+                        var _this = this,
+                            _filterFor = filterFor || 0;
+
+                        $http.post(
+                            '/',
+                            {
+                                filter: _this.filter,
+                                filterFor: _filterFor
+                            }
+                        ).success(function (data) {
+
+                                var _interval = null,
+                                    _data = data;
+
+                                //emulate error from the server
+                                /* var _data = {
+                                 errors: 'Filter query error happened!'
+                                 };*/
+
+                                if (_data.errors) {// if server returned errors
+
+                                    // show error modal dialog about the errors
+                                    // using here interval to make delay
+                                    _interval = $interval(function () {
+                                        $translate(['DIALOG.FILTER_QUERY.ERROR.TITLE', 'DIALOG.FILTER_QUERY.ERROR.OK'])
+                                            .then(function (translation) {
+                                                dialogService.open(
+                                                    translation['DIALOG.FILTER_QUERY.ERROR.TITLE'],
+                                                    _data.errors,
+                                                    translation['DIALOG.FILTER_QUERY.ERROR.OK'],
+                                                    '',
+                                                    'error',
+                                                    false);
+                                                $interval.cancel(_interval);
+                                            });
+                                    }, 3000);
+
+                                    $rootScope.$broadcast(HANDLER_EVENTS.filterQueryError);
+
+                                } else { // if server return filtered data
+
+                                    switch (filterFor) {
+                                        case HANDLER_CATEGORY_TYPE.authorizedTaskIntercept:
+                                            $scope.gridOptions.data = _data;
+                                            break;
+                                        case HANDLER_CATEGORY_TYPE.accessServiceInfo:
+                                            $scope.queryGridOptions.data = _data;
+                                            break;
+                                    }
+
+                                    $rootScope.$broadcast(HANDLER_EVENTS.filterQuerySuccess);
+                                }
+
+                            }).error(function () {
+
+                                $rootScope.$broadcast(HANDLER_EVENTS.filterQueryError);
+                            });
+                    },
+
+                    /**
+                     * Reset to initial state of the filters
+                     * @public
+                     */
+                    resetFilters: function () {
+                        this.filter = angular.copy(this.filterInitState);
+                    }
+                };
+
 
                 /**
                  * Go to previous page handler

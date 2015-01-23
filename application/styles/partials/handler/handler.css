@@ -71,6 +71,11 @@ CSS Matrix Rotation Calculator http://www.boogdesign.com/examples/transforms/mat
 /* TRIPLE BORDERS */
 /* KEYFRAMES */
 /* ANIMATION */
+html /deep/ core-dropdown-menu.dropdown-elem.handler-id-type-dropdown {
+  width: 307px;
+  background-color: #FFFFFF;
+  margin: 30px 0 10px 0; }
+
 .handler-interface core-drawer-panel .main {
   padding: 0; }
 .handler-interface .data-grid {
@@ -139,5 +144,16 @@ CSS Matrix Rotation Calculator http://www.boogdesign.com/examples/transforms/mat
     position: relative;
     height: 100%;
     min-height: 100%; }
+.handler-interface .create-query-buttons {
+  position: absolute;
+  bottom: 60px; }
+  .handler-interface .create-query-buttons.save {
+    left: 42px; }
+  .handler-interface .create-query-buttons.cancel {
+    left: 268px; }
+.handler-interface .control-tree-spinner {
+  width: 15px;
+  height: 15px;
+  vertical-align: middle; }
 
 /*# sourceMappingURL=handler.css.map */
