@@ -36,7 +36,7 @@
          */
         var initService = function (gridApi, parentId) {
 
-            var _rowsPerPage = gridApi.grid.options.rowsPerPage,
+            var _rowsPerPage = gridApi.grid.options.paginationPageSize,
                 _dataLength = gridApi.grid.options.data.length,
                 _parentId = parentId || '';
 
@@ -100,7 +100,7 @@
         var previousPage = function () {
 
             //if there is not pages to go, exit function
-            if (_scope.gridApi.grid.pagination.page === 1) {
+            if (_scope.gridApi.pagination.getPage() === 1) {
                 return true;
             }
 
@@ -111,8 +111,8 @@
             //querySelectAll returns array of elements matching selector which starts from 0,
             //we need make adjustment by subtracting 1 from ui-grid page
             var _pagesToggle = [
-                _scope.gridApi.grid.pagination.page - 1,
-                _scope.gridApi.grid.pagination.page
+                _scope.gridApi.pagination.getPage() - 1,
+                _scope.gridApi.pagination.getPage()
             ];
 
             togglePageSelect(_pagesToggle);
@@ -133,11 +133,11 @@
             //querySelectAll returns array of elements matching selector which starts from 0,
             //we need make adjustment by subtracting 1 from ui-grid page
             var _pagesToggle = [
-                _scope.gridApi.grid.pagination.page - 1, //current page
+                _scope.gridApi.pagination.getPage() - 1, //current page
                 _goToPage - 1 //page to go
             ];
 
-            _scope.gridApi.grid.pagination.page = _goToPage;
+            _scope.gridApi.pagination.seek(_goToPage);
             _scope.gridApi.core.refresh();
 
             togglePageSelect(_pagesToggle);
@@ -152,7 +152,7 @@
         var nextPage = function () {
 
             //if there is not pages to go, exit function
-            if (_scope.gridApi.grid.pagination.page === _scope.totalPages) {
+            if (_scope.gridApi.pagination.getPage() === _scope.totalPages) {
                 return true;
             }
 
@@ -161,8 +161,8 @@
             //querySelectAll returns array of elements matching selector which starts from 0,
             //we need make adjustment by subtracting 1 from ui-grid page
             var _pagesToggle = [
-                _scope.gridApi.grid.pagination.page - 1,
-                _scope.gridApi.grid.pagination.page
+                _scope.gridApi.pagination.getPage() - 1,
+                _scope.gridApi.pagination.getPage()
             ];
 
             _scope.gridApi.pagination.nextPage();

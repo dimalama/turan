@@ -220,6 +220,7 @@
                     enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
                     enableVerticalScrollbar: uiGridConstants.scrollbars.NEVER,
                     minimumColumnSize: 100,
+                    paginationPageSize: 10,
                     // Calling the externalScopes() method will allow you to reach up to the controller scope
                     rowTemplate: '<div  tabindex="1" ' +
                     'ng-click="getExternalScopes().onRowClick(row)" ' +

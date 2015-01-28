@@ -280,12 +280,6 @@ input[type="text"].ui-grid-filter-input:hover {
 .ui-grid-canvas {
   position: relative;
 }
-.ui-grid-row .ui-grid-cell {
-  cursor: pointer;
-}
-.ui-grid-row:hover .ui-grid-cell {
-  background-color: #dedede !important;
-}
 .ui-grid-row:nth-child(odd) .ui-grid-cell {
   background-color: #fdfdfd;
 }

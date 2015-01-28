@@ -333,6 +333,8 @@
                     enableSelectionBatchEvent: false,
                     enableRowHeaderSelection: false,
                     multiSelect: true,
+                    enablePaginationControls: false,
+                    paginationPageSize: 10,
                     modifierKeysToMultiSelect: true,
                     enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
                     enableVerticalScrollbar: uiGridConstants.scrollbars.NEVER,
