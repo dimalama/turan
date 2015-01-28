@@ -35,30 +35,6 @@
             };
 
             /**
-             * Get time and date
-             * @param {String} id
-             * @returns {string} - date and time
-             * @public
-             */
-            this.getDateTime = function () {
-
-                var value = scope.$dateTimePicker.getAttribute('data-input-value');
-
-                scope.$dateTimePicker.setAttribute('data-clear', false);
-
-                if (value) {
-
-                    //valid
-                    return value;
-
-                } else {
-
-                    //show requred errors
-                    scope.$dateTimePicker.setAttribute('data-required-error', true);
-                }
-            };
-
-            /**
              * Clear datetime picker input field
              * @public
              */

@@ -3,6 +3,9 @@ html /deep/ core-dropdown-menu.dropdown-elem.status-dropdown,
 html /deep/ core-dropdown-menu.dropdown-elem.organ-dropdown {
   width: 307px;
   background-color: #FFFFFF;
+  .error {
+    width: 307px;
+  }
 }
 
 .role-dropdown {

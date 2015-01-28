@@ -117,12 +117,24 @@
         "SUPERADMINISTRATOR": "Суперадминистратор",
         "ADMINISTRATOR": "Әкімші",
         "HANDLER": "Өңдеуіш",
-        "SUPERVISOR": "Надзорщик"
+        "SUPERVISOR": "Надзорщик",
+        "ERRORS": {
+          "REQUIRED": "Рөл тындырымды талғам үшін!"
+        }
+      },
+      "ORGAN": {
+        "PLACEHOLDER": "Органды таңдап ал-",
+        "ERRORS": {
+          "REQUIRED": "Орган тындырымды талғам үшін!"
+        }
       },
       "STATUS": {
         "PLACEHOLDER": "Мәртебені таңдап ал-",
         "ENABLE": "Белсенді",
-        "DISABLE": "Емесбелсенді"
+        "DISABLE": "Емесбелсенді",
+        "ERRORS": {
+          "REQUIRED": "Мәртебе тындырымды талғам үшін!"
+        }
       }
     },
     "BUTTONS": {
@@ -131,332 +143,384 @@
     }
   },
   "DATETIMEPICKER": {
-    "PLACEHOLDER": "Күніні және уақытты таңдап ал-"
+    "PLACEHOLDER": "Күніні және уақытты таңдап ал-",
+    "ERRORS": {
+      "REQUIRED": "Күні және уақыт талғам үшін тындырымды!"
+    }
   },
   "DIALOG": {
     "FILTER_QUERY": {
       "ERROR": {
         "TITLE": "ФИЛЬТРЛЕУДІҢ ҚАТЕСІ!",
         "OK": "Ok"
-      },
-      "CREATE_QUERY_ACCESS_SERVICE_INFO": {
-        "OK": "Ok",
-        "ERROR": {
-          "TITLE": "СҰРАНЫСТЫҢ ЖАРАЛҒАНЫНЫҢ ҚАТЕСІ!"
-        }
-      },
-      "SHOW_RESULTS_SERVICE_INFO_QUERY": {
-        "ERROR": {
-          "OK": "Ok",
-          "TITLE": "СҰРАНЫСТЫҢ НӘТИЖЕСІНІҢ КӨРСЕТІЛІМІНІҢ ҚАТЕСІ!"
-        }
-      },
-      "CANCEL_SERVICE_INFO_QUERY": {
-        "OK": "Иә",
-        "CANCEL": "Жоқ",
-        "TITLE": "СҰРАНЫСТЫҢ ОРЫНДАТПАУЫ!",
-        "BODY": "Сендер сұранысты отменить жиналасыңдар. Сендер уверенны?",
-        "ERROR": {
-          "OK": "Ok",
-          "TITLE": "СҰРАНЫСТЫҢ ОРЫНДАТПАУЫНЫҢ ҚАТЕСІ!"
-        }
-      },
-      "REMOVE_USER": {
-        "TITLE": "Пайдаланушының аулақтауы!",
-        "BODY": {
-          "FIRST_PART": "Сендер алыстату жиналасыңдар ",
-          "SECOND_PART": " пайдаланушылардың! Сендер оларды ақиқаттық алыстату қалайсыңдар?"
-        },
-        "OK": "Иә",
-        "CANCEL": "Жоқ",
-        "ERROR": {
-          "TITLE": "ПАЙДАЛАНУШЫНЫҢ АУЛАҚТАУЫНЫҢ ҚАТЕСІ!",
-          "OK": "Ок"
-        }
-      },
-      "EDIT_ACCOUNT": {
-        "TITLE": "Есептік жазба жаңала-!",
-        "BODY": "Сендердің есептік жазбаңның ақпараты ойдағыдай жаңала-!",
-        "OK": "Oк"
-      },
-      "CHANGE_STATUS": {
-        "OK": "Ok",
-        "ERROR": {
-          "TITLE": "МӘРТЕБЕНІҢ ӨЗГЕРІСІНІҢ ҚАТЕСІ!"
-        }
-      },
-      "REMOVE_ORGAN": {
-        "OK": "Ok",
-        "CANCEL": "Орындатпау",
-        "TITLE": "Органның аулақтауы!",
-        "BODY": {
-          "FIRST_PART": "Сендер алыстату жиналасыңдар ",
-          "SECOND_PART": " органның. Сендер оларды ақиқаттық алыстату қалайсыңдар?"
-        },
-        "ERROR": {
-          "TITLE": "ОРГАННЫҢ АУЛАҚТАУЫНЫҢ ҚАТЕСІ!"
-        }
-      },
-      "ADD_NEW_ORGAN": {
-        "OK": "Ok",
-        "ERROR": {
-          "TITLE": "ЖАҢА ОРГАННЫҢ ЖАРАЛҒАНЫНЫҢ ҚАТЕСІ!"
-        }
-      },
-      "ADD_NEW_USER": {
-        "OK": "Ok",
-        "ERROR": {
-          "TITLE": "ЖАҢА ПАЙДАЛАНУШЫНЫҢ ЖАРАЛҒАНЫНЫҢ ҚАТЕСІ!"
-        }
-      },
-      "REMOVE_TASK_INTERCEPT_INFO": {
-        "OK": "Ok",
-        "CANCEL": "Орындатпау",
-        "TITLE": "Тапсырманың аулақтауы!",
-        "BODY": {
-          "FIRST_PART": "Сендер алыстату жиналасыңдар ",
-          "SECOND_PART": " тапсырма. Сендер оларды ақиқаттық алыстату қалайсыңдар?"
-        },
-        "ERROR": {
-          "TITLE": "ТАПСЫРМАНЫҢ АУЛАҚТАУЫНЫҢ ҚАТЕСІ!"
-        }
-      },
-      "ADD_TASK_INTERCEPT_INFO": {
-        "OK": "Ok",
-        "ERROR": {
-          "TITLE": "ТАПСЫРМАНЫҢ ҚОСЫМШАСЫНЫҢ ҚАТЕСІ!"
-        }
-      },
-      "GET_DATA": {
-        "OK": "Ok",
-        "ERROR": {
-          "TITLE": "ДЕРЕКТЕРДІҢ АЛ- ҚАТЕСІ!"
-        }
-      },
-      "REMOVE_SANCTION_PROCESS_INFO": {
-        "ERROR": {
-          "TITLE": "САНКЦИЯНЫҢ АУЛАҚТАУЫНЫҢ ҚАТЕСІ!",
-          "OK": "Ok"
-        },
-        "TITLE": "Санкцияның аулақтауы!",
-        "BODY": {
-          "FIRST_PART": "Сендер алыстату жиналасыңдар ",
-          "SECOND_PART": " санкциялардың. Сендер оларды ақиқаттық алыстату қалайсыңдар?"
-        },
-        "OK": "Иә",
-        "CANCEL": "Жоқ"
-      },
-      "ADD_SANCTION_PROCESS_INFO": {
-        "ERROR": {
-          "TITLE": "САНКЦИЯНЫҢ ЖАРАЛҒАНЫНЫҢ ҚАТЕСІ!"
-        },
-        "OK": "Ok"
-      },
-      "ADD_SANCTION_ACCESS_SERVICE_INFO": {
-        "ERROR": {
-          "TITLE": "САНКЦИЯНЫҢ ЖАРАЛҒАНЫНЫҢ ҚАТЕСІ!"
-        },
-        "OK": "Ok"
-      },
-      "REMOVE_SANCTION_ACCESS_SERVICE_INFO": {
-        "ERROR": {
-          "TITLE": "САНКЦИЯНЫҢ АУЛАҚТАУЫНЫҢ ҚАТЕСІ!",
-          "OK": "Ok"
-        },
-        "TITLE": "Санкцияның аулақтауы!",
-        "BODY": {
-          "FIRST_PART": "Сендер алыстату жиналасыңдар ",
-          "SECOND_PART": " санкциялардың. Сендер оларды ақиқаттық алыстату қалайсыңдар?"
-        },
-        "OK": "Иә",
-        "CANCEL": "Жоқ"
-      }
-    },
-    "ADD_NEW_ORGAN": {
-      "TITLE": "Жаңа органның қосымшасы",
-      "INPUTS": {
-        "ORGAN_NAME": {
-          "PLACEHOLDER": "Органның атын кіргіз-",
-          "ERRORS": {
-            "REQUIRED": "Органның аты тындырымды дала!"
-          }
-        }
-      },
-      "BUTTONS": {
-        "SAVE": "Сақта-",
-        "CANCEL": "Орындатпау"
-      }
-    },
-    "ADD_NEW_TASK_INTERCEPT_INFO": {
-      "TITLE": "Жаңа тапсырманың жаралғаны",
-      "INPUTS": {
-        "ASSIGMENT_NUMBER": {
-          "PLACEHOLDER": "Тапсырманың нөмірін кіргіз-",
-          "ERRORS": {
-            "REQUIRED": "Тапсырманың нөмірі тындырымды дала!"
-          }
-        },
-        "ALIAS": {
-          "PLACEHOLDER": "Мақсатты лақап атты кіргіз-",
-          "ERRORS": {
-            "REQUIRED": "Айтылмыш дала тындырымды!"
-          }
-        },
-        "TIME_FRAME_START": {
-          "PLACEHOLDER": "Түптің күнісін таңдап ал-"
-        },
-        "TIME_FRAME_END": {
-          "PLACEHOLDER": "Жалғаудың күнісін таңдап ал-"
-        },
-        "ID": {
-          "PLACEHOLDER": "Индентификатор кіргіз-",
-          "ERRORS": {
-            "REQUIRED": "Айтылмыш дала тындырымды болып табылады!"
-          }
-        },
-        "COMMENT": {
-          "PLACEHOLDER": "Түсініктемені кіргіз-"
-        }
-      },
-      "DROPDOWN": {
-        "ID_TYPE": {
-          "PLACEHOLDER": "Индентификатора үлгісін таңдап ал-"
-        },
-        "SIGN": {
-          "PLACEHOLDER": "Белгіні таңдап ал-"
-        },
-        "ORGAN": {
-          "PLACEHOLDER": "Органды таңдап ал-"
-        }
-      },
-      "BUTTONS": {
-        "SAVE": "Сақта-",
-        "CANCEL": "Орындатпау"
-      }
-    },
-    "HANDLER": {
-      "LIST_TASK_INTERCEPT": "Авторизированных тапсырманың тізбесі<br/>на перехват",
-      "FILTERS": "Сүзгіштер:",
-      "CREATE_QUERY": "Жаса- сұраныс",
-      "CANCEL_QUERY": "Отменить сұраныс",
-      "SHOW_DATA": "Көргіз- нәтижелер",
-      "DOWNLOAD": {
-        "WAV": "Тие- wav файлды",
-        "PCAP": "Тие- pcap файлды"
-      }
-    },
-    "TOOLTIP": {
-      "FILTER": "Сүзгіштер",
-      "PRINT": "Мөр",
-      "SAVE": "Сақта-"
-    },
-    "FILTERS": {
-      "APPLY": "Қолдан-",
-      "RESET": "Обнулить"
-    },
-    "MANAGE_SANCTIONS_PROCESS_INFO": {
-      "TOOLTIP": {
-        "ADD": "Санкцияның жаралғаны",
-        "REMOVE": "Санкцияның аулақтауы"
-      },
-      "ADD_NEW_SANCTION": {
-        "TITLE": "Жаңа санкцияның жаралғаны",
-        "INPUTS": {
-          "NUMBER": {
-            "PLACEHOLDER": "Тапсырманың нөмірін кіргіз-",
-            "ERRORS": {
-              "REQUIRED": "Айтылмыш дала тындырымды!"
-            }
-          },
-          "TIME_FRAME_START": {
-            "PLACEHOLDER": "Дачала күнісін таңдап ал-"
-          },
-          "TIME_FRAME_END": {
-            "PLACEHOLDER": "Адақтың күнісін таңдап ал-"
-          }
-        },
-        "DROPDOWN": {
-          "USER": {
-            "PLACEHOLDER": "Пайдаланушыны таңдап ал-"
-          },
-          "ORGAN": {
-            "PLACEHOLDER": "Органды таңдап ал-"
-          }
-        },
-        "BUTTONS": {
-          "ADD_USER": "Үсте-",
-          "SAVE": "Сақта-",
-          "CANCEL": "Орындатпау"
-        }
-      }
-    },
-    "MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO": {
-      "TOOLTIP": {
-        "ADD": "Санкцияның жаралғаны",
-        "REMOVE": "Санкцияның аулақтауы"
-      },
-      "ADD_NEW_SANCTION": {
-        "TITLE": "Жаңа санкцияның жаралғаны",
-        "INPUTS": {
-          "NUMBER": {
-            "PLACEHOLDER": "Тапсырманың нөмірін кіргіз-",
-            "ERRORS": {
-              "REQUIRED": "Айтылмыш дала тындырымды!"
-            }
-          },
-          "TIME_FRAME_START": {
-            "PLACEHOLDER": "Дачала күнісін таңдап ал-"
-          },
-          "TIME_FRAME_END": {
-            "PLACEHOLDER": "Адақтың күнісін таңдап ал-"
-          }
-        },
-        "DROPDOWN": {
-          "USER": {
-            "PLACEHOLDER": "Пайдаланушыны таңдап ал-"
-          },
-          "ORGAN": {
-            "PLACEHOLDER": "Органды таңдап ал-"
-          }
-        },
-        "BUTTONS": {
-          "ADD_USER": "Үсте-",
-          "SAVE": "Сақта-",
-          "CANCEL": "Орындатпау"
-        }
       }
     },
     "CREATE_QUERY_ACCESS_SERVICE_INFO": {
-      "TITLE": "Сұраныстың жаралғаны қызметтің ақпаратының ал-",
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "СҰРАНЫСТЫҢ ЖАРАЛҒАНЫНЫҢ ҚАТЕСІ!"
+      }
+    },
+    "SHOW_RESULTS_SERVICE_INFO_QUERY": {
+      "ERROR": {
+        "OK": "Ok",
+        "TITLE": "СҰРАНЫСТЫҢ НӘТИЖЕСІНІҢ КӨРСЕТІЛІМІНІҢ ҚАТЕСІ!"
+      }
+    },
+    "CANCEL_SERVICE_INFO_QUERY": {
+      "OK": "Иә",
+      "CANCEL": "Жоқ",
+      "TITLE": "СҰРАНЫСТЫҢ ОРЫНДАТПАУЫ!",
+      "BODY": "Сендер сұранысты отменить жиналасыңдар. Сендер уверенны?",
+      "ERROR": {
+        "OK": "Ok",
+        "TITLE": "СҰРАНЫСТЫҢ ОРЫНДАТПАУЫНЫҢ ҚАТЕСІ!"
+      }
+    },
+    "REMOVE_USER": {
+      "TITLE": "Пайдаланушының аулақтауы!",
+      "BODY": {
+        "FIRST_PART": "Сендер алыстату жиналасыңдар ",
+        "SECOND_PART": " пайдаланушылардың! Сендер оларды ақиқаттық алыстату қалайсыңдар?"
+      },
+      "OK": "Иә",
+      "CANCEL": "Жоқ",
+      "ERROR": {
+        "TITLE": "ПАЙДАЛАНУШЫНЫҢ АУЛАҚТАУЫНЫҢ ҚАТЕСІ!",
+        "OK": "Ок"
+      }
+    },
+    "EDIT_ACCOUNT": {
+      "TITLE": "Есептік жазба жаңала-!",
+      "BODY": "Сендердің есептік жазбаңның ақпараты ойдағыдай жаңала-!",
+      "OK": "Oк"
+    },
+    "CHANGE_STATUS": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "МӘРТЕБЕНІҢ ӨЗГЕРІСІНІҢ ҚАТЕСІ!"
+      }
+    },
+    "REMOVE_ORGAN": {
+      "OK": "Ok",
+      "CANCEL": "Орындатпау",
+      "TITLE": "Органның аулақтауы!",
+      "BODY": {
+        "FIRST_PART": "Сендер алыстату жиналасыңдар ",
+        "SECOND_PART": " органның. Сендер оларды ақиқаттық алыстату қалайсыңдар?"
+      },
+      "ERROR": {
+        "TITLE": "ОРГАННЫҢ АУЛАҚТАУЫНЫҢ ҚАТЕСІ!"
+      }
+    },
+    "ADD_NEW_ORGAN": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "ЖАҢА ОРГАННЫҢ ЖАРАЛҒАНЫНЫҢ ҚАТЕСІ!"
+      }
+    },
+    "ADD_NEW_USER": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "ЖАҢА ПАЙДАЛАНУШЫНЫҢ ЖАРАЛҒАНЫНЫҢ ҚАТЕСІ!"
+      }
+    },
+    "REMOVE_TASK_INTERCEPT_INFO": {
+      "OK": "Ok",
+      "CANCEL": "Орындатпау",
+      "TITLE": "Тапсырманың аулақтауы!",
+      "BODY": {
+        "FIRST_PART": "Сендер алыстату жиналасыңдар ",
+        "SECOND_PART": " тапсырма. Сендер оларды ақиқаттық алыстату қалайсыңдар?"
+      },
+      "ERROR": {
+        "TITLE": "ТАПСЫРМАНЫҢ АУЛАҚТАУЫНЫҢ ҚАТЕСІ!"
+      }
+    },
+    "ADD_TASK_INTERCEPT_INFO": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "ТАПСЫРМАНЫҢ ҚОСЫМШАСЫНЫҢ ҚАТЕСІ!"
+      }
+    },
+    "GET_DATA": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "ДЕРЕКТЕРДІҢ АЛ- ҚАТЕСІ!"
+      }
+    },
+    "REMOVE_SANCTION_PROCESS_INFO": {
+      "ERROR": {
+        "TITLE": "САНКЦИЯНЫҢ АУЛАҚТАУЫНЫҢ ҚАТЕСІ!",
+        "OK": "Ok"
+      },
+      "TITLE": "Санкцияның аулақтауы!",
+      "BODY": {
+        "FIRST_PART": "Сендер алыстату жиналасыңдар ",
+        "SECOND_PART": " санкциялардың. Сендер оларды ақиқаттық алыстату қалайсыңдар?"
+      },
+      "OK": "Иә",
+      "CANCEL": "Жоқ"
+    },
+    "ADD_SANCTION_PROCESS_INFO": {
+      "ERROR": {
+        "TITLE": "САНКЦИЯНЫҢ ЖАРАЛҒАНЫНЫҢ ҚАТЕСІ!"
+      },
+      "OK": "Ok"
+    },
+    "ADD_SANCTION_ACCESS_SERVICE_INFO": {
+      "ERROR": {
+        "TITLE": "САНКЦИЯНЫҢ ЖАРАЛҒАНЫНЫҢ ҚАТЕСІ!"
+      },
+      "OK": "Ok"
+    },
+    "REMOVE_SANCTION_ACCESS_SERVICE_INFO": {
+      "ERROR": {
+        "TITLE": "САНКЦИЯНЫҢ АУЛАҚТАУЫНЫҢ ҚАТЕСІ!",
+        "OK": "Ok"
+      },
+      "TITLE": "Санкцияның аулақтауы!",
+      "BODY": {
+        "FIRST_PART": "Сендер алыстату жиналасыңдар ",
+        "SECOND_PART": " санкциялардың. Сендер оларды ақиқаттық алыстату қалайсыңдар?"
+      },
+      "OK": "Иә",
+      "CANCEL": "Жоқ"
+    }
+  },
+  "ADD_NEW_ORGAN": {
+    "TITLE": "Жаңа органның қосымшасы",
+    "INPUTS": {
+      "ORGAN_NAME": {
+        "PLACEHOLDER": "Органның атын кіргіз-",
+        "ERRORS": {
+          "REQUIRED": "Органның аты тындырымды дала!"
+        }
+      }
+    },
+    "BUTTONS": {
+      "SAVE": "Сақта-",
+      "CANCEL": "Орындатпау"
+    }
+  },
+  "ADD_NEW_TASK_INTERCEPT_INFO": {
+    "TITLE": "Жаңа тапсырманың жаралғаны",
+    "INPUTS": {
+      "ASSIGMENT_NUMBER": {
+        "PLACEHOLDER": "Тапсырманың нөмірін кіргіз-",
+        "ERRORS": {
+          "REQUIRED": "Тапсырманың нөмірі тындырымды дала!"
+        }
+      },
+      "ALIAS": {
+        "PLACEHOLDER": "Мақсатты лақап атты кіргіз-",
+        "ERRORS": {
+          "REQUIRED": "Айтылмыш дала тындырымды!"
+        }
+      },
+      "TIME_FRAME_START": {
+        "PLACEHOLDER": "Түптің күнісін таңдап ал-",
+        "ERRORS": {
+          "REQUIRED": "Айтылмыш дала тындырымды!"
+        }
+      },
+      "TIME_FRAME_END": {
+        "PLACEHOLDER": "Жалғаудың күнісін таңдап ал-",
+        "ERRORS": {
+          "REQUIRED": "Айтылмыш дала тындырымды!"
+        }
+      },
+      "ID": {
+        "PLACEHOLDER": "Индентификатор кіргіз-",
+        "ERRORS": {
+          "REQUIRED": "Айтылмыш дала тындырымды болып табылады!"
+        }
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "Түсініктемені кіргіз-"
+      }
+    },
+    "DROPDOWN": {
+      "ID_TYPE": {
+        "PLACEHOLDER": "Индентификатора үлгісін таңдап ал-",
+        "ERRORS": {
+          "REQUIRED": "Айтылмыш дала тындырымды!"
+        }
+      },
+      "SIGN": {
+        "PLACEHOLDER": "Белгіні таңдап ал-",
+        "ERRORS": {
+          "REQUIRED": "Айтылмыш дала тындырымды!"
+        }
+      },
+      "ORGAN": {
+        "PLACEHOLDER": "Органды таңдап ал-",
+        "ERRORS": {
+          "REQUIRED": "Айтылмыш дала тындырымды!"
+        }
+      }
+    },
+    "BUTTONS": {
+      "SAVE": "Сақта-",
+      "CANCEL": "Орындатпау"
+    }
+  },
+  "HANDLER": {
+    "LIST_TASK_INTERCEPT": "Авторизированных тапсырманың тізбесі<br/>на перехват",
+    "FILTERS": "Сүзгіштер:",
+    "CREATE_QUERY": "Жаса- сұраныс",
+    "CANCEL_QUERY": "Отменить сұраныс",
+    "SHOW_DATA": "Көргіз- нәтижелер",
+    "DOWNLOAD": {
+      "WAV": "Тие- wav файлды",
+      "PCAP": "Тие- pcap файлды"
+    }
+  },
+  "TOOLTIP": {
+    "FILTER": "Сүзгіштер",
+    "PRINT": "Мөр",
+    "SAVE": "Сақта-"
+  },
+  "FILTERS": {
+    "APPLY": "Қолдан-",
+    "RESET": "Обнулить"
+  },
+  "MANAGE_SANCTIONS_PROCESS_INFO": {
+    "TOOLTIP": {
+      "ADD": "Санкцияның жаралғаны",
+      "REMOVE": "Санкцияның аулақтауы"
+    },
+    "ADD_NEW_SANCTION": {
+      "TITLE": "Жаңа санкцияның жаралғаны",
       "INPUTS": {
-        "ASSIGMENT_NUMBER": {
+        "NUMBER": {
           "PLACEHOLDER": "Тапсырманың нөмірін кіргіз-",
           "ERRORS": {
             "REQUIRED": "Айтылмыш дала тындырымды!"
           }
         },
         "TIME_FRAME_START": {
-          "PLACEHOLDER": "Күніні мен таңдап ал-"
+          "PLACEHOLDER": "Дачала күнісін таңдап ал-",
+          "ERRORS": {
+            "REQUIRED": "Айтылмыш дала тындырымды!"
+          }
         },
         "TIME_FRAME_END": {
-          "PLACEHOLDER": "Күніні дейін таңдап ал-"
-        },
-        "ID": {
-          "PLACEHOLDER": "Индентификатор кіргіз-"
+          "PLACEHOLDER": "Адақтың күнісін таңдап ал-",
+          "ERRORS": {
+            "REQUIRED": "Айтылмыш дала тындырымды!"
+          }
         }
       },
       "DROPDOWN": {
-        "ID_TYPE": {
-          "PLACEHOLDER": "Индентификатора үлгісін таңдап ал-",
+        "USER": {
+          "PLACEHOLDER": "Пайдаланушыны таңдап ал-",
+          "ERRORS": {
+            "REQUIRED": "Айтылмыш дала тындырымды!"
+          }
+        },
+        "ORGAN": {
+          "PLACEHOLDER": "Органды таңдап ал-",
           "ERRORS": {
             "REQUIRED": "Айтылмыш дала тындырымды!"
           }
         }
       },
       "BUTTONS": {
+        "ADD_USER": "Үсте-",
         "SAVE": "Сақта-",
         "CANCEL": "Орындатпау"
       }
     }
+  },
+  "MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO": {
+    "TOOLTIP": {
+      "ADD": "Санкцияның жаралғаны",
+      "REMOVE": "Санкцияның аулақтауы"
+    },
+    "ADD_NEW_SANCTION": {
+      "TITLE": "Жаңа санкцияның жаралғаны",
+      "INPUTS": {
+        "NUMBER": {
+          "PLACEHOLDER": "Тапсырманың нөмірін кіргіз-",
+          "ERRORS": {
+            "REQUIRED": "Айтылмыш дала тындырымды!"
+          }
+        },
+        "TIME_FRAME_START": {
+          "PLACEHOLDER": "Дачала күнісін таңдап ал-",
+          "ERRORS": {
+            "REQUIRED": "Айтылмыш дала тындырымды!"
+          }
+        },
+        "TIME_FRAME_END": {
+          "PLACEHOLDER": "Адақтың күнісін таңдап ал-",
+          "ERRORS": {
+            "REQUIRED": "Айтылмыш дала тындырымды!"
+          }
+        }
+      },
+      "DROPDOWN": {
+        "USER": {
+          "PLACEHOLDER": "Пайдаланушыны таңдап ал-",
+          "ERRORS": {
+            "REQUIRED": "Айтылмыш дала тындырымды!"
+          }
+        },
+        "ORGAN": {
+          "PLACEHOLDER": "Органды таңдап ал-",
+          "ERRORS": {
+            "REQUIRED": "Айтылмыш дала тындырымды!"
+          }
+        }
+      },
+      "BUTTONS": {
+        "ADD_USER": "Үсте-",
+        "SAVE": "Сақта-",
+        "CANCEL": "Орындатпау"
+      }
+    }
+  },
+  "CREATE_QUERY_ACCESS_SERVICE_INFO": {
+    "TITLE": "Сұраныстың жаралғаны қызметтің ақпаратының ал-",
+    "INPUTS": {
+      "ASSIGMENT_NUMBER": {
+        "PLACEHOLDER": "Тапсырманың нөмірін кіргіз-",
+        "ERRORS": {
+          "REQUIRED": "Айтылмыш дала тындырымды!"
+        }
+      },
+      "TIME_FRAME_START": {
+        "PLACEHOLDER": "Күніні мен таңдап ал-",
+        "ERRORS": {
+          "REQUIRED": "Айтылмыш дала тындырымды!"
+        }
+      },
+      "TIME_FRAME_END": {
+        "PLACEHOLDER": "Күніні дейін таңдап ал-",
+        "ERRORS": {
+          "REQUIRED": "Айтылмыш дала тындырымды!"
+        }
+      },
+      "ID": {
+        "PLACEHOLDER": "Индентификатор кіргіз-",
+        "ERRORS": {
+          "REQUIRED": "Айтылмыш дала тындырымды!"
+        }
+      }
+    },
+    "DROPDOWN": {
+      "ID_TYPE": {
+        "PLACEHOLDER": "Индентификатора үлгісін таңдап ал-",
+        "ERRORS": {
+          "REQUIRED": "Айтылмыш дала тындырымды!"
+        }
+      }
+    },
+    "BUTTONS": {
+      "SAVE": "Сақта-",
+      "CANCEL": "Орындатпау"
+    }
   }
+}
 

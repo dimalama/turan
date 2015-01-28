@@ -10,6 +10,9 @@
   core-dropdown-menu.dropdown-elem.user-dropdown {
     width: 307px;
     background-color: #FFFFFF;
+    .error {
+      width: 307px;
+    }
   }
   .user-dropdown,
   .organ-dropdown {

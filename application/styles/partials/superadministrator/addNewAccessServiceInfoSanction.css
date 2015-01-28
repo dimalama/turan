@@ -8,6 +8,8 @@
 .add-new-sanction-accessing-service-info core-dropdown-menu.dropdown-elem.user-dropdown {
   width: 307px;
   background-color: #FFFFFF; }
+  .add-new-sanction-accessing-service-info core-dropdown-menu.dropdown-elem.user-dropdown .error {
+    width: 307px; }
 .add-new-sanction-accessing-service-info .user-dropdown,
 .add-new-sanction-accessing-service-info .organ-dropdown {
   margin-top: 25px; }

@@ -11,6 +11,9 @@ html /deep/ core-dropdown-menu.dropdown-elem.handler-id-type-dropdown {
   width: 307px;
   background-color: #FFFFFF;
   margin: 30px 0 10px 0;
+  .error {
+    width: 307px;
+  }
 }
 
 .handler-interface {
@@ -125,5 +128,6 @@ html /deep/ core-dropdown-menu.dropdown-elem.handler-id-type-dropdown {
     width: 15px;
     height: 15px;
     vertical-align: middle;
+
   }
 }

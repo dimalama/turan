@@ -135,6 +135,8 @@ core-drawer-panel {
   & /deep/ .error {
     /* error message color when the input invalid and unfocused */
     color: #FA1010;
+    position: absolute;
+    width: 307px;
   }
 
   &.invalid /deep/ .unfocused-underline {
@@ -171,6 +173,24 @@ html /deep/ core-dropdown-menu.dropdown-elem {
   width: 170px;
   background-color: #eeeeee;
   border-bottom: 1px solid #000000;
+  &.error {
+    border-bottom-color: #FA1010;
+  }
+  .error {
+    position: absolute;
+    width: 170px;
+    left: 0;
+    top: 23px;
+    color: #FA1010;
+    .error-text {
+      font-size: 0.75em;
+      padding: 0.5em 0;
+    }
+    .error-icon {
+      height: 20px;
+      width: 20px;
+    }
+  }
 }
 
 html /deep/ core-dropdown.dropdown-elem {

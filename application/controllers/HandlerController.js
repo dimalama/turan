@@ -164,6 +164,23 @@
                 $scope.currentTask = '';
 
                 /**
+                 * Datetime picker value
+                 * @type {object}
+                 * @public
+                 */
+                $scope.datetime = {
+                    starts: '',
+                    ends: ''
+                };
+
+                /**
+                 * Save init state of the datetime obj
+                 * @type {object}
+                 * @public
+                 */
+                $scope.initialDateTime = angular.copy($scope.datetime);
+
+                /**
                  * Current active access service info query
                  * @type {string}
                  * @public
@@ -726,6 +743,9 @@
                         datetimePickerFrameStartService: null,
                         datetimePickerFrameEndService: null,
 
+                        isIdFieldDisable: true,
+                        isInvalidIdTypeDropdown: false,
+
                         query: {
                             id: '',
                             number: '',
@@ -740,6 +760,7 @@
                          * @public
                          */
                         open: function (addNewQueryAccessServiceInfoForm) {
+
                             this.datetimePickerFrameStartService = datetimePickerService.init('timeframe-starts');
                             this.datetimePickerFrameEndService = datetimePickerService.init('timeframe-ends');
 
@@ -761,11 +782,14 @@
 
                             this.openCreateNewQuery = false;
                             this.dropdownsInitState = false;
+                            this.isInvalidIdTypeDropdown = false;
+                            this.isIdFieldDisable = true;
 
                             this.addNewQueryAccessServiceInfoForm.$setPristine();
                             this.addNewQueryAccessServiceInfoForm.$setUntouched();
 
                             this.query = angular.copy(this.initialQueryData);
+                            $scope.datetime = angular.copy($scope.initialDateTime);
 
                             menuService.removeSelectedState('id-type-dropdown');
                         },
@@ -776,7 +800,11 @@
                          * @public
                          */
                         idTypeChange: function (type) {
-                            this.query.idType = type;
+                            if(type.length){
+                                this.isIdFieldDisable = false;
+                                this.isInvalidIdTypeDropdown = false;
+                                this.query.idType = type;
+                            }
                         },
 
                         /**
@@ -788,12 +816,21 @@
                             var _interval = null,
                                 _this = this;
 
+                            if(!_this.addNewQueryAccessServiceInfoForm.$valid) {
+                                _this.addNewQueryAccessServiceInfoForm.id.$dirty = true;
+                                _this.addNewQueryAccessServiceInfoForm.number.$dirty = true;
+                                _this.addNewQueryAccessServiceInfoForm.starts.$dirty = true;
+                                _this.addNewQueryAccessServiceInfoForm.ends.$dirty = true;
+                                _this.isInvalidIdTypeDropdown = true;
+                                return true;
+                            }
+
                             $http.post(
                                 '/',
                                 {
                                     number: _this.query.number,
-                                    timeFrameStarts: _this.datetimePickerFrameStartService.getDateTime(),
-                                    timeFrameEnds: _this.datetimePickerFrameEndService.getDateTime(),
+                                    timeFrameStarts: $scope.datetime.starts,
+                                    timeFrameEnds: $scope.datetime.ends,
                                     idType: _this.query.idType,
                                     id: _this.query.id
                                 }
@@ -843,9 +880,7 @@
                                 });
 
                             this.close();
-
                         }
-
                     },
 
                     /**
@@ -948,7 +983,6 @@
                 $scope.toggleFilters = function () {
                     $scope.showFilters = $scope.showFilters ? false : true;
                 };
-
 
                 $scope.filterModel = {
 

@@ -117,12 +117,24 @@
         "SUPERADMINISTRATOR": "Суперадминистратор",
         "ADMINISTRATOR": "Администратор",
         "HANDLER": "Обработчик",
-        "SUPERVISOR": "Надзорщик"
+        "SUPERVISOR": "Надзорщик",
+        "ERRORS": {
+          "REQUIRED": "Роль обязательная для выбора!"
+        }
+      },
+      "ORGAN": {
+        "PLACEHOLDER": "Выберите орган",
+        "ERRORS": {
+          "REQUIRED": "Орган обязательный для выбора!"
+        }
       },
       "STATUS": {
         "PLACEHOLDER": "Выберите статус",
         "ENABLE": "Активен",
-        "DISABLE": "Неактивен"
+        "DISABLE": "Неактивен",
+        "ERRORS": {
+          "REQUIRED": "Статус обязательный для выбора!"
+        }
       }
     },
     "BUTTONS": {
@@ -131,331 +143,383 @@
     }
   },
   "DATETIMEPICKER": {
-    "PLACEHOLDER": "Выберите дату и время"
+    "PLACEHOLDER": "Выберите дату и время",
+    "ERRORS": {
+      "REQUIRED": "Дата и время обязательные для выбора!"
+    }
   },
   "DIALOG": {
     "FILTER_QUERY": {
       "ERROR": {
         "TITLE": "ОШИБКА ФИЛЬТРАЦИИ!",
         "OK": "Ok"
-      },
-      "CREATE_QUERY_ACCESS_SERVICE_INFO": {
-        "OK": "Ok",
-        "ERROR": {
-          "TITLE": "ОШИБКА СОЗДАНИЯ ЗАПРОСА!"
-        }
-      },
-      "SHOW_RESULTS_SERVICE_INFO_QUERY": {
-        "ERROR": {
-          "OK": "Ok",
-          "TITLE": "ОШИБКА ПОКАЗА РЕЗУЛЬТАТОВ ЗАПРОСА!"
-        }
-      },
-      "CANCEL_SERVICE_INFO_QUERY": {
-        "OK": "Да",
-        "CANCEL": "Нет",
-        "TITLE": "ОТМЕНА ЗАПРОСА!",
-        "BODY": "Вы собираетесь отменить запрос. Вы уверенны?",
-        "ERROR": {
-          "OK": "Ok",
-          "TITLE": "ОШИБКА ОТМЕНЫ ЗАПРОСА!"
-        }
-      },
-      "REMOVE_USER": {
-        "TITLE": "Удаление пользователя(ей)!",
-        "BODY": {
-          "FIRST_PART": "Вы собираетесь удалить ",
-          "SECOND_PART": " пользователя(ей)! Вы действительно хотите удалить их?"
-        },
-        "OK": "Да",
-        "CANCEL": "Нет",
-        "ERROR": {
-          "TITLE": "ОШИБКА УДАЛЕНИЯ ПОЛЬЗОВАТЕЛЯ(ЕЙ)!",
-          "OK": "Ок"
-        }
-      },
-      "EDIT_ACCOUNT": {
-        "TITLE": "Учётная запись обновлена!",
-        "BODY": "Информация вашей учётной записи успешно обновлена!",
-        "OK": "Oк"
-      },
-      "CHANGE_STATUS": {
-        "OK": "Ok",
-        "ERROR": {
-          "TITLE": "ОШИБКА ИЗМЕНЕНИЯ СТАТУСА!"
-        }
-      },
-      "ADD_NEW_ORGAN": {
-        "OK": "Ok",
-        "ERROR": {
-          "TITLE": "ОШИБКА СОЗДАНИЯ НОВОГО ОРГАНА!"
-        }
-      },
-      "ADD_NEW_USER": {
-        "OK": "Ok",
-        "ERROR": {
-          "TITLE": "ОШИБКА СОЗДАНИЯ НОВОГО ПОЛЬЗОВАТЕЛЯ!"
-        }
-      },
-      "REMOVE_ORGAN": {
-        "OK": "Ok",
-        "CANCEL": "Отмена",
-        "TITLE": "Удаление органа(ов)!",
-        "BODY": {
-          "FIRST_PART": "Вы собираетесь удалить ",
-          "SECOND_PART": " орган(ов). Вы действительно хотите удалить их?"
-        },
-        "ERROR": {
-          "TITLE": "ОШИБКА УДАЛЕНИЯ ОРГАНА(ОВ)!"
-        }
-      },
-      "REMOVE_TASK_INTERCEPT_INFO": {
-        "OK": "Ok",
-        "CANCEL": "Отмена",
-        "TITLE": "Удаление задания(й)!",
-        "BODY": {
-          "FIRST_PART": "Вы собираетесь удалить ",
-          "SECOND_PART": " задание(й). Вы действительно хотите удалить их?"
-        },
-        "ERROR": {
-          "TITLE": "ОШИБКА УДАЛЕНИЯ ЗАДАНИЯ(Й)!"
-        }
-      },
-      "ADD_TASK_INTERCEPT_INFO": {
-        "OK": "Ok",
-        "ERROR": {
-          "TITLE": "ОШИБКА ДОБАВЛЕНИЯ ЗАДАНИЯ!"
-        }
-      },
-      "GET_DATA": {
-        "OK": "Ok",
-        "ERROR": {
-          "TITLE": "ОШИБКА ПОЛУЧЕНИЯ ДАННЫХ!"
-        }
-      },
-      "REMOVE_SANCTION_PROCESS_INFO": {
-        "ERROR": {
-          "TITLE": "ОШИБКА УДАЛЕНИЯ САНКЦИЙ!",
-          "OK": "Ok"
-        },
-        "TITLE": "Удаление санкций!",
-        "BODY": {
-          "FIRST_PART": "Вы собираетесь удалить ",
-          "SECOND_PART": " санкций. Вы действительно хотите удалить их?"
-        },
-        "OK": "Да",
-        "CANCEL": "Нет"
-      },
-      "ADD_SANCTION_PROCESS_INFO": {
-        "ERROR": {
-          "TITLE": "ОШИБКА СОЗДАНИЯ САНКЦИИ!"
-        },
-        "OK": "Ok"
-      },
-      "ADD_SANCTION_ACCESS_SERVICE_INFO": {
-        "ERROR": {
-          "TITLE": "ОШИБКА СОЗДАНИЯ САНКЦИИ!"
-        },
-        "OK": "Ok"
-      },
-      "REMOVE_SANCTION_ACCESS_SERVICE_INFO": {
-        "ERROR": {
-          "TITLE": "ОШИБКА УДАЛЕНИЯ САНКЦИЙ!",
-          "OK": "Ok"
-        },
-        "TITLE": "Удаление санкций!",
-        "BODY": {
-          "FIRST_PART": "Вы собираетесь удалить ",
-          "SECOND_PART": " санкций. Вы действительно хотите удалить их?"
-        },
-        "OK": "Да",
-        "CANCEL": "Нет"
-      }
-    },
-    "ADD_NEW_ORGAN": {
-      "TITLE": "Добавление нового органа",
-      "INPUTS": {
-        "ORGAN_NAME": {
-          "PLACEHOLDER": "Введите имя органа",
-          "ERRORS": {
-            "REQUIRED": "Имя органа обязательное поле!"
-          }
-        }
-      },
-      "BUTTONS": {
-        "SAVE": "Сохранить",
-        "CANCEL": "Отмена"
-      }
-    },
-    "ADD_NEW_TASK_INTERCEPT_INFO": {
-      "TITLE": "Создание нового задания",
-      "INPUTS": {
-        "ASSIGMENT_NUMBER": {
-          "PLACEHOLDER": "Введите номер задания",
-          "ERRORS": {
-            "REQUIRED": "Номер задания обязательное поле!"
-          }
-        },
-        "ALIAS": {
-          "PLACEHOLDER": "Введите целевой псевдоним",
-          "ERRORS": {
-            "REQUIRED": "Данное поле обязательное!"
-          }
-        },
-        "TIME_FRAME_START": {
-          "PLACEHOLDER": "Выберите дату начала"
-        },
-        "TIME_FRAME_END": {
-          "PLACEHOLDER": "Выберите дату окончания"
-        },
-        "ID": {
-          "PLACEHOLDER": "Введите индентификатор",
-          "ERRORS": {
-            "REQUIRED": "Данное поле является обязательным!"
-          }
-        },
-        "COMMENT": {
-          "PLACEHOLDER": "Введите комментарий"
-        }
-      },
-      "DROPDOWN": {
-        "ID_TYPE": {
-          "PLACEHOLDER": "Выберите тип индентификатора"
-        },
-        "SIGN": {
-          "PLACEHOLDER": "Выберите признак"
-        },
-        "ORGAN": {
-          "PLACEHOLDER": "Выберите орган"
-        }
-      },
-      "BUTTONS": {
-        "SAVE": "Сохранить",
-        "CANCEL": "Отмена"
-      }
-    },
-    "HANDLER": {
-      "LIST_TASK_INTERCEPT": "Список авторизированных заданий<br/>на перехват",
-      "FILTERS": "Фильтры:",
-      "CREATE_QUERY": "Создать запрос",
-      "CANCEL_QUERY": "Отменить запрос",
-      "SHOW_DATA": "Показать результаты",
-      "DOWNLOAD": {
-        "WAV": "Загрузить wav файл",
-        "PCAP": "Загрузить pcap файл"
-      }
-    },
-    "TOOLTIP": {
-      "FILTER": "Фильтры",
-      "PRINT": "Печать",
-      "SAVE": "Сохранить"
-    },
-    "FILTERS": {
-      "APPLY": "Применить",
-      "RESET": "Обнулить"
-    },
-    "MANAGE_SANCTIONS_PROCESS_INFO": {
-      "TOOLTIP": {
-        "ADD": "Создание санкции",
-        "REMOVE": "Удаление санкции"
-      },
-      "ADD_NEW_SANCTION": {
-        "TITLE": "Создание новой санкции",
-        "INPUTS": {
-          "NUMBER": {
-            "PLACEHOLDER": "Введите номер задания",
-            "ERRORS": {
-              "REQUIRED": "Данное поле обязательное!"
-            }
-          },
-          "TIME_FRAME_START": {
-            "PLACEHOLDER": "Выберите дату дачала"
-          },
-          "TIME_FRAME_END": {
-            "PLACEHOLDER": "Выберите дату конца"
-          }
-        },
-        "DROPDOWN": {
-          "USER": {
-            "PLACEHOLDER": "Выберите пользователя"
-          },
-          "ORGAN": {
-            "PLACEHOLDER": "Выберите орган"
-          }
-        },
-        "BUTTONS": {
-          "ADD_USER": "Добавить",
-          "SAVE": "Сохранить",
-          "CANCEL": "Отмена"
-        }
-      }
-    },
-    "MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO": {
-      "TOOLTIP": {
-        "ADD": "Создание санкции",
-        "REMOVE": "Удаление санкции"
-      },
-      "ADD_NEW_SANCTION": {
-        "TITLE": "Создание новой санкции",
-        "INPUTS": {
-          "NUMBER": {
-            "PLACEHOLDER": "Введите номер задания",
-            "ERRORS": {
-              "REQUIRED": "Данное поле обязательное!"
-            }
-          },
-          "TIME_FRAME_START": {
-            "PLACEHOLDER": "Выберите дату дачала"
-          },
-          "TIME_FRAME_END": {
-            "PLACEHOLDER": "Выберите дату конца"
-          }
-        },
-        "DROPDOWN": {
-          "USER": {
-            "PLACEHOLDER": "Выберите пользователя"
-          },
-          "ORGAN": {
-            "PLACEHOLDER": "Выберите орган"
-          }
-        },
-        "BUTTONS": {
-          "ADD_USER": "Добавить",
-          "SAVE": "Сохранить",
-          "CANCEL": "Отмена"
-        }
       }
     },
     "CREATE_QUERY_ACCESS_SERVICE_INFO": {
-      "TITLE": "Создание запроса на получение служебной информации",
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "ОШИБКА СОЗДАНИЯ ЗАПРОСА!"
+      }
+    },
+    "SHOW_RESULTS_SERVICE_INFO_QUERY": {
+      "ERROR": {
+        "OK": "Ok",
+        "TITLE": "ОШИБКА ПОКАЗА РЕЗУЛЬТАТОВ ЗАПРОСА!"
+      }
+    },
+    "CANCEL_SERVICE_INFO_QUERY": {
+      "OK": "Да",
+      "CANCEL": "Нет",
+      "TITLE": "ОТМЕНА ЗАПРОСА!",
+      "BODY": "Вы собираетесь отменить запрос. Вы уверенны?",
+      "ERROR": {
+        "OK": "Ok",
+        "TITLE": "ОШИБКА ОТМЕНЫ ЗАПРОСА!"
+      }
+    },
+    "REMOVE_USER": {
+      "TITLE": "Удаление пользователя(ей)!",
+      "BODY": {
+        "FIRST_PART": "Вы собираетесь удалить ",
+        "SECOND_PART": " пользователя(ей)! Вы действительно хотите удалить их?"
+      },
+      "OK": "Да",
+      "CANCEL": "Нет",
+      "ERROR": {
+        "TITLE": "ОШИБКА УДАЛЕНИЯ ПОЛЬЗОВАТЕЛЯ(ЕЙ)!",
+        "OK": "Ок"
+      }
+    },
+    "EDIT_ACCOUNT": {
+      "TITLE": "Учётная запись обновлена!",
+      "BODY": "Информация вашей учётной записи успешно обновлена!",
+      "OK": "Oк"
+    },
+    "CHANGE_STATUS": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "ОШИБКА ИЗМЕНЕНИЯ СТАТУСА!"
+      }
+    },
+    "ADD_NEW_ORGAN": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "ОШИБКА СОЗДАНИЯ НОВОГО ОРГАНА!"
+      }
+    },
+    "ADD_NEW_USER": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "ОШИБКА СОЗДАНИЯ НОВОГО ПОЛЬЗОВАТЕЛЯ!"
+      }
+    },
+    "REMOVE_ORGAN": {
+      "OK": "Ok",
+      "CANCEL": "Отмена",
+      "TITLE": "Удаление органа(ов)!",
+      "BODY": {
+        "FIRST_PART": "Вы собираетесь удалить ",
+        "SECOND_PART": " орган(ов). Вы действительно хотите удалить их?"
+      },
+      "ERROR": {
+        "TITLE": "ОШИБКА УДАЛЕНИЯ ОРГАНА(ОВ)!"
+      }
+    },
+    "REMOVE_TASK_INTERCEPT_INFO": {
+      "OK": "Ok",
+      "CANCEL": "Отмена",
+      "TITLE": "Удаление задания(й)!",
+      "BODY": {
+        "FIRST_PART": "Вы собираетесь удалить ",
+        "SECOND_PART": " задание(й). Вы действительно хотите удалить их?"
+      },
+      "ERROR": {
+        "TITLE": "ОШИБКА УДАЛЕНИЯ ЗАДАНИЯ(Й)!"
+      }
+    },
+    "ADD_TASK_INTERCEPT_INFO": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "ОШИБКА ДОБАВЛЕНИЯ ЗАДАНИЯ!"
+      }
+    },
+    "GET_DATA": {
+      "OK": "Ok",
+      "ERROR": {
+        "TITLE": "ОШИБКА ПОЛУЧЕНИЯ ДАННЫХ!"
+      }
+    },
+    "REMOVE_SANCTION_PROCESS_INFO": {
+      "ERROR": {
+        "TITLE": "ОШИБКА УДАЛЕНИЯ САНКЦИЙ!",
+        "OK": "Ok"
+      },
+      "TITLE": "Удаление санкций!",
+      "BODY": {
+        "FIRST_PART": "Вы собираетесь удалить ",
+        "SECOND_PART": " санкций. Вы действительно хотите удалить их?"
+      },
+      "OK": "Да",
+      "CANCEL": "Нет"
+    },
+    "ADD_SANCTION_PROCESS_INFO": {
+      "ERROR": {
+        "TITLE": "ОШИБКА СОЗДАНИЯ САНКЦИИ!"
+      },
+      "OK": "Ok"
+    },
+    "ADD_SANCTION_ACCESS_SERVICE_INFO": {
+      "ERROR": {
+        "TITLE": "ОШИБКА СОЗДАНИЯ САНКЦИИ!"
+      },
+      "OK": "Ok"
+    },
+    "REMOVE_SANCTION_ACCESS_SERVICE_INFO": {
+      "ERROR": {
+        "TITLE": "ОШИБКА УДАЛЕНИЯ САНКЦИЙ!",
+        "OK": "Ok"
+      },
+      "TITLE": "Удаление санкций!",
+      "BODY": {
+        "FIRST_PART": "Вы собираетесь удалить ",
+        "SECOND_PART": " санкций. Вы действительно хотите удалить их?"
+      },
+      "OK": "Да",
+      "CANCEL": "Нет"
+    }
+  },
+  "ADD_NEW_ORGAN": {
+    "TITLE": "Добавление нового органа",
+    "INPUTS": {
+      "ORGAN_NAME": {
+        "PLACEHOLDER": "Введите имя органа",
+        "ERRORS": {
+          "REQUIRED": "Имя органа обязательное поле!"
+        }
+      }
+    },
+    "BUTTONS": {
+      "SAVE": "Сохранить",
+      "CANCEL": "Отмена"
+    }
+  },
+  "ADD_NEW_TASK_INTERCEPT_INFO": {
+    "TITLE": "Создание нового задания",
+    "INPUTS": {
+      "ASSIGMENT_NUMBER": {
+        "PLACEHOLDER": "Введите номер задания",
+        "ERRORS": {
+          "REQUIRED": "Номер задания обязательное поле!"
+        }
+      },
+      "ALIAS": {
+        "PLACEHOLDER": "Введите целевой псевдоним",
+        "ERRORS": {
+          "REQUIRED": "Данное поле обязательное!"
+        }
+      },
+      "TIME_FRAME_START": {
+        "PLACEHOLDER": "Выберите дату начала",
+        "ERRORS": {
+          "REQUIRED": "Данное поле обязательное!"
+        }
+      },
+      "TIME_FRAME_END": {
+        "PLACEHOLDER": "Выберите дату окончания",
+        "ERRORS": {
+          "REQUIRED": "Данное поле обязательное!"
+        }
+      },
+      "ID": {
+        "PLACEHOLDER": "Введите индентификатор",
+        "ERRORS": {
+          "REQUIRED": "Данное поле обязательное!"
+        }
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "Введите комментарий"
+      }
+    },
+    "DROPDOWN": {
+      "ID_TYPE": {
+        "PLACEHOLDER": "Выберите тип индентификатора",
+        "ERRORS": {
+          "REQUIRED": "Данное поле обязательное!"
+        }
+      },
+      "SIGN": {
+        "PLACEHOLDER": "Выберите признак",
+        "ERRORS": {
+          "REQUIRED": "Данное поле обязательное!"
+        }
+      },
+      "ORGAN": {
+        "PLACEHOLDER": "Выберите орган",
+        "ERRORS": {
+          "REQUIRED": "Данное поле обязательное!"
+        }
+      }
+    },
+    "BUTTONS": {
+      "SAVE": "Сохранить",
+      "CANCEL": "Отмена"
+    }
+  },
+  "HANDLER": {
+    "LIST_TASK_INTERCEPT": "Список авторизированных заданий<br/>на перехват",
+    "FILTERS": "Фильтры:",
+    "CREATE_QUERY": "Создать запрос",
+    "CANCEL_QUERY": "Отменить запрос",
+    "SHOW_DATA": "Показать результаты",
+    "DOWNLOAD": {
+      "WAV": "Загрузить wav файл",
+      "PCAP": "Загрузить pcap файл"
+    }
+  },
+  "TOOLTIP": {
+    "FILTER": "Фильтры",
+    "PRINT": "Печать",
+    "SAVE": "Сохранить"
+  },
+  "FILTERS": {
+    "APPLY": "Применить",
+    "RESET": "Обнулить"
+  },
+  "MANAGE_SANCTIONS_PROCESS_INFO": {
+    "TOOLTIP": {
+      "ADD": "Создание санкции",
+      "REMOVE": "Удаление санкции"
+    },
+    "ADD_NEW_SANCTION": {
+      "TITLE": "Создание новой санкции",
       "INPUTS": {
-        "ASSIGMENT_NUMBER": {
+        "NUMBER": {
           "PLACEHOLDER": "Введите номер задания",
           "ERRORS": {
             "REQUIRED": "Данное поле обязательное!"
           }
         },
         "TIME_FRAME_START": {
-          "PLACEHOLDER": "Выберите дату с"
+          "PLACEHOLDER": "Выберите дату дачала",
+          "ERRORS": {
+            "REQUIRED": "Данное поле обязательное!"
+          }
         },
         "TIME_FRAME_END": {
-          "PLACEHOLDER": "Выберите дату до"
-        },
-        "ID": {
-          "PLACEHOLDER": "Введите индентификатор"
+          "PLACEHOLDER": "Выберите дату конца",
+          "ERRORS": {
+            "REQUIRED": "Данное поле обязательное!"
+          }
         }
       },
       "DROPDOWN": {
-        "ID_TYPE": {
-          "PLACEHOLDER": "Выберите тип индентификатора",
+        "USER": {
+          "PLACEHOLDER": "Выберите пользователя",
+          "ERRORS": {
+            "REQUIRED": "Данное поле обязательное!"
+          }
+        },
+        "ORGAN": {
+          "PLACEHOLDER": "Выберите орган",
           "ERRORS": {
             "REQUIRED": "Данное поле обязательное!"
           }
         }
       },
       "BUTTONS": {
+        "ADD_USER": "Добавить",
         "SAVE": "Сохранить",
         "CANCEL": "Отмена"
       }
     }
+  },
+  "MANAGE_SANCTIONS_ACCESSING_SERVICE_INFO": {
+    "TOOLTIP": {
+      "ADD": "Создание санкции",
+      "REMOVE": "Удаление санкции"
+    },
+    "ADD_NEW_SANCTION": {
+      "TITLE": "Создание новой санкции",
+      "INPUTS": {
+        "NUMBER": {
+          "PLACEHOLDER": "Введите номер задания",
+          "ERRORS": {
+            "REQUIRED": "Данное поле обязательное!"
+          }
+        },
+        "TIME_FRAME_START": {
+          "PLACEHOLDER": "Выберите дату дачала",
+          "ERRORS": {
+            "REQUIRED": "Данное поле обязательное!"
+          }
+        },
+        "TIME_FRAME_END": {
+          "PLACEHOLDER": "Выберите дату конца",
+          "ERRORS": {
+            "REQUIRED": "Данное поле обязательное!"
+          }
+        }
+      },
+      "DROPDOWN": {
+        "USER": {
+          "PLACEHOLDER": "Выберите пользователя",
+          "ERRORS": {
+            "REQUIRED": "Данное поле обязательное!"
+          }
+        },
+        "ORGAN": {
+          "PLACEHOLDER": "Выберите орган",
+          "ERRORS": {
+            "REQUIRED": "Данное поле обязательное!"
+          }
+        }
+      },
+      "BUTTONS": {
+        "ADD_USER": "Добавить",
+        "SAVE": "Сохранить",
+        "CANCEL": "Отмена"
+      }
+    }
+  },
+  "CREATE_QUERY_ACCESS_SERVICE_INFO": {
+    "TITLE": "Создание запроса на получение служебной информации",
+    "INPUTS": {
+      "ASSIGMENT_NUMBER": {
+        "PLACEHOLDER": "Введите номер задания",
+        "ERRORS": {
+          "REQUIRED": "Данное поле обязательное!"
+        }
+      },
+      "TIME_FRAME_START": {
+        "PLACEHOLDER": "Выберите дату с",
+        "ERRORS": {
+          "REQUIRED": "Данное поле обязательное!"
+        }
+      },
+      "TIME_FRAME_END": {
+        "PLACEHOLDER": "Выберите дату до",
+        "ERRORS": {
+          "REQUIRED": "Данное поле обязательное!"
+        }
+      },
+      "ID": {
+        "PLACEHOLDER": "Введите индентификатор",
+        "ERRORS": {
+          "REQUIRED": "Данное поле обязательное!"
+        }
+      }
+    },
+    "DROPDOWN": {
+      "ID_TYPE": {
+        "PLACEHOLDER": "Выберите тип индентификатора",
+        "ERRORS": {
+          "REQUIRED": "Данное поле обязательное!"
+        }
+      }
+    },
+    "BUTTONS": {
+      "SAVE": "Сохранить",
+      "CANCEL": "Отмена"
+    }
   }
+}

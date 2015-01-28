@@ -117,12 +117,24 @@
         "SUPERADMINISTRATOR": "Superadministrator",
         "ADMINISTRATOR": "Administrator",
         "HANDLER": "Handler",
-        "SUPERVISOR": "Supervisor"
+        "SUPERVISOR": "Supervisor",
+        "ERRORS": {
+          "REQUIRED": "Role is required!"
+        }
+      },
+      "ORGAN": {
+        "PLACEHOLDER": "Choose organ",
+        "ERRORS": {
+          "REQUIRED": "Organ is required!"
+        }
       },
       "STATUS": {
         "PLACEHOLDER": "Choose status",
         "ENABLE": "Enable",
-        "DISABLE": "Disable"
+        "DISABLE": "Disable",
+        "ERRORS": {
+          "REQUIRED": "Status is required!"
+        }
       }
     },
     "BUTTONS": {
@@ -131,7 +143,10 @@
     }
   },
   "DATETIMEPICKER": {
-    "PLACEHOLDER": "Choose date and time"
+    "PLACEHOLDER": "Choose date and time",
+    "ERRORS": {
+      "REQUIRED": "This field is required!"
+    }
   },
   "DIALOG": {
     "FILTER_QUERY": {
@@ -304,10 +319,16 @@
         }
       },
       "TIME_FRAME_START": {
-        "PLACEHOLDER": "Choose start time and date"
+        "PLACEHOLDER": "Choose start time and date",
+        "ERRORS": {
+          "REQUIRED": "This is required field"
+        }
       },
       "TIME_FRAME_END": {
-        "PLACEHOLDER": "Choose end time and date"
+        "PLACEHOLDER": "Choose end time and date",
+        "ERRORS": {
+          "REQUIRED": "This is required field"
+        }
       },
       "ID": {
         "PLACEHOLDER": "Enter id",
@@ -321,13 +342,22 @@
     },
     "DROPDOWN": {
       "ID_TYPE": {
-        "PLACEHOLDER": "Choose id type"
+        "PLACEHOLDER": "Choose id type",
+        "ERRORS": {
+          "REQUIRED": "This is required field"
+        }
       },
       "SIGN": {
-        "PLACEHOLDER": "Choose sign of gathered data"
+        "PLACEHOLDER": "Choose sign of gathered data",
+        "ERRORS": {
+          "REQUIRED": "This is required field"
+        }
       },
       "ORGAN": {
-        "PLACEHOLDER": "Choose organ"
+        "PLACEHOLDER": "Choose organ",
+        "ERRORS": {
+          "REQUIRED": "This is required field"
+        }
       }
     },
     "BUTTONS": {
@@ -370,18 +400,30 @@
           }
         },
         "TIME_FRAME_START": {
-          "PLACEHOLDER": "Choose the start date"
+          "PLACEHOLDER": "Choose the start date",
+          "ERRORS": {
+            "REQUIRED": "This field is required!"
+          }
         },
         "TIME_FRAME_END": {
-          "PLACEHOLDER": "Choose the end date"
+          "PLACEHOLDER": "Choose the end date",
+          "ERRORS": {
+            "REQUIRED": "This field is required!"
+          }
         }
       },
       "DROPDOWN": {
         "USER": {
-          "PLACEHOLDER": "Choose user"
+          "PLACEHOLDER": "Choose user",
+          "ERRORS": {
+            "REQUIRED": "This field is required!"
+          }
         },
         "ORGAN": {
-          "PLACEHOLDER": "Choose organ"
+          "PLACEHOLDER": "Choose organ",
+          "ERRORS": {
+            "REQUIRED": "This field is required!"
+          }
         }
       },
       "BUTTONS": {
@@ -406,18 +448,30 @@
           }
         },
         "TIME_FRAME_START": {
-          "PLACEHOLDER": "Choose the start date"
+          "PLACEHOLDER": "Choose the start date",
+          "ERRORS": {
+            "REQUIRED": "This field is required!"
+          }
         },
         "TIME_FRAME_END": {
-          "PLACEHOLDER": "Choose the end date"
+          "PLACEHOLDER": "Choose the end date",
+          "ERRORS": {
+            "REQUIRED": "This field is required!"
+          }
         }
       },
       "DROPDOWN": {
         "USER": {
-          "PLACEHOLDER": "Choose user"
+          "PLACEHOLDER": "Choose user",
+          "ERRORS": {
+            "REQUIRED": "This field is required!"
+          }
         },
         "ORGAN": {
-          "PLACEHOLDER": "Choose organ"
+          "PLACEHOLDER": "Choose organ",
+          "ERRORS": {
+            "REQUIRED": "This field is required!"
+          }
         }
       },
       "BUTTONS": {
@@ -437,13 +491,22 @@
         }
       },
       "TIME_FRAME_START": {
-        "PLACEHOLDER": "Select date from"
+        "PLACEHOLDER": "Select date from",
+        "ERRORS": {
+          "REQUIRED": "This field is required!"
+        }
       },
       "TIME_FRAME_END": {
-        "PLACEHOLDER": "Select date to"
+        "PLACEHOLDER": "Select date to",
+        "ERRORS": {
+          "REQUIRED": "This field is required!"
+        }
       },
       "ID": {
-        "PLACEHOLDER": "Enter id"
+        "PLACEHOLDER": "Enter id",
+        "ERRORS": {
+          "REQUIRED": "This field is required!"
+        }
       }
     },
     "DROPDOWN": {

@@ -75,6 +75,8 @@ html /deep/ core-dropdown-menu.dropdown-elem.handler-id-type-dropdown {
   width: 307px;
   background-color: #FFFFFF;
   margin: 30px 0 10px 0; }
+  html /deep/ core-dropdown-menu.dropdown-elem.handler-id-type-dropdown .error {
+    width: 307px; }
 
 .handler-interface core-drawer-panel .main {
   padding: 0; }

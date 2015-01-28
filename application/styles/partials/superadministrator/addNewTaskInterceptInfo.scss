@@ -19,6 +19,17 @@
   .id-type-dropdown,
   .sign-gather-data-dropdown {
     width: 200px;
+    & /deep/ .error {
+      width: 200px;
+    }
+  }
+
+  .id-type-dropdown,
+  .sign-gather-data-dropdown,
+  .organ-dropdown {
+    & /deep/ .error {
+      width: 200px !important;
+    }
   }
 
   .id-type-dropdown,

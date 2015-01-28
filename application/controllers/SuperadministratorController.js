@@ -297,6 +297,23 @@
                 ];
 
                 /**
+                 * Datetime picker value
+                 * @type {object}
+                 * @public
+                 */
+                $scope.datetime = {
+                    starts: '',
+                    ends: ''
+                };
+
+                /**
+                 * Save init state of the datetime obj
+                 * @type {object}
+                 * @public
+                 */
+                $scope.initialDateTime = angular.copy($scope.datetime);
+
+                /**
                  * Defines the with of the left menu
                  * @type {string}
                  * @public
@@ -703,217 +720,427 @@
                 };
 
                 /**
-                 * Add New User Model which is responsible for adding new user from the user list data grid
-                 * TODO: add validation for dropdown elements and to fix datatime picker element state when we clean it
-                 * @type {{openAddNewUser: boolean, user: {name: string, enableDatetime: string, role: string, status: string, organ: string}, save: Function, open: Function, close: Function, roleChange: Function, organChange: Function, statusChange: Function}}
+                 * User Model
+                 * @type {{createUser: {openAddNewUser: boolean, dateTimePickerService: null, addNewUserForm: null, isInvalidRoleDropdown: boolean, isInvalidOrganDropdown: boolean, isInvalidStatusDropdown: boolean, user: {name: string, role: string, status: string, organ: string}, dropdownsInitState: boolean, initialUserData: null, save: Function, open: Function, close: Function, roleChange: Function, organChange: Function, statusChange: Function}, removeUser: {remove: Function}}}
                  * @public
                  */
-                $scope.addNewUserModel = {
+                $scope.userModel = {
 
                     /**
-                     * model's fields
+                     * Create user
                      */
-                    openAddNewUser: false, // flag to indicate if the open add new user modal window is open
-                    dateTimePickerService: null,
-                    addNewUserForm: null,
+                    createUser: {
 
-                    // new user information
-                    user: {
-                        name: '',
-                        enableDatetime: '',
-                        role: '',
-                        status: '',
-                        organ: ''
-                    },
+                        /**
+                         * Create user fields
+                         * @public
+                         */
+                        openAddNewUser: false, // flag to indicate if the open add new user modal window is open
+                        dateTimePickerService: null,
+                        addNewUserForm: null,
+                        isInvalidRoleDropdown: false,
+                        isInvalidOrganDropdown: false,
+                        isInvalidStatusDropdown: false,
 
-                    dropdownsInitState: true,
+                        // new user information
+                        user: {
+                            name: '',
+                            role: '',
+                            status: '',
+                            organ: ''
+                        },
 
-                    initialUserData: null,
+                        dropdownsInitState: true,
 
-                    /**
-                     * Save new user
-                     * @public
-                     */
-                    save: function () {
+                        initialUserData: null,
 
-                        var _interval = null,
-                            _this = this;
+                        /**
+                         * Save new user
+                         * @public
+                         */
+                        save: function () {
 
-                        $http.post(
-                            '/',
-                            {
-                                enableDatetime: _this.dateTimePickerService.getDateTime(),
-                                name: _this.user.name,
-                                role: _this.user.role,
-                                status: _this.user.status,
-                                organ: _this.user.organ
+                            var _interval = null,
+                                _this = this;
+
+                            if (!_this.addNewUserForm.$valid) {
+                                _this.addNewUserForm.name.$dirty = true;
+                                _this.addNewUserForm.starts.$dirty = true;
+                                _this.isInvalidRoleDropdown = true;
+                                _this.isInvalidOrganDropdown = true;
+                                _this.isInvalidStatusDropdown = true;
+                                return true;
                             }
-                        ).success(function (data) {
 
-                                //to emulate error from the server
-                                var _data = {
-                                    errors: 'Add new user error happened'
-                                };
+                            $http.post(
+                                '/',
+                                {
+                                    enableDatetime: $scope.datetime.starts,
+                                    name: _this.user.name,
+                                    role: _this.user.role,
+                                    status: _this.user.status,
+                                    organ: _this.user.organ
+                                }
+                            ).success(function (data) {
 
-                                //errors came from the server
-                                if (_data.errors) {
+                                    //to emulate error from the server
+                                    var _data = {
+                                        errors: 'Add new user error happened'
+                                    };
 
-                                    // show error modal dialog about the errors
-                                    // using here interval to make delay
-                                    _interval = $interval(function () {
-                                        $translate(['DIALOG.ADD_NEW_USER.ERROR.TITLE', 'DIALOG.ADD_NEW_USER.OK'])
-                                            .then(function (translation) {
-                                                dialogService.open(
-                                                    translation['DIALOG.ADD_NEW_USER.ERROR.TITLE'],
-                                                    _data.errors,
-                                                    translation['DIALOG.ADD_NEW_USER.OK'],
-                                                    '',
-                                                    'error',
-                                                    false);
-                                                $interval.cancel(_interval);
-                                            });
-                                    }, 3000);
+                                    //errors came from the server
+                                    if (_data.errors) {
+
+                                        // show error modal dialog about the errors
+                                        // using here interval to make delay
+                                        _interval = $interval(function () {
+                                            $translate(['DIALOG.ADD_NEW_USER.ERROR.TITLE', 'DIALOG.ADD_NEW_USER.OK'])
+                                                .then(function (translation) {
+                                                    dialogService.open(
+                                                        translation['DIALOG.ADD_NEW_USER.ERROR.TITLE'],
+                                                        _data.errors,
+                                                        translation['DIALOG.ADD_NEW_USER.OK'],
+                                                        '',
+                                                        'error',
+                                                        false);
+                                                    $interval.cancel(_interval);
+                                                });
+                                        }, 3000);
+
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.createNewUserError);
+
+                                    } else { //server return success for creation new user
+
+                                        //apply updated data from the server to ui-gird
+                                        $scope.gridOptions.data = _data;
+
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.createNewUserSuccess);
+                                    }
+
+                                }).error(function () {
 
                                     $rootScope.$broadcast(SUPER_ADMIN_EVENTS.createNewUserError);
+                                });
 
-                                } else { //server return success for creation new user
+                            this.close();
+                        },
 
-                                    //apply updated data from the server to ui-gird
-                                    $scope.gridOptions.data = _data;
+                        /**
+                         * Open add new user modal window
+                         * @param {Object} addNewUserForm
+                         * @public
+                         */
+                        open: function (addNewUserForm) {
+                            this.dateTimePickerService = datetimePickerService.init('add-new-user-date-time-picker');
+                            this.openAddNewUser = true;
+                            this.dropdownsInitState = true;
+                            this.addNewUserForm = addNewUserForm;
+                            this.initialUserData = angular.copy(this.user);
+                        },
 
-                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.createNewUserSuccess);
-                                }
+                        /**
+                         * Close add new user modal window
+                         * @public
+                         */
+                        close: function () {
+                            this.dateTimePickerService.clear();
 
-                            }).error(function () {
+                            this.openAddNewUser = false;
+                            this.dropdownsInitState = false;
+                            this.isInvalidRoleDropdown = false;
+                            this.isInvalidOrganDropdown = false;
+                            this.isInvalidStatusDropdown = false;
 
-                                $rootScope.$broadcast(SUPER_ADMIN_EVENTS.createNewUserError);
-                            });
+                            this.addNewUserForm.$setPristine();
+                            this.addNewUserForm.$setUntouched();
 
-                        this.close();
+                            this.user = angular.copy(this.initialUserData);
+                            $scope.datetime = angular.copy($scope.initialDateTime);
+
+                            menuService.removeSelectedState('role-dropdown');
+                            menuService.removeSelectedState('organ-dropdown');
+                            menuService.removeSelectedState('status-dropdown');
+
+                        },
+
+                        /**
+                         * Role change handler
+                         * @param {String} role
+                         * @public
+                         */
+                        roleChange: function (role) {
+                            if (role.length) {
+                                this.isInvalidRoleDropdown = false;
+                                this.user.role = role;
+                            }
+                        },
+
+                        /**
+                         * Organ change handler
+                         * @param {String} organ
+                         * @public
+                         */
+                        organChange: function (organ) {
+                            if (organ.length) {
+                                this.isInvalidOrganDropdown = false;
+                                this.user.organ = organ;
+                            }
+
+                        },
+
+                        /**
+                         * Status change handler
+                         * @param {Int} status
+                         * @public
+                         */
+                        statusChange: function (status) {
+                            if (status.toString().length) {
+                                this.isInvalidStatusDropdown = false;
+                                this.user.status = status;
+                            }
+                        }
                     },
-
-                    /**
-                     * Open add new user modal window
-                     * @param {Object} addNewUserForm
-                     * @public
-                     */
-                    open: function (addNewUserForm) {
-                        this.dateTimePickerService = datetimePickerService.init('add-new-user-date-time-picker');
-                        this.openAddNewUser = true;
-                        this.dropdownsInitState = true;
-                        this.addNewUserForm = addNewUserForm;
-                        this.initialUserData = angular.copy(this.user);
-                    },
-
-                    /**
-                     * Close add new user modal window
-                     * @public
-                     */
-                    close: function () {
-                        this.dateTimePickerService.clear();
-
-                        this.openAddNewUser = false;
-                        this.dropdownsInitState = false;
-
-                        this.addNewUserForm.$setPristine();
-                        this.addNewUserForm.$setUntouched();
-
-                        this.user = angular.copy(this.initialUserData);
-
-                        menuService.removeSelectedState('role-dropdown');
-                        menuService.removeSelectedState('organ-dropdown');
-                        menuService.removeSelectedState('status-dropdown');
-
-                    },
-
-                    /**
-                     * Role change handler
-                     * @param {String} role
-                     * @public
-                     */
-                    roleChange: function (role) {
-                        this.user.role = role;
-                    },
-
-                    /**
-                     * Organ change handler
-                     * @param {String} organ
-                     * @public
-                     */
-                    organChange: function (organ) {
-                        this.user.organ = organ;
-                    },
-
-                    /**
-                     * Status change handler
-                     * @param {Int} status
-                     * @public
-                     */
-                    statusChange: function (status) {
-                        this.user.status = status;
-                    }
-
-                };
-
-                /**
-                 * Remove User Model
-                 * @type {{remove: Function}}
-                 * @public
-                 */
-                $scope.removeUserModel = {
 
                     /**
                      * Remove user
-                     * @returns {boolean} - if user has not selected row
-                     * @public
                      */
-                    remove: function () {
-
-                        if (!$scope.gridApi.selection.getSelectedRows().length) {
-                            return true;
-                        }
+                    removeUser: {
 
                         /**
-                         * Remove request to the server
-                         * @private
+                         * Remove user
+                         * @returns {boolean} - if user has not selected row
+                         * @public
                          */
-                        var _removeRequest = function () {
+                        remove: function () {
+
+                            if (!$scope.gridApi.selection.getSelectedRows().length) {
+                                return true;
+                            }
+
+                            /**
+                             * Remove request to the server
+                             * @private
+                             */
+                            var _removeRequest = function () {
+
+                                $http.post(
+                                    '/',
+                                    {
+                                        ids: 'ids to remove'
+                                    }
+                                ).success(function (data) {
+
+                                        var _interval = null;
+
+                                        //emulate delete error from the server
+                                        /*var data = {
+                                         errors: 'Delete error happened!'
+                                         };
+                                         */
+
+                                        //emulate success remove users from the server
+                                        var _data = [{
+                                            "name": "That is dummy server response to test delete",
+                                            "organ": "FSB",
+                                            "role": "Handler",
+                                            "enable_date": "18.12.2014",
+                                            "status": "enable"
+                                        }];
+
+                                        if (_data.errors) {// if server returned errors
+
+                                            // show error modal dialog about the errors
+                                            // using here interval to make delay
+                                            _interval = $interval(function () {
+                                                $translate(['DIALOG.REMOVE_USER.ERROR.TITLE', 'DIALOG.REMOVE_USER.OK'])
+                                                    .then(function (translation) {
+                                                        dialogService.open(
+                                                            translation['DIALOG.REMOVE_USER.ERROR.TITLE'],
+                                                            _data.errors,
+                                                            translation['DIALOG.REMOVE_USER.OK'],
+                                                            '',
+                                                            'error',
+                                                            false);
+                                                        $interval.cancel(_interval);
+                                                    });
+                                            }, 3000);
+
+                                            $rootScope.$broadcast(SUPER_ADMIN_EVENTS.userRemoveError);
+
+                                        } else { // if server removed selected users
+
+                                            // apply updated data from the server to ui-grid
+                                            $scope.gridOptions.data = _data;
+
+                                            $rootScope.$broadcast(SUPER_ADMIN_EVENTS.userRemoveSuccess);
+                                        }
+
+                                    }).error(function () {
+
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.userRemoveError);
+                                    });
+                            };
+
+                            // show remove confirmation dialog
+                            $translate(['DIALOG.REMOVE_USER.TITLE',
+                                'DIALOG.REMOVE_USER.BODY.FIRST_PART',
+                                'DIALOG.REMOVE_USER.BODY.SECOND_PART',
+                                'DIALOG.REMOVE_USER.OK',
+                                'DIALOG.REMOVE_USER.CANCEL'])
+                                .then(function (translation) {
+                                    dialogService.open(
+                                        translation['DIALOG.REMOVE_USER.TITLE'],
+                                        translation['DIALOG.REMOVE_USER.BODY.FIRST_PART']
+                                        + $scope.gridApi.selection.getSelectedRows().length +
+                                        translation['DIALOG.REMOVE_USER.BODY.SECOND_PART'],
+                                        translation['DIALOG.REMOVE_USER.OK'],
+                                        translation['DIALOG.REMOVE_USER.CANCEL'],
+                                        '',
+                                        true,
+                                        _removeRequest);
+                                });
+                            //console.log($scope.gridApi.selection.getSelectedGridRows());
+                            //console.log($scope.gridApi.selection.getSelectedRows());
+
+                        }
+                    },
+
+                    /**
+                     * Change user status
+                     */
+                    changeUserStatus: {
+
+                        /**
+                         * Change user status handler
+                         * @param {Int} status - 0:disable 1:enable
+                         * @returns {boolean} - if user has not selected any row
+                         * @public
+                         */
+                        changeStatus: function (status) {
+
+                            var _status = status || -1;
+
+                            if (!$scope.gridApi.selection.getSelectedRows().length || !_status) {
+                                return true;
+                            }
 
                             $http.post(
                                 '/',
                                 {
-                                    ids: 'ids to remove'
+                                    ids: 'ids data to change status',
+                                    status: _status
+                                }
+                            ).success(function (data) {
+
+                                    //emulate change status error from the server
+                                    var _data = {
+                                        errors: 'Change status error happened!'
+                                    };
+
+                                    if (_data.errors) {// if server returns error
+
+                                        $translate(['DIALOG.CHANGE_STATUS.ERROR.TITLE', 'DIALOG.CHANGE_STATUS.OK'])
+                                            .then(function (translation) {
+                                                dialogService.open(
+                                                    translation['DIALOG.CHANGE_STATUS.ERROR.TITLE'],
+                                                    _data.errors,
+                                                    translation['DIALOG.CHANGE_STATUS.OK'],
+                                                    '',
+                                                    'error',
+                                                    false);
+                                            });
+
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.changeStatusError);
+
+                                    } else {// if server has changes selected user's status
+
+                                        //apply updated data from the server to ui-gird
+                                        $scope.gridOptions.data = _data;
+
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.changeStatusSuccess);
+                                    }
+
+                                }).error(function () {
+
+                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.changeStatusError);
+                                });
+                        }
+                    }
+                };
+
+                /**
+                 * Organ Model
+                 * @type {{createOrgan: {openAddNewOrgan: boolean, organName: string, addNewOrganForm: null, open: Function, close: Function, save: Function}, removeOrgan: {remove: Function}}}
+                 * @public
+                 */
+                $scope.organModel = {
+
+                    /**
+                     * Create organ
+                     */
+                    createOrgan: {
+
+                        /**
+                         * Create new organ fields
+                         * @public
+                         */
+                        openAddNewOrgan: false, // flag to indicate if the open add new user modal window is open
+                        organName: '',
+                        addNewOrganForm: null,
+
+                        /**
+                         * Open add new organ modal window
+                         * @public
+                         */
+                        open: function (addNewOrganForm) {
+                            this.openAddNewOrgan = true;
+                            this.addNewOrganForm = addNewOrganForm;
+                        },
+
+                        /**
+                         * Close add new organ modal window
+                         * @public
+                         */
+                        close: function () {
+                            this.organName = '';
+                            this.openAddNewOrgan = false;
+
+                            this.addNewOrganForm.$setPristine();
+                            this.addNewOrganForm.$setUntouched();
+                        },
+
+                        /**
+                         * Save new organ
+                         * @param {Object} addNewOrganForm
+                         * @public
+                         */
+                        save: function () {
+
+                            var _this = this;
+
+                            $http.post(
+                                '/',
+                                {
+                                    organName: _this.organName
                                 }
                             ).success(function (data) {
 
                                     var _interval = null;
 
-                                    //emulate delete error from the server
-                                    /*var data = {
-                                     errors: 'Delete error happened!'
-                                     };
-                                     */
+                                    //emulate change status error from the server
+                                    var _data = {
+                                        errors: 'Add new organ failed!'
+                                    };
 
-                                    //emulate success remove users from the server
-                                    var _data = [{
-                                        "name": "That is dummy server response to test delete",
-                                        "organ": "FSB",
-                                        "role": "Handler",
-                                        "enable_date": "18.12.2014",
-                                        "status": "enable"
-                                    }];
+                                    if (_data.errors) {// if server returns error
 
-                                    if (_data.errors) {// if server returned errors
-
-                                        // show error modal dialog about the errors
-                                        // using here interval to make delay
                                         _interval = $interval(function () {
-                                            $translate(['DIALOG.REMOVE_USER.ERROR.TITLE', 'DIALOG.REMOVE_USER.OK'])
+                                            $translate(['DIALOG.ADD_NEW_ORGAN.ERROR.TITLE', 'DIALOG.ADD_NEW_ORGAN.OK'])
                                                 .then(function (translation) {
                                                     dialogService.open(
-                                                        translation['DIALOG.REMOVE_USER.ERROR.TITLE'],
+                                                        translation['DIALOG.ADD_NEW_ORGAN.ERROR.TITLE'],
                                                         _data.errors,
-                                                        translation['DIALOG.REMOVE_USER.OK'],
+                                                        translation['DIALOG.ADD_NEW_ORGAN.OK'],
                                                         '',
                                                         'error',
                                                         false);
@@ -921,995 +1148,830 @@
                                                 });
                                         }, 3000);
 
-                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.userRemoveError);
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addNewOrganError);
 
-                                    } else { // if server removed selected users
+                                    } else {// if server has changes selected user's status
 
-                                        // apply updated data from the server to ui-grid
+                                        //apply updated data from the server to ui-gird
                                         $scope.gridOptions.data = _data;
 
-                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.userRemoveSuccess);
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addNewOrganSuccess);
                                     }
 
                                 }).error(function () {
 
-                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.userRemoveError);
-                                });
-                        };
-
-                        // show remove confirmation dialog
-                        $translate(['DIALOG.REMOVE_USER.TITLE',
-                            'DIALOG.REMOVE_USER.BODY.FIRST_PART',
-                            'DIALOG.REMOVE_USER.BODY.SECOND_PART',
-                            'DIALOG.REMOVE_USER.OK',
-                            'DIALOG.REMOVE_USER.CANCEL'])
-                            .then(function (translation) {
-                                dialogService.open(
-                                    translation['DIALOG.REMOVE_USER.TITLE'],
-                                    translation['DIALOG.REMOVE_USER.BODY.FIRST_PART']
-                                    + $scope.gridApi.selection.getSelectedRows().length +
-                                    translation['DIALOG.REMOVE_USER.BODY.SECOND_PART'],
-                                    translation['DIALOG.REMOVE_USER.OK'],
-                                    translation['DIALOG.REMOVE_USER.CANCEL'],
-                                    '',
-                                    true,
-                                    _removeRequest);
-                            });
-                        //console.log($scope.gridApi.selection.getSelectedGridRows());
-                        //console.log($scope.gridApi.selection.getSelectedRows());
-
-                    }
-                };
-
-                /**
-                 * Change User Status Model
-                 * @type {{changeStatus: Function}}
-                 * @public
-                 */
-                $scope.changeUserStatusModel = {
-
-                    /**
-                     * Change user status handler
-                     * @param {Int} status - 0:disable 1:enable
-                     * @returns {boolean} - if user has not selected any row
-                     * @public
-                     */
-                    changeStatus: function (status) {
-
-                        var _status = status || -1;
-
-                        if (!$scope.gridApi.selection.getSelectedRows().length || !_status) {
-                            return true;
-                        }
-
-                        $http.post(
-                            '/',
-                            {
-                                ids: 'ids data to change status',
-                                status: _status
-                            }
-                        ).success(function (data) {
-
-                                //emulate change status error from the server
-                                var _data = {
-                                    errors: 'Change status error happened!'
-                                };
-
-                                if (_data.errors) {// if server returns error
-
-                                    $translate(['DIALOG.CHANGE_STATUS.ERROR.TITLE', 'DIALOG.CHANGE_STATUS.OK'])
-                                        .then(function (translation) {
-                                            dialogService.open(
-                                                translation['DIALOG.CHANGE_STATUS.ERROR.TITLE'],
-                                                _data.errors,
-                                                translation['DIALOG.CHANGE_STATUS.OK'],
-                                                '',
-                                                'error',
-                                                false);
-                                        });
-
-                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.changeStatusError);
-
-                                } else {// if server has changes selected user's status
-
-                                    //apply updated data from the server to ui-gird
-                                    $scope.gridOptions.data = _data;
-
-                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.changeStatusSuccess);
-                                }
-
-                            }).error(function () {
-
-                                $rootScope.$broadcast(SUPER_ADMIN_EVENTS.changeStatusError);
-                            });
-                    }
-                };
-
-                /**
-                 * Add new organ model
-                 * @type {{open: Function}}
-                 * @public
-                 */
-                $scope.addNewOrganModel = {
-
-                    /**
-                     * model's fields
-                     */
-                    openAddNewOrgan: false, // flag to indicate if the open add new user modal window is open
-                    organName: '',
-                    addNewOrganForm: null,
-
-                    /**
-                     * Open add new organ modal window
-                     * @public
-                     */
-                    open: function (addNewOrganForm) {
-                        this.openAddNewOrgan = true;
-                        this.addNewOrganForm = addNewOrganForm;
-                    },
-
-                    /**
-                     * Close add new organ modal window
-                     * @public
-                     */
-                    close: function () {
-                        this.organName = '';
-                        this.openAddNewOrgan = false;
-
-                        this.addNewOrganForm.$setPristine();
-                        this.addNewOrganForm.$setUntouched();
-                    },
-
-                    /**
-                     * Save new organ
-                     * @param {Object} addNewOrganForm
-                     * @public
-                     */
-                    save: function () {
-
-                        var _this = this;
-
-                        $http.post(
-                            '/',
-                            {
-                                organName: _this.organName
-                            }
-                        ).success(function (data) {
-
-                                var _interval = null;
-
-                                //emulate change status error from the server
-                                var _data = {
-                                    errors: 'Add new organ failed!'
-                                };
-
-                                if (_data.errors) {// if server returns error
-
-                                    _interval = $interval(function () {
-                                        $translate(['DIALOG.ADD_NEW_ORGAN.ERROR.TITLE', 'DIALOG.ADD_NEW_ORGAN.OK'])
-                                            .then(function (translation) {
-                                                dialogService.open(
-                                                    translation['DIALOG.ADD_NEW_ORGAN.ERROR.TITLE'],
-                                                    _data.errors,
-                                                    translation['DIALOG.ADD_NEW_ORGAN.OK'],
-                                                    '',
-                                                    'error',
-                                                    false);
-                                                $interval.cancel(_interval);
-                                            });
-                                    }, 3000);
-
                                     $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addNewOrganError);
+                                });
 
-                                } else {// if server has changes selected user's status
-
-                                    //apply updated data from the server to ui-gird
-                                    $scope.gridOptions.data = _data;
-
-                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addNewOrganSuccess);
-                                }
-
-                            }).error(function () {
-
-                                $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addNewOrganError);
-                            });
-
-                        this.close();
-                    }
-                };
-
-                /**
-                 * Remove Organ Model
-                 * @type {{remove: Function}}
-                 * @public
-                 */
-                $scope.removeOrganModel = {
+                            this.close();
+                        }
+                    },
 
                     /**
                      * Remove organ
-                     * @returns {boolean} - if user has not selected row
-                     * @public
                      */
-                    remove: function () {
-
-                        if (!$scope.gridApi.selection.getSelectedRows().length) {
-                            return true;
-                        }
-
+                    removeOrgan: {
                         /**
-                         * Remove request to the server
-                         * @private
+                         * Remove organ
+                         * @returns {boolean} - if user has not selected row
+                         * @public
                          */
-                        var _removeRequest = function () {
+                        remove: function () {
 
-                            $http.post(
-                                '/',
-                                {
-                                    ids: 'ids to remove'
-                                }
-                            ).success(function (data) {
-                                    var _interval = null;
+                            if (!$scope.gridApi.selection.getSelectedRows().length) {
+                                return true;
+                            }
 
-                                    //emulate delete error from the server
-                                    var _data = {
-                                        errors: 'Delete error happened!'
-                                    };
+                            /**
+                             * Remove request to the server
+                             * @private
+                             */
+                            var _removeRequest = function () {
 
-                                    if (_data.errors) {// if server returned errors
+                                $http.post(
+                                    '/',
+                                    {
+                                        ids: 'ids to remove'
+                                    }
+                                ).success(function (data) {
+                                        var _interval = null;
 
-                                        // show error modal dialog about the errors
-                                        // using here interval to make delay
-                                        _interval = $interval(function () {
-                                            $translate(['DIALOG.REMOVE_ORGAN.ERROR.TITLE', 'DIALOG.REMOVE_ORGAN.OK'])
-                                                .then(function (translation) {
-                                                    dialogService.open(
-                                                        translation['DIALOG.REMOVE_ORGAN.ERROR.TITLE'],
-                                                        _data.errors,
-                                                        translation['DIALOG.REMOVE_ORGAN.OK'],
-                                                        '',
-                                                        'error',
-                                                        false);
-                                                    $interval.cancel(_interval);
-                                                });
-                                        }, 3000);
+                                        //emulate delete error from the server
+                                        var _data = {
+                                            errors: 'Delete error happened!'
+                                        };
+
+                                        if (_data.errors) {// if server returned errors
+
+                                            // show error modal dialog about the errors
+                                            // using here interval to make delay
+                                            _interval = $interval(function () {
+                                                $translate(['DIALOG.REMOVE_ORGAN.ERROR.TITLE', 'DIALOG.REMOVE_ORGAN.OK'])
+                                                    .then(function (translation) {
+                                                        dialogService.open(
+                                                            translation['DIALOG.REMOVE_ORGAN.ERROR.TITLE'],
+                                                            _data.errors,
+                                                            translation['DIALOG.REMOVE_ORGAN.OK'],
+                                                            '',
+                                                            'error',
+                                                            false);
+                                                        $interval.cancel(_interval);
+                                                    });
+                                            }, 3000);
+
+                                            $rootScope.$broadcast(SUPER_ADMIN_EVENTS.organRemoveError);
+
+                                        } else { // if server removed selected users
+
+                                            // apply updated data from the server to ui-grid
+                                            $scope.gridOptions.data = _data;
+
+                                            $rootScope.$broadcast(SUPER_ADMIN_EVENTS.organRemoveSuccess);
+                                        }
+
+                                    }).error(function () {
 
                                         $rootScope.$broadcast(SUPER_ADMIN_EVENTS.organRemoveError);
+                                    });
+                            };
 
-                                    } else { // if server removed selected users
-
-                                        // apply updated data from the server to ui-grid
-                                        $scope.gridOptions.data = _data;
-
-                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.organRemoveSuccess);
-                                    }
-
-                                }).error(function () {
-
-                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.organRemoveError);
+                            // show remove confirmation dialog
+                            $translate(['DIALOG.REMOVE_ORGAN.TITLE',
+                                'DIALOG.REMOVE_ORGAN.BODY.FIRST_PART',
+                                'DIALOG.REMOVE_ORGAN.BODY.SECOND_PART',
+                                'DIALOG.REMOVE_ORGAN.OK',
+                                'DIALOG.REMOVE_ORGAN.CANCEL'])
+                                .then(function (translation) {
+                                    dialogService.open(
+                                        translation['DIALOG.REMOVE_ORGAN.TITLE'],
+                                        translation['DIALOG.REMOVE_ORGAN.BODY.FIRST_PART']
+                                        + $scope.gridApi.selection.getSelectedRows().length +
+                                        translation['DIALOG.REMOVE_ORGAN.BODY.SECOND_PART'],
+                                        translation['DIALOG.REMOVE_ORGAN.OK'],
+                                        translation['DIALOG.REMOVE_ORGAN.CANCEL'],
+                                        '',
+                                        true,
+                                        _removeRequest);
                                 });
-                        };
+                            //console.log($scope.gridApi.selection.getSelectedGridRows());
+                            //console.log($scope.gridApi.selection.getSelectedRows());
 
-                        // show remove confirmation dialog
-                        $translate(['DIALOG.REMOVE_ORGAN.TITLE',
-                            'DIALOG.REMOVE_ORGAN.BODY.FIRST_PART',
-                            'DIALOG.REMOVE_ORGAN.BODY.SECOND_PART',
-                            'DIALOG.REMOVE_ORGAN.OK',
-                            'DIALOG.REMOVE_ORGAN.CANCEL'])
-                            .then(function (translation) {
-                                dialogService.open(
-                                    translation['DIALOG.REMOVE_ORGAN.TITLE'],
-                                    translation['DIALOG.REMOVE_ORGAN.BODY.FIRST_PART']
-                                    + $scope.gridApi.selection.getSelectedRows().length +
-                                    translation['DIALOG.REMOVE_ORGAN.BODY.SECOND_PART'],
-                                    translation['DIALOG.REMOVE_ORGAN.OK'],
-                                    translation['DIALOG.REMOVE_ORGAN.CANCEL'],
-                                    '',
-                                    true,
-                                    _removeRequest);
-                            });
-                        //console.log($scope.gridApi.selection.getSelectedGridRows());
-                        //console.log($scope.gridApi.selection.getSelectedRows());
-
+                        }
                     }
+
                 };
 
 
                 /**
-                 * Add new task to intercept information model
-                 * @type {{openAddNewTask: boolean, datetimePickerFrameStartService: null, datetimePickerFrameEndService: null, task: {number: string, alias: string, timedateStarts: string, timedateEnds: string, idType: string, sign: string, id: string, organ: string, comment: string}, initialTaskData: null, organChange: Function, signChange: Function, idTypeChange: Function, open: Function, close: Function, save: Function}}
+                 * Intercept Information Model
+                 * @type {{createTask: {openAddNewTask: boolean, dropdownsInitState: boolean, isInvalidIdTypeDropdown: boolean, isInvalidSignDropdown: boolean, isInvalidOrganDropdown: boolean, datetimePickerFrameStartService: null, datetimePickerFrameEndService: null, isIdFieldDisable: boolean, task: {number: string, alias: string, idType: string, sign: string, id: string, organ: string, comment: string}, initialTaskData: null, organChange: Function, signChange: Function, idTypeChange: Function, open: Function, close: Function, save: Function}, removeTask: {remove: Function}}}
                  * @public
                  */
-                $scope.addNewTaskInterceptInfoModel = {
+                $scope.interceptInformationModel = {
 
                     /**
-                     * models fields
+                     * Create new task
                      */
-                    openAddNewTask: false,
-                    dropdownsInitState: false,
+                    createTask: {
 
-                    datetimePickerFrameStartService: null,
-                    datetimePickerFrameEndService: null,
+                        /**
+                         * Create task fields
+                         * @public
+                         */
+                        openAddNewTask: false,
+                        dropdownsInitState: false,
 
-                    task: {
-                        number: '',
-                        alias: '',
-                        timedateStarts: '',
-                        timedateEnds: '',
-                        idType: '',
-                        sign: '',
-                        id: '',
-                        organ: '',
-                        comment: ''
-                    },
+                        isInvalidIdTypeDropdown: false,
+                        isInvalidSignDropdown: false,
+                        isInvalidOrganDropdown: false,
 
-                    initialTaskData: null,
+                        datetimePickerFrameStartService: null,
+                        datetimePickerFrameEndService: null,
 
-                    /**
-                     * Organ handler
-                     * @param {String} organ
-                     * @public
-                     */
-                    organChange: function (organ) {
-                        this.task.organ = organ;
-                    },
+                        isIdFieldDisable: true,
 
-                    /**
-                     * Sign gathering data handler
-                     * @param {Int} sign
-                     * @public
-                     */
-                    signChange: function (sign) {
-                        this.task.sign = sign;
-                    },
+                        task: {
+                            number: '',
+                            alias: '',
+                            idType: '',
+                            sign: '',
+                            id: '',
+                            organ: '',
+                            comment: ''
+                        },
 
-                    /**
-                     * Id type handler
-                     * @param {Sting} idType
-                     */
-                    idTypeChange: function (idType) {
-                        this.task.idType = idType;
-                    },
+                        initialTaskData: null,
 
-                    /**
-                     * Open add new task form
-                     * @param {Object} addNewTaskInterceptInfoForm
-                     * @public
-                     */
-                    open: function (addNewTaskInterceptInfoForm) {
-                        this.datetimePickerFrameStartService = datetimePickerService.init('intercept-timeframe-starts');
-                        this.datetimePickerFrameEndService = datetimePickerService.init('intercept-timeframe-ends');
-
-                        this.openAddNewTask = true;
-                        this.dropdownsInitState = true;
-
-                        this.addNewTaskInterceptInfoForm = addNewTaskInterceptInfoForm;
-
-                        this.initialTaskData = angular.copy(this.task);
-                    },
-
-                    /**
-                     * Close add new task form
-                     * @public
-                     */
-                    close: function () {
-
-                        this.datetimePickerFrameStartService.clear();
-                        this.datetimePickerFrameEndService.clear();
-
-                        this.openAddNewTask = false;
-                        this.dropdownsInitState = false;
-
-                        this.addNewTaskInterceptInfoForm.$setPristine();
-                        this.addNewTaskInterceptInfoForm.$setUntouched();
-
-                        this.task = angular.copy(this.initialTaskData);
-
-                        menuService.removeSelectedState('intercept-info-organ-dropdown');
-                        menuService.removeSelectedState('intercept-info-sign-dropdown');
-                        menuService.removeSelectedState('intercept-info-id-type-dropdown');
-                    },
-
-                    /**
-                     * Save new task
-                     * @public
-                     */
-                    save: function () {
-
-                        var _interval = null,
-                            _this = this;
-
-                        $http.post(
-                            '/',
-                            {
-                                number: _this.task.number,
-                                alias: _this.task.alias,
-                                timedateStarts: _this.datetimePickerFrameStartService.getDateTime(),
-                                timedateEnds: _this.datetimePickerFrameEndService.getDateTime(),
-                                idType: _this.task.idType,
-                                sign: _this.task.sign,
-                                id: _this.task.id,
-                                organ: _this.task.organ,
-                                comment: _this.task.comment
+                        /**
+                         * Organ handler
+                         * @param {String} organ
+                         * @public
+                         */
+                        organChange: function (organ) {
+                            if (organ.length) {
+                                this.isInvalidOrganDropdown = false;
+                                this.task.organ = organ;
                             }
-                        ).success(function (data) {
+                        },
 
-                                //to emulate error from the server
-                                var _data = {
-                                    errors: 'Add new task error happened'
-                                };
+                        /**
+                         * Sign gathering data handler
+                         * @param {Int} sign
+                         * @public
+                         */
+                        signChange: function (sign) {
+                            if (sign.toString().length) {
+                                this.isInvalidSignDropdown = false;
+                                this.task.sign = sign;
+                            }
+                        },
 
-                                //errors came from the server
-                                if (_data.errors) {
+                        /**
+                         * Id type handler
+                         * @param {Sting} idType
+                         */
+                        idTypeChange: function (idType) {
+                            if (idType.length) {
+                                this.isIdFieldDisable = false;
+                                this.isInvalidIdTypeDropdown = false;
+                                this.task.idType = idType;
+                            }
+                        },
 
-                                    // show error modal dialog about the errors
-                                    // using here interval to make delay
-                                    _interval = $interval(function () {
-                                        $translate(['DIALOG.ADD_TASK_INTERCEPT_INFO.ERROR.TITLE', 'DIALOG.ADD_TASK_INTERCEPT_INFO.OK'])
-                                            .then(function (translation) {
-                                                dialogService.open(
-                                                    translation['DIALOG.ADD_TASK_INTERCEPT_INFO.ERROR.TITLE'],
-                                                    _data.errors,
-                                                    translation['DIALOG.ADD_TASK_INTERCEPT_INFO.OK'],
-                                                    '',
-                                                    'error',
-                                                    false);
-                                                $interval.cancel(_interval);
-                                            });
-                                    }, 3000);
+                        /**
+                         * Open add new task form
+                         * @param {Object} addNewTaskInterceptInfoForm
+                         * @public
+                         */
+                        open: function (addNewTaskInterceptInfoForm) {
+                            this.datetimePickerFrameStartService = datetimePickerService.init('intercept-timeframe-starts');
+                            this.datetimePickerFrameEndService = datetimePickerService.init('intercept-timeframe-ends');
+
+                            this.openAddNewTask = true;
+                            this.dropdownsInitState = true;
+
+                            this.addNewTaskInterceptInfoForm = addNewTaskInterceptInfoForm;
+
+                            this.initialTaskData = angular.copy(this.task);
+                        },
+
+                        /**
+                         * Close add new task form
+                         * @public
+                         */
+                        close: function () {
+
+                            this.datetimePickerFrameStartService.clear();
+                            this.datetimePickerFrameEndService.clear();
+
+                            this.openAddNewTask = false;
+                            this.dropdownsInitState = false;
+                            this.isInvalidIdTypeDropdown = false;
+                            this.isInvalidSignDropdown = false;
+                            this.isInvalidOrganDropdown = false;
+
+                            this.isIdFieldDisable = true;
+
+                            this.addNewTaskInterceptInfoForm.$setPristine();
+                            this.addNewTaskInterceptInfoForm.$setUntouched();
+
+                            this.task = angular.copy(this.initialTaskData);
+                            $scope.datetime = angular.copy($scope.initialDateTime);
+
+                            menuService.removeSelectedState('intercept-info-organ-dropdown');
+                            menuService.removeSelectedState('intercept-info-sign-dropdown');
+                            menuService.removeSelectedState('intercept-info-id-type-dropdown');
+                        },
+
+                        /**
+                         * Save new task
+                         * @public
+                         */
+                        save: function () {
+
+                            var _interval = null,
+                                _this = this;
+
+                            if (!_this.addNewTaskInterceptInfoForm.$valid) {
+                                _this.addNewTaskInterceptInfoForm.id.$dirty = true;
+                                _this.addNewTaskInterceptInfoForm.number.$dirty = true;
+                                _this.addNewTaskInterceptInfoForm.starts.$dirty = true;
+                                _this.addNewTaskInterceptInfoForm.ends.$dirty = true;
+                                _this.addNewTaskInterceptInfoForm.alias.$dirty = true;
+
+                                _this.isInvalidIdTypeDropdown = true;
+                                _this.isInvalidSignDropdown = true;
+                                _this.isInvalidOrganDropdown = true;
+                                return true;
+                            }
+
+                            $http.post(
+                                '/',
+                                {
+                                    number: _this.task.number,
+                                    alias: _this.task.alias,
+                                    timedateStarts: $scope.datetime.starts,
+                                    timedateEnds: $scope.datetime.ends,
+                                    idType: _this.task.idType,
+                                    sign: _this.task.sign,
+                                    id: _this.task.id,
+                                    organ: _this.task.organ,
+                                    comment: _this.task.comment
+                                }
+                            ).success(function (data) {
+
+                                    //to emulate error from the server
+                                    var _data = {
+                                        errors: 'Add new task error happened'
+                                    };
+
+                                    //errors came from the server
+                                    if (_data.errors) {
+
+                                        // show error modal dialog about the errors
+                                        // using here interval to make delay
+                                        _interval = $interval(function () {
+                                            $translate(['DIALOG.ADD_TASK_INTERCEPT_INFO.ERROR.TITLE', 'DIALOG.ADD_TASK_INTERCEPT_INFO.OK'])
+                                                .then(function (translation) {
+                                                    dialogService.open(
+                                                        translation['DIALOG.ADD_TASK_INTERCEPT_INFO.ERROR.TITLE'],
+                                                        _data.errors,
+                                                        translation['DIALOG.ADD_TASK_INTERCEPT_INFO.OK'],
+                                                        '',
+                                                        'error',
+                                                        false);
+                                                    $interval.cancel(_interval);
+                                                });
+                                        }, 3000);
+
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addTaskInterceptInfoError);
+
+                                    } else { //server return success for creation new user
+
+                                        //apply updated data from the server to ui-gird
+                                        $scope.gridOptions.data = _data;
+
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addTaskInterceptInfoSuccess);
+                                    }
+
+                                }).error(function () {
 
                                     $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addTaskInterceptInfoError);
+                                });
 
-                                } else { //server return success for creation new user
-
-                                    //apply updated data from the server to ui-gird
-                                    $scope.gridOptions.data = _data;
-
-                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addTaskInterceptInfoSuccess);
-                                }
-
-                            }).error(function () {
-
-                                $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addTaskInterceptInfoError);
-                            });
-
-                        this.close();
-                    }
-
-                };
-
-                /**
-                 * Remove task intercept info model
-                 * @type {{remove: Function}}
-                 * @public
-                 */
-                $scope.removeTaskInterceptInfoModel = {
-
-                    /**
-                     * Remove task intercept info
-                     * @returns {boolean} - if user has not selected row
-                     * @public
-                     */
-                    remove: function () {
-
-                        if (!$scope.gridApi.selection.getSelectedRows().length) {
-                            return true;
+                            this.close();
                         }
 
+                    },
+
+                    /**
+                     * Remove task
+                     */
+                    removeTask: {
+
                         /**
-                         * Remove request to the server
-                         * @private
+                         * Remove task intercept info
+                         * @returns {boolean} - if user has not selected row
+                         * @public
                          */
-                        var _removeRequest = function () {
+                        remove: function () {
 
-                            $http.post(
-                                '/',
-                                {
-                                    ids: 'ids to remove'
-                                }
-                            ).success(function (data) {
-                                    var _interval = null;
+                            if (!$scope.gridApi.selection.getSelectedRows().length) {
+                                return true;
+                            }
 
-                                    //emulate delete error from the server
-                                    var _data = {
-                                        errors: 'Delete error happened!'
-                                    };
+                            /**
+                             * Remove request to the server
+                             * @private
+                             */
+                            var _removeRequest = function () {
 
-                                    if (_data.errors) {// if server returned errors
+                                $http.post(
+                                    '/',
+                                    {
+                                        ids: 'ids to remove'
+                                    }
+                                ).success(function (data) {
+                                        var _interval = null;
 
-                                        // show error modal dialog about the errors
-                                        // using here interval to make delay
-                                        _interval = $interval(function () {
-                                            $translate(['DIALOG.REMOVE_TASK_INTERCEPT_INFO.ERROR.TITLE', 'DIALOG.REMOVE_TASK_INTERCEPT_INFO.OK'])
-                                                .then(function (translation) {
-                                                    dialogService.open(
-                                                        translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.ERROR.TITLE'],
-                                                        _data.errors,
-                                                        translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.OK'],
-                                                        '',
-                                                        'error',
-                                                        false);
-                                                    $interval.cancel(_interval);
-                                                });
-                                        }, 3000);
+                                        //emulate delete error from the server
+                                        var _data = {
+                                            errors: 'Delete error happened!'
+                                        };
+
+                                        if (_data.errors) {// if server returned errors
+
+                                            // show error modal dialog about the errors
+                                            // using here interval to make delay
+                                            _interval = $interval(function () {
+                                                $translate(['DIALOG.REMOVE_TASK_INTERCEPT_INFO.ERROR.TITLE', 'DIALOG.REMOVE_TASK_INTERCEPT_INFO.OK'])
+                                                    .then(function (translation) {
+                                                        dialogService.open(
+                                                            translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.ERROR.TITLE'],
+                                                            _data.errors,
+                                                            translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.OK'],
+                                                            '',
+                                                            'error',
+                                                            false);
+                                                        $interval.cancel(_interval);
+                                                    });
+                                            }, 3000);
+
+                                            $rootScope.$broadcast(SUPER_ADMIN_EVENTS.taskInterceptInfoRemoveError);
+
+                                        } else { // if server removed selected users
+
+                                            // apply updated data from the server to ui-grid
+                                            $scope.gridOptions.data = _data;
+
+                                            $rootScope.$broadcast(SUPER_ADMIN_EVENTS.taskInterceptInfoRemoveSuccess);
+                                        }
+
+                                    }).error(function () {
 
                                         $rootScope.$broadcast(SUPER_ADMIN_EVENTS.taskInterceptInfoRemoveError);
+                                    });
+                            };
 
-                                    } else { // if server removed selected users
-
-                                        // apply updated data from the server to ui-grid
-                                        $scope.gridOptions.data = _data;
-
-                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.taskInterceptInfoRemoveSuccess);
-                                    }
-
-                                }).error(function () {
-
-                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.taskInterceptInfoRemoveError);
+                            // show remove confirmation dialog
+                            $translate(['DIALOG.REMOVE_TASK_INTERCEPT_INFO.TITLE',
+                                'DIALOG.REMOVE_TASK_INTERCEPT_INFO.BODY.FIRST_PART',
+                                'DIALOG.REMOVE_TASK_INTERCEPT_INFO.BODY.SECOND_PART',
+                                'DIALOG.REMOVE_TASK_INTERCEPT_INFO.OK',
+                                'DIALOG.REMOVE_TASK_INTERCEPT_INFO.CANCEL'])
+                                .then(function (translation) {
+                                    dialogService.open(
+                                        translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.TITLE'],
+                                        translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.BODY.FIRST_PART']
+                                        + $scope.gridApi.selection.getSelectedRows().length +
+                                        translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.BODY.SECOND_PART'],
+                                        translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.OK'],
+                                        translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.CANCEL'],
+                                        '',
+                                        true,
+                                        _removeRequest);
                                 });
-                        };
+                            //console.log($scope.gridApi.selection.getSelectedGridRows());
+                            //console.log($scope.gridApi.selection.getSelectedRows());
 
-                        // show remove confirmation dialog
-                        $translate(['DIALOG.REMOVE_TASK_INTERCEPT_INFO.TITLE',
-                            'DIALOG.REMOVE_TASK_INTERCEPT_INFO.BODY.FIRST_PART',
-                            'DIALOG.REMOVE_TASK_INTERCEPT_INFO.BODY.SECOND_PART',
-                            'DIALOG.REMOVE_TASK_INTERCEPT_INFO.OK',
-                            'DIALOG.REMOVE_TASK_INTERCEPT_INFO.CANCEL'])
-                            .then(function (translation) {
-                                dialogService.open(
-                                    translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.TITLE'],
-                                    translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.BODY.FIRST_PART']
-                                    + $scope.gridApi.selection.getSelectedRows().length +
-                                    translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.BODY.SECOND_PART'],
-                                    translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.OK'],
-                                    translation['DIALOG.REMOVE_TASK_INTERCEPT_INFO.CANCEL'],
-                                    '',
-                                    true,
-                                    _removeRequest);
-                            });
-                        //console.log($scope.gridApi.selection.getSelectedGridRows());
-                        //console.log($scope.gridApi.selection.getSelectedRows());
-
+                        }
                     }
+
                 };
 
                 /**
-                 * Add sanction for processing information model
-                 * @type {{openAddNewProcessInfoSanction: boolean, dropdownsInitState: boolean, processInfoSanctionForm: null, datetimePickerFrameStartService: null, datetimePickerFrameEndService: null, sanction: {number: string, organ: string, user: string}, initialSanctionData: null, open: Function, close: Function, userChange: Function, organChange: Function, save: Function}}
+                 * Process Information Model
+                 * @type {{createSanction: {openAddNewProcessInfoSanction: boolean, dropdownsInitState: boolean, isInvalidUserDropdown: boolean, isInvalidOrganDropdown: boolean, processInfoSanctionForm: null, datetimePickerFrameStartService: null, datetimePickerFrameEndService: null, sanction: {number: string, organ: string, user: string}, initialSanctionData: null, open: Function, close: Function, userChange: Function, organChange: Function, save: Function}, removeSanction: {remove: Function}}}
                  * @public
                  */
-                $scope.addProcessInfoSanctionModel = {
+                $scope.processInformationModel = {
 
                     /**
-                     * Model fields
-                     * @public
+                     * Create Sanction
                      */
-                    openAddNewProcessInfoSanction: false,
-                    dropdownsInitState: false,
+                    createSanction: {
 
-                    processInfoSanctionForm: null,
-                    datetimePickerFrameStartService: null,
-                    datetimePickerFrameEndService: null,
+                        /**
+                         * Create sanction fileds
+                         * @public
+                         */
+                        openAddNewProcessInfoSanction: false,
+                        dropdownsInitState: false,
+                        isInvalidUserDropdown: false,
+                        isInvalidOrganDropdown: false,
 
-                    sanction: {
-                        number: '',
-                        organ: '',
-                        user: ''
-                    },
+                        processInfoSanctionForm: null,
+                        datetimePickerFrameStartService: null,
+                        datetimePickerFrameEndService: null,
 
-                    initialSanctionData: null,
+                        sanction: {
+                            number: '',
+                            organ: '',
+                            user: ''
+                        },
 
-                    /**
-                     * Open window to add new sanction
-                     * @param {Object} processInfoSanctionForm
-                     * @public
-                     */
-                    open: function (processInfoSanctionForm) {
+                        initialSanctionData: null,
 
-                        this.datetimePickerFrameStartService = datetimePickerService.init('sanction-process-info-starts');
-                        this.datetimePickerFrameEndService = datetimePickerService.init('sanction-process-info-ends');
+                        /**
+                         * Open window to add new sanction
+                         * @param {Object} processInfoSanctionForm
+                         * @public
+                         */
+                        open: function (processInfoSanctionForm) {
 
-                        this.openAddNewProcessInfoSanction = true;
-                        this.dropdownsInitState = true;
+                            this.datetimePickerFrameStartService = datetimePickerService.init('sanction-process-info-starts');
+                            this.datetimePickerFrameEndService = datetimePickerService.init('sanction-process-info-ends');
 
-                        this.processInfoSanctionForm = processInfoSanctionForm;
+                            this.openAddNewProcessInfoSanction = true;
+                            this.dropdownsInitState = true;
 
-                        this.initialSanctionData = angular.copy(this.sanction);
-                    },
+                            this.processInfoSanctionForm = processInfoSanctionForm;
 
-                    /**
-                     * Close window add new sanction
-                     * @public
-                     */
-                    close: function () {
+                            this.initialSanctionData = angular.copy(this.sanction);
+                        },
 
-                        this.datetimePickerFrameStartService.clear();
-                        this.datetimePickerFrameEndService.clear();
+                        /**
+                         * Close window add new sanction
+                         * @public
+                         */
+                        close: function () {
 
-                        this.openAddNewProcessInfoSanction = false;
-                        this.dropdownsInitState = false;
+                            this.datetimePickerFrameStartService.clear();
+                            this.datetimePickerFrameEndService.clear();
 
-                        this.processInfoSanctionForm.$setPristine();
-                        this.processInfoSanctionForm.$setUntouched();
+                            this.openAddNewProcessInfoSanction = false;
+                            this.dropdownsInitState = false;
+                            this.isInvalidUserDropdown = false;
+                            this.isInvalidOrganDropdown = false;
 
-                        this.sanction = angular.copy(this.initialSanctionData);
+                            this.processInfoSanctionForm.$setPristine();
+                            this.processInfoSanctionForm.$setUntouched();
 
-                        menuService.removeSelectedState('sanction-process-info-organ-dropdown');
-                        menuService.removeSelectedState('sanction-process-info-user-dropdown');
+                            this.sanction = angular.copy(this.initialSanctionData);
+                            $scope.datetime = angular.copy($scope.initialDateTime);
 
-                    },
+                            menuService.removeSelectedState('sanction-process-info-organ-dropdown');
+                            menuService.removeSelectedState('sanction-process-info-user-dropdown');
 
-                    /**
-                     * User change handler
-                     * @param {String} user
-                     * @public
-                     */
-                    userChange: function (user) {
-                        this.sanction.user = user;
-                    },
+                        },
 
-                    /**
-                     * Organ change handler
-                     * @param {String} organ
-                     * @public
-                     */
-                    organChange: function (organ) {
-                        this.sanction.organ = organ;
-                    },
-
-                    /**
-                     * Save newly created sanction for processing info
-                     * @public
-                     */
-                    save: function () {
-
-                        var _interval = null,
-                            _this = this;
-
-                        $http.post(
-                            '/',
-                            {
-                                number: _this.sanction.number,
-                                dateStarts: _this.datetimePickerFrameStartService.getDateTime(),
-                                dateEnds: _this.datetimePickerFrameEndService.getDateTime(),
-                                organ: _this.sanction.organ,
-                                user: _this.sanction.user
+                        /**
+                         * User change handler
+                         * @param {String} user
+                         * @public
+                         */
+                        userChange: function (user) {
+                            if (user.length) {
+                                this.isInvalidUserDropdown = false;
+                                this.sanction.user = user;
                             }
-                        ).success(function (data) {
+                        },
 
-                                //to emulate error from the server
-                                var _data = {
-                                    errors: 'Add new sanction for processing information error happened'
-                                };
+                        /**
+                         * Organ change handler
+                         * @param {String} organ
+                         * @public
+                         */
+                        organChange: function (organ) {
+                            if (organ.length) {
+                                this.isInvalidOrganDropdown = false;
+                                this.sanction.organ = organ;
+                            }
+                        },
 
-                                //errors came from the server
-                                if (_data.errors) {
+                        /**
+                         * Save newly created sanction for processing info
+                         * @public
+                         */
+                        save: function () {
 
-                                    // show error modal dialog about the errors
-                                    // using here interval to make delay
-                                    _interval = $interval(function () {
-                                        $translate(['DIALOG.ADD_SANCTION_PROCESS_INFO.ERROR.TITLE', 'DIALOG.ADD_SANCTION_PROCESS_INFO.OK'])
-                                            .then(function (translation) {
-                                                dialogService.open(
-                                                    translation['DIALOG.ADD_SANCTION_PROCESS_INFO.ERROR.TITLE'],
-                                                    _data.errors,
-                                                    translation['DIALOG.ADD_SANCTION_PROCESS_INFO.OK'],
-                                                    '',
-                                                    'error',
-                                                    false);
-                                                $interval.cancel(_interval);
-                                            });
-                                    }, 3000);
+                            var _interval = null,
+                                _this = this;
+
+                            if (!_this.processInfoSanctionForm.$valid) {
+                                _this.processInfoSanctionForm.number.$dirty = true;
+                                _this.processInfoSanctionForm.starts.$dirty = true;
+                                _this.processInfoSanctionForm.ends.$dirty = true;
+
+                                _this.isInvalidUserDropdown = true;
+                                _this.isInvalidOrganDropdown = true;
+                                return true;
+                            }
+
+                            $http.post(
+                                '/',
+                                {
+                                    number: _this.sanction.number,
+                                    dateStarts: $scope.datetime.starts,
+                                    dateEnds: $scope.datetime.ends,
+                                    organ: _this.sanction.organ,
+                                    user: _this.sanction.user
+                                }
+                            ).success(function (data) {
+
+                                    //to emulate error from the server
+                                    var _data = {
+                                        errors: 'Add new sanction for processing information error happened'
+                                    };
+
+                                    //errors came from the server
+                                    if (_data.errors) {
+
+                                        // show error modal dialog about the errors
+                                        // using here interval to make delay
+                                        _interval = $interval(function () {
+                                            $translate(['DIALOG.ADD_SANCTION_PROCESS_INFO.ERROR.TITLE', 'DIALOG.ADD_SANCTION_PROCESS_INFO.OK'])
+                                                .then(function (translation) {
+                                                    dialogService.open(
+                                                        translation['DIALOG.ADD_SANCTION_PROCESS_INFO.ERROR.TITLE'],
+                                                        _data.errors,
+                                                        translation['DIALOG.ADD_SANCTION_PROCESS_INFO.OK'],
+                                                        '',
+                                                        'error',
+                                                        false);
+                                                    $interval.cancel(_interval);
+                                                });
+                                        }, 3000);
+
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addSanctionProcessInfoError);
+
+                                    } else { //server return success for creation new user
+
+                                        //apply updated data from the server to ui-gird
+                                        $scope.gridOptions.data = _data;
+
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addSanctionProcessInfoSuccess);
+                                    }
+
+                                }).error(function () {
 
                                     $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addSanctionProcessInfoError);
+                                });
 
-                                } else { //server return success for creation new user
-
-                                    //apply updated data from the server to ui-gird
-                                    $scope.gridOptions.data = _data;
-
-                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addSanctionProcessInfoSuccess);
-                                }
-
-                            }).error(function () {
-
-                                $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addSanctionProcessInfoError);
-                            });
-
-                        this.close();
-                    }
-
-                };
-
-                /**
-                 * Remove sanctions for processing information model
-                 * @type {{remove: Function}}
-                 * @public
-                 */
-                $scope.removeProcessInfoSanctionModel = {
-
-                    /**
-                     * Remove sanctions for processing information
-                     * @returns {boolean} - if user has not selected row
-                     * @public
-                     */
-                    remove: function () {
-
-                        if (!$scope.gridApi.selection.getSelectedRows().length) {
-                            return true;
+                            this.close();
                         }
 
+                    },
+
+                    /**
+                     * Remove sanction
+                     */
+                    removeSanction: {
+
                         /**
-                         * Remove request to the server
-                         * @private
+                         * Remove sanctions for processing information
+                         * @returns {boolean} - if user has not selected row
+                         * @public
                          */
-                        var _removeRequest = function () {
+                        remove: function () {
 
-                            $http.post(
-                                '/',
-                                {
-                                    ids: 'ids to remove'
-                                }
-                            ).success(function (data) {
-                                    var _interval = null;
+                            if (!$scope.gridApi.selection.getSelectedRows().length) {
+                                return true;
+                            }
 
-                                    //emulate delete error from the server
-                                    var _data = {
-                                        errors: 'Delete error happened!'
-                                    };
+                            /**
+                             * Remove request to the server
+                             * @private
+                             */
+                            var _removeRequest = function () {
 
-                                    if (_data.errors) {// if server returned errors
+                                $http.post(
+                                    '/',
+                                    {
+                                        ids: 'ids to remove'
+                                    }
+                                ).success(function (data) {
+                                        var _interval = null;
 
-                                        // show error modal dialog about the errors
-                                        // using here interval to make delay
-                                        _interval = $interval(function () {
-                                            $translate(['DIALOG.REMOVE_SANCTION_PROCESS_INFO.ERROR.TITLE', 'DIALOG.REMOVE_SANCTION_PROCESS_INFO.ERROR.OK'])
-                                                .then(function (translation) {
-                                                    dialogService.open(
-                                                        translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.ERROR.TITLE'],
-                                                        _data.errors,
-                                                        translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.ERROR.OK'],
-                                                        '',
-                                                        'error',
-                                                        false);
-                                                    $interval.cancel(_interval);
-                                                });
-                                        }, 3000);
+                                        //emulate delete error from the server
+                                        var _data = {
+                                            errors: 'Delete error happened!'
+                                        };
+
+                                        if (_data.errors) {// if server returned errors
+
+                                            // show error modal dialog about the errors
+                                            // using here interval to make delay
+                                            _interval = $interval(function () {
+                                                $translate(['DIALOG.REMOVE_SANCTION_PROCESS_INFO.ERROR.TITLE', 'DIALOG.REMOVE_SANCTION_PROCESS_INFO.ERROR.OK'])
+                                                    .then(function (translation) {
+                                                        dialogService.open(
+                                                            translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.ERROR.TITLE'],
+                                                            _data.errors,
+                                                            translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.ERROR.OK'],
+                                                            '',
+                                                            'error',
+                                                            false);
+                                                        $interval.cancel(_interval);
+                                                    });
+                                            }, 3000);
+
+                                            $rootScope.$broadcast(SUPER_ADMIN_EVENTS.sanctionProcessInfoRemoveError);
+
+                                        } else { // if server removed selected users
+
+                                            // apply updated data from the server to ui-grid
+                                            $scope.gridOptions.data = _data;
+
+                                            $rootScope.$broadcast(SUPER_ADMIN_EVENTS.sanctionProcessInfoRemoveSuccess);
+                                        }
+
+                                    }).error(function () {
 
                                         $rootScope.$broadcast(SUPER_ADMIN_EVENTS.sanctionProcessInfoRemoveError);
+                                    });
+                            };
 
-                                    } else { // if server removed selected users
-
-                                        // apply updated data from the server to ui-grid
-                                        $scope.gridOptions.data = _data;
-
-                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.sanctionProcessInfoRemoveSuccess);
-                                    }
-
-                                }).error(function () {
-
-                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.sanctionProcessInfoRemoveError);
+                            // show remove confirmation dialog
+                            $translate(['DIALOG.REMOVE_SANCTION_PROCESS_INFO.TITLE',
+                                'DIALOG.REMOVE_SANCTION_PROCESS_INFO.BODY.FIRST_PART',
+                                'DIALOG.REMOVE_SANCTION_PROCESS_INFO.BODY.SECOND_PART',
+                                'DIALOG.REMOVE_SANCTION_PROCESS_INFO.OK',
+                                'DIALOG.REMOVE_SANCTION_PROCESS_INFO.CANCEL'])
+                                .then(function (translation) {
+                                    dialogService.open(
+                                        translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.TITLE'],
+                                        translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.BODY.FIRST_PART']
+                                        + $scope.gridApi.selection.getSelectedRows().length +
+                                        translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.BODY.SECOND_PART'],
+                                        translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.OK'],
+                                        translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.CANCEL'],
+                                        '',
+                                        true,
+                                        _removeRequest);
                                 });
-                        };
+                            //console.log($scope.gridApi.selection.getSelectedGridRows());
+                            //console.log($scope.gridApi.selection.getSelectedRows());
 
-                        // show remove confirmation dialog
-                        $translate(['DIALOG.REMOVE_SANCTION_PROCESS_INFO.TITLE',
-                            'DIALOG.REMOVE_SANCTION_PROCESS_INFO.BODY.FIRST_PART',
-                            'DIALOG.REMOVE_SANCTION_PROCESS_INFO.BODY.SECOND_PART',
-                            'DIALOG.REMOVE_SANCTION_PROCESS_INFO.OK',
-                            'DIALOG.REMOVE_SANCTION_PROCESS_INFO.CANCEL'])
-                            .then(function (translation) {
-                                dialogService.open(
-                                    translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.TITLE'],
-                                    translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.BODY.FIRST_PART']
-                                    + $scope.gridApi.selection.getSelectedRows().length +
-                                    translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.BODY.SECOND_PART'],
-                                    translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.OK'],
-                                    translation['DIALOG.REMOVE_SANCTION_PROCESS_INFO.CANCEL'],
-                                    '',
-                                    true,
-                                    _removeRequest);
-                            });
-                        //console.log($scope.gridApi.selection.getSelectedGridRows());
-                        //console.log($scope.gridApi.selection.getSelectedRows());
-
-                    }
-                };
-
-                /**
-                 * Add New Sanction Accessing Service Information Model
-                 * @type {{openAddNewAccessingServiceInfoSanction: boolean, dropdownsInitState: boolean, accessServiceInfoSanctionForm: null, datetimePickerFrameStartService: null, datetimePickerFrameEndService: null, sanction: {number: string, organ: string, user: string}, initialSanctionData: null, open: Function, close: Function, userChange: Function, organChange: Function, save: Function}}
-                 * @public
-                 */
-                $scope.addAccessServiceInfoSanctionModel = {
-
-                    /**
-                     * Model fields
-                     * @public
-                     */
-                    openAddNewAccessingServiceInfoSanction: false,
-                    dropdownsInitState: false,
-
-                    accessServiceInfoSanctionForm: null,
-                    datetimePickerFrameStartService: null,
-                    datetimePickerFrameEndService: null,
-
-                    sanction: {
-                        number: '',
-                        organ: '',
-                        user: ''
-                    },
-
-                    initialSanctionData: null,
-
-                    /**
-                     * Open window to add new sanction
-                     * @param {Object} accessServiceInfoSanctionForm
-                     * @public
-                     */
-                    open: function (accessServiceInfoSanctionForm) {
-
-                        this.datetimePickerFrameStartService = datetimePickerService.init('sanction-access-service-info-starts');
-                        this.datetimePickerFrameEndService = datetimePickerService.init('sanction-access-service-info-ends');
-
-                        this.openAddNewAccessingServiceInfoSanction = true;
-                        this.dropdownsInitState = true;
-
-                        this.processInfoSanctionForm = accessServiceInfoSanctionForm;
-
-                        this.initialSanctionData = angular.copy(this.sanction);
-                    },
-
-                    /**
-                     * Close window add new sanction
-                     * @public
-                     */
-                    close: function () {
-                        this.datetimePickerFrameStartService.clear();
-                        this.datetimePickerFrameEndService.clear();
-
-                        this.openAddNewAccessingServiceInfoSanction = false;
-                        this.dropdownsInitState = false;
-
-                        this.processInfoSanctionForm.$setPristine();
-                        this.processInfoSanctionForm.$setUntouched();
-
-                        this.sanction = angular.copy(this.initialSanctionData);
-
-                        menuService.removeSelectedState('sanction-access-service-info-organ-dropdown');
-                        menuService.removeSelectedState('sanction-access-service-info-user-dropdown');
-                    },
-
-                    /**
-                     * User change handler
-                     * @param {String} user
-                     * @public
-                     */
-                    userChange: function (user) {
-                        this.sanction.user = user;
-                    },
-
-                    /**
-                     * Organ change handler
-                     * @param {String} organ
-                     * @public
-                     */
-                    organChange: function (organ) {
-                        this.sanction.organ = organ;
-                    },
-
-                    /**
-                     * Save newly created sanction for accessing service info
-                     * @public
-                     */
-                    save: function () {
-
-                        var _interval = null,
-                            _this = this;
-
-                        $http.post(
-                            '/',
-                            {
-                                number: _this.sanction.number,
-                                dateStarts: _this.datetimePickerFrameStartService.getDateTime(),
-                                dateEnds: _this.datetimePickerFrameEndService.getDateTime(),
-                                organ: _this.sanction.organ,
-                                user: _this.sanction.user
-                            }
-                        ).success(function (data) {
-
-                                //to emulate error from the server
-                                var _data = {
-                                    errors: 'Add new sanction for accessing service information error happened'
-                                };
-
-                                //errors came from the server
-                                if (_data.errors) {
-
-                                    // show error modal dialog about the errors
-                                    // using here interval to make delay
-                                    _interval = $interval(function () {
-                                        $translate(['DIALOG.ADD_SANCTION_ACCESS_SERVICE_INFO.ERROR.TITLE', 'DIALOG.ADD_SANCTION_ACCESS_SERVICE_INFO.OK'])
-                                            .then(function (translation) {
-                                                dialogService.open(
-                                                    translation['DIALOG.ADD_SANCTION_ACCESS_SERVICE_INFO.ERROR.TITLE'],
-                                                    _data.errors,
-                                                    translation['DIALOG.ADD_SANCTION_ACCESS_SERVICE_INFO.OK'],
-                                                    '',
-                                                    'error',
-                                                    false);
-                                                $interval.cancel(_interval);
-                                            });
-                                    }, 3000);
-
-                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addSanctionAccessServiceInfoError);
-
-                                } else { //server return success for creation new user
-
-                                    //apply updated data from the server to ui-gird
-                                    $scope.gridOptions.data = _data;
-
-                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addSanctionAccessServiceInfoSuccess);
-                                }
-
-                            }).error(function () {
-
-                                $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addSanctionAccessServiceInfoError);
-                            });
-
-                        this.close();
-                    }
-
-                };
-
-                /**
-                 * Remove Access Service Information Sanction Model
-                 * @type {{remove: Function}}
-                 * @public
-                 */
-                $scope.removeAccessServiceInfoSanctionModel = {
-
-                    /**
-                     * Remove sanctions for accessing service information
-                     * @returns {boolean} - if user has not selected row
-                     * @public
-                     */
-                    remove: function () {
-
-                        if (!$scope.gridApi.selection.getSelectedRows().length) {
-                            return true;
                         }
+                    }
+                };
+
+                /**
+                 * Access Service Information Model
+                 * @type {{createSanction: {openAddNewAccessingServiceInfoSanction: boolean, dropdownsInitState: boolean, isInvalidUserDropdown: boolean, isInvalidOrganDropdown: boolean, accessServiceInfoSanctionForm: null, datetimePickerFrameStartService: null, datetimePickerFrameEndService: null, sanction: {number: string, organ: string, user: string}, initialSanctionData: null, open: Function, close: Function, userChange: Function, organChange: Function, save: Function}, removeSanction: {remove: Function}}}
+                 * @public
+                 */
+                $scope.accessServiceInformationModel = {
+
+                    /**
+                     * Create sanction
+                     */
+                    createSanction: {
 
                         /**
-                         * Remove request to the server
-                         * @private
+                         * Create sanction fields
+                         * @public
                          */
-                        var _removeRequest = function () {
+                        openAddNewAccessingServiceInfoSanction: false,
+                        dropdownsInitState: false,
+                        isInvalidUserDropdown: false,
+                        isInvalidOrganDropdown: false,
+
+                        accessServiceInfoSanctionForm: null,
+                        datetimePickerFrameStartService: null,
+                        datetimePickerFrameEndService: null,
+
+                        sanction: {
+                            number: '',
+                            organ: '',
+                            user: ''
+                        },
+
+                        initialSanctionData: null,
+
+                        /**
+                         * Open window to add new sanction
+                         * @param {Object} accessServiceInfoSanctionForm
+                         * @public
+                         */
+                        open: function (accessServiceInfoSanctionForm) {
+
+                            this.datetimePickerFrameStartService = datetimePickerService.init('sanction-access-service-info-starts');
+                            this.datetimePickerFrameEndService = datetimePickerService.init('sanction-access-service-info-ends');
+
+                            this.openAddNewAccessingServiceInfoSanction = true;
+                            this.dropdownsInitState = true;
+
+                            this.accessServiceInfoSanctionForm = accessServiceInfoSanctionForm;
+
+                            this.initialSanctionData = angular.copy(this.sanction);
+                        },
+
+                        /**
+                         * Close window add new sanction
+                         * @public
+                         */
+                        close: function () {
+                            this.datetimePickerFrameStartService.clear();
+                            this.datetimePickerFrameEndService.clear();
+
+                            this.openAddNewAccessingServiceInfoSanction = false;
+                            this.dropdownsInitState = false;
+                            this.isInvalidOrganDropdown = false;
+                            this.isInvalidUserDropdown = false;
+
+                            this.accessServiceInfoSanctionForm.$setPristine();
+                            this.accessServiceInfoSanctionForm.$setUntouched();
+
+                            this.sanction = angular.copy(this.initialSanctionData);
+                            $scope.datetime = angular.copy($scope.initialDateTime);
+
+                            menuService.removeSelectedState('sanction-access-service-info-organ-dropdown');
+                            menuService.removeSelectedState('sanction-access-service-info-user-dropdown');
+                        },
+
+                        /**
+                         * User change handler
+                         * @param {String} user
+                         * @public
+                         */
+                        userChange: function (user) {
+                            if (user.length) {
+                                this.isInvalidUserDropdown = false;
+                                this.sanction.user = user;
+                            }
+                        },
+
+                        /**
+                         * Organ change handler
+                         * @param {String} organ
+                         * @public
+                         */
+                        organChange: function (organ) {
+                            if (organ.length) {
+                                this.isInvalidOrganDropdown = false;
+                                this.sanction.organ = organ;
+                            }
+                        },
+
+                        /**
+                         * Save newly created sanction for accessing service info
+                         * @public
+                         */
+                        save: function () {
+
+                            var _interval = null,
+                                _this = this;
+
+                            if (!_this.accessServiceInfoSanctionForm.$valid) {
+                                _this.accessServiceInfoSanctionForm.number.$dirty = true;
+                                _this.accessServiceInfoSanctionForm.starts.$dirty = true;
+                                _this.accessServiceInfoSanctionForm.ends.$dirty = true;
+
+                                _this.isInvalidUserDropdown = true;
+                                _this.isInvalidOrganDropdown = true;
+                                return true;
+                            }
 
                             $http.post(
                                 '/',
                                 {
-                                    ids: 'ids to remove'
+                                    number: _this.sanction.number,
+                                    dateStarts: $scope.datetime.starts,
+                                    dateEnds: $scope.datetime.ends,
+                                    organ: _this.sanction.organ,
+                                    user: _this.sanction.user
                                 }
                             ).success(function (data) {
-                                    var _interval = null;
 
-                                    //emulate delete error from the server
+                                    //to emulate error from the server
                                     var _data = {
-                                        errors: 'Delete error happened!'
+                                        errors: 'Add new sanction for accessing service information error happened'
                                     };
 
-                                    if (_data.errors) {// if server returned errors
+                                    //errors came from the server
+                                    if (_data.errors) {
 
                                         // show error modal dialog about the errors
                                         // using here interval to make delay
                                         _interval = $interval(function () {
-                                            $translate(['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.ERROR.TITLE',
-                                                'DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.ERROR.OK'])
+                                            $translate(['DIALOG.ADD_SANCTION_ACCESS_SERVICE_INFO.ERROR.TITLE', 'DIALOG.ADD_SANCTION_ACCESS_SERVICE_INFO.OK'])
                                                 .then(function (translation) {
                                                     dialogService.open(
-                                                        translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.ERROR.TITLE'],
+                                                        translation['DIALOG.ADD_SANCTION_ACCESS_SERVICE_INFO.ERROR.TITLE'],
                                                         _data.errors,
-                                                        translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.ERROR.OK'],
+                                                        translation['DIALOG.ADD_SANCTION_ACCESS_SERVICE_INFO.OK'],
                                                         '',
                                                         'error',
                                                         false);
@@ -1917,44 +1979,118 @@
                                                 });
                                         }, 3000);
 
-                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.sanctionAccessServiceInfoRemoveError);
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addSanctionAccessServiceInfoError);
 
-                                    } else { // if server removed selected users
+                                    } else { //server return success for creation new user
 
-                                        // apply updated data from the server to ui-grid
+                                        //apply updated data from the server to ui-gird
                                         $scope.gridOptions.data = _data;
 
-                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.sanctionAccessServiceInfoRemoveSuccess);
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addSanctionAccessServiceInfoSuccess);
                                     }
 
                                 }).error(function () {
 
-                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.sanctionAccessServiceInfoRemoveError);
+                                    $rootScope.$broadcast(SUPER_ADMIN_EVENTS.addSanctionAccessServiceInfoError);
                                 });
-                        };
 
-                        // show remove confirmation dialog
-                        $translate(['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.TITLE',
-                            'DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.BODY.FIRST_PART',
-                            'DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.BODY.SECOND_PART',
-                            'DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.OK',
-                            'DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.CANCEL'])
-                            .then(function (translation) {
-                                dialogService.open(
-                                    translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.TITLE'],
-                                    translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.BODY.FIRST_PART']
-                                    + $scope.gridApi.selection.getSelectedRows().length +
-                                    translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.BODY.SECOND_PART'],
-                                    translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.OK'],
-                                    translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.CANCEL'],
-                                    '',
-                                    true,
-                                    _removeRequest);
-                            });
-                        //console.log($scope.gridApi.selection.getSelectedGridRows());
-                        //console.log($scope.gridApi.selection.getSelectedRows());
+                            this.close();
+                        }
+                    },
 
+                    /**
+                     * Remove sanction
+                     */
+                    removeSanction: {
+                        /**
+                         * Remove sanctions for accessing service information
+                         * @returns {boolean} - if user has not selected row
+                         * @public
+                         */
+                        remove: function () {
+
+                            if (!$scope.gridApi.selection.getSelectedRows().length) {
+                                return true;
+                            }
+
+                            /**
+                             * Remove request to the server
+                             * @private
+                             */
+                            var _removeRequest = function () {
+
+                                $http.post(
+                                    '/',
+                                    {
+                                        ids: 'ids to remove'
+                                    }
+                                ).success(function (data) {
+                                        var _interval = null;
+
+                                        //emulate delete error from the server
+                                        var _data = {
+                                            errors: 'Delete error happened!'
+                                        };
+
+                                        if (_data.errors) {// if server returned errors
+
+                                            // show error modal dialog about the errors
+                                            // using here interval to make delay
+                                            _interval = $interval(function () {
+                                                $translate(['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.ERROR.TITLE',
+                                                    'DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.ERROR.OK'])
+                                                    .then(function (translation) {
+                                                        dialogService.open(
+                                                            translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.ERROR.TITLE'],
+                                                            _data.errors,
+                                                            translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.ERROR.OK'],
+                                                            '',
+                                                            'error',
+                                                            false);
+                                                        $interval.cancel(_interval);
+                                                    });
+                                            }, 3000);
+
+                                            $rootScope.$broadcast(SUPER_ADMIN_EVENTS.sanctionAccessServiceInfoRemoveError);
+
+                                        } else { // if server removed selected users
+
+                                            // apply updated data from the server to ui-grid
+                                            $scope.gridOptions.data = _data;
+
+                                            $rootScope.$broadcast(SUPER_ADMIN_EVENTS.sanctionAccessServiceInfoRemoveSuccess);
+                                        }
+
+                                    }).error(function () {
+
+                                        $rootScope.$broadcast(SUPER_ADMIN_EVENTS.sanctionAccessServiceInfoRemoveError);
+                                    });
+                            };
+
+                            // show remove confirmation dialog
+                            $translate(['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.TITLE',
+                                'DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.BODY.FIRST_PART',
+                                'DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.BODY.SECOND_PART',
+                                'DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.OK',
+                                'DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.CANCEL'])
+                                .then(function (translation) {
+                                    dialogService.open(
+                                        translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.TITLE'],
+                                        translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.BODY.FIRST_PART']
+                                        + $scope.gridApi.selection.getSelectedRows().length +
+                                        translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.BODY.SECOND_PART'],
+                                        translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.OK'],
+                                        translation['DIALOG.REMOVE_SANCTION_ACCESS_SERVICE_INFO.CANCEL'],
+                                        '',
+                                        true,
+                                        _removeRequest);
+                                });
+                            //console.log($scope.gridApi.selection.getSelectedGridRows());
+                            //console.log($scope.gridApi.selection.getSelectedRows());
+
+                        }
                     }
+
                 };
 
                 /**

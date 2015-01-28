@@ -49,7 +49,9 @@
                 <span class="node-amount">{{node.queriesAmount}}</span>
                 <span ng-click="nodeClick($event, node.categoryType)">{{node.protocolName}}</span>
                 <span ng-click="nodeClick($event, node.categoryType)">{{node.queryName}}</span>
-                <span class="node-amount">{{node.recordsAmount}}&nbsp;<paper-spinner class="control-tree-spinner" ng-show="node.recordsAmount ? true : false" active></paper-spinner></span>
+                <span class="node-amount">{{node.recordsAmount}}&nbsp;<paper-spinner class="control-tree-spinner"
+                                                                                     ng-show="node.recordsAmount ? true : false"
+                                                                                     active></paper-spinner></span>
             </treecontrol>
         </div>
         <paper-spinner active></paper-spinner>
@@ -273,10 +275,12 @@
                             </paper-input-decorator>
 
 
-                            <paper-button raised class="filter-btn colored save" ng-click="filterModel.applyFilters(1)">{{'FILTERS.APPLY' |
+                            <paper-button raised class="filter-btn colored save" ng-click="filterModel.applyFilters(1)">
+                                {{'FILTERS.APPLY' |
                                 translate}}
                             </paper-button>
-                            <paper-button raised class="filter-btn cancel" ng-click="filterModel.resetFilters()">{{'FILTERS.RESET' | translate}}
+                            <paper-button raised class="filter-btn cancel" ng-click="filterModel.resetFilters()">
+                                {{'FILTERS.RESET' | translate}}
                             </paper-button>
 
 
@@ -332,7 +336,8 @@
             </div>
             <div ng-if="content == 'content-2'" class="access-service-info-results">
                 <div class="buttons-wrapper" horizontal layout>
-                    <paper-button raised class="colored" ng-click="accessServiceInfoModel.createQuery.open(addNewQueryAccessServiceInfoForm)">
+                    <paper-button raised class="colored"
+                                  ng-click="accessServiceInfoModel.createQuery.open(addNewQueryAccessServiceInfoForm)">
                         {{'HANDLER.CREATE_QUERY' | translate}}
                     </paper-button>
                     <paper-button raised class="colored" ng-show="showQueryResultsBtn"
@@ -349,7 +354,8 @@
                      class="data-grid"></div>
             </div>
             <div ng-if="content == 'content-3'" class="access-service-info">
-                <paper-button raised class="colored" ng-click="accessServiceInfoModel.createQuery.open(addNewQueryAccessServiceInfoForm)">
+                <paper-button raised class="colored"
+                              ng-click="accessServiceInfoModel.createQuery.open(addNewQueryAccessServiceInfoForm)">
                     {{'HANDLER.CREATE_QUERY' | translate}}
                 </paper-button>
             </div>
@@ -571,10 +577,12 @@
                         </paper-input-decorator>
 
 
-                        <paper-button raised class="filter-btn colored save" ng-click="filterModel.applyFilters(2)">{{'FILTERS.APPLY' |
+                        <paper-button raised class="filter-btn colored save" ng-click="filterModel.applyFilters(2)">
+                            {{'FILTERS.APPLY' |
                             translate}}
                         </paper-button>
-                        <paper-button raised class="filter-btn cancel" ng-click="filterModel.resetFilters()">{{'FILTERS.RESET' |
+                        <paper-button raised class="filter-btn cancel" ng-click="filterModel.resetFilters()">
+                            {{'FILTERS.RESET' |
                             translate}}
                         </paper-button>
 
@@ -694,13 +702,23 @@
                        ng-model="accessServiceInfoModel.createQuery.query.number"
                        required>
             </paper-input-decorator>
-            <datetime-picker id="timeframe-starts"
-                             class="datetime-picker"
-                             label="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.TIME_FRAME_START.PLACEHOLDER' | translate}}"></datetime-picker>
-            <datetime-picker id="timeframe-ends"
-                             class="datetime-picker"
-                             label="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.TIME_FRAME_END.PLACEHOLDER' | translate}}"></datetime-picker>
+            <datetime-picker
+                    id="timeframe-starts"
+                    label="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.TIME_FRAME_START.PLACEHOLDER' | translate}}"
+                    error="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.TIME_FRAME_START.ERRORS.REQUIRED' | translate}}"
+                    isInvalid="{{addNewQueryAccessServiceInfoForm.starts.$dirty && addNewQueryAccessServiceInfoForm.starts.$invalid}}">
+                <input type="hidden" name="starts" ng-model="datetime.starts" required/>
+            </datetime-picker>
+            <datetime-picker
+                    id="timeframe-ends"
+                    label="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.TIME_FRAME_END.PLACEHOLDER' | translate}}"
+                    error="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.TIME_FRAME_END.ERRORS.REQUIRED' | translate}}"
+                    isInvalid="{{addNewQueryAccessServiceInfoForm.ends.$dirty && addNewQueryAccessServiceInfoForm.ends.$invalid}}">
+                <input type="hidden" name="ends" ng-model="datetime.ends" required/>
+            </datetime-picker>
+
             <core-dropdown-menu class="dropdown-elem handler-id-type-dropdown"
+                                ng-class="{error: accessServiceInfoModel.createQuery.isInvalidIdTypeDropdown}"
                                 label="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.DROPDOWN.ID_TYPE.PLACEHOLDER' | translate}}"
                                 id="id-type-dropdown"
                                 initstate="{{accessServiceInfoModel.createQuery.dropdownsInitState}}">
@@ -714,16 +732,22 @@
                                    ng-click="accessServiceInfoModel.createQuery.idTypeChange('Cellphone')"></core-item>
                     </core-selector>
                 </core-dropdown>
+                <div ng-show="accessServiceInfoModel.createQuery.isInvalidIdTypeDropdown" class="error" layout horizontal center>
+                    <div class="error-text" flex auto role="alert" aria-hidden="false">{{'CREATE_QUERY_ACCESS_SERVICE_INFO.DROPDOWN.ID_TYPE.ERRORS.REQUIRED' | translate}}</div>
+                    <core-icon class="error-icon" icon="warning" aria-label="warning" role="img"><svg viewBox="0 0 24 24" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" fit="" style="pointer-events: none; display: block;"><g><path d="M1 21h22l-11-19-11 19zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"></path></g></svg></core-icon>
+                </div>
             </core-dropdown-menu>
             <paper-input-decorator
                     label="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.ID.PLACEHOLDER' | translate}}"
                     floatingLabel
+                    ng-disabled="accessServiceInfoModel.createQuery.isIdFieldDisable"
                     class="paper-input"
                     error="{{'CREATE_QUERY_ACCESS_SERVICE_INFO.INPUTS.ID.ERRORS.REQUIRED' | translate}}"
                     isInvalid="{{addNewQueryAccessServiceInfoForm.id.$dirty && addNewQueryAccessServiceInfoForm.id.$invalid}}">
                 <input type="text"
                        name="id"
                        is="core-input"
+                       ng-disabled="accessServiceInfoModel.createQuery.isIdFieldDisable"
                        ng-model="accessServiceInfoModel.createQuery.query.id"
                        required>
             </paper-input-decorator>
@@ -731,9 +755,7 @@
                           opened="{{accessServiceInfoModel.createQuery.openCreateNewQuery}}"></core-overlay>
             <paper-button raised
                           class="create-query-buttons colored save"
-                          ng-click="addNewQueryAccessServiceInfoForm.$valid ?
-                                        accessServiceInfoModel.createQuery.save() :
-                                        addNewQueryAccessServiceInfoForm.query.number.$dirty = true">
+                          ng-click="accessServiceInfoModel.createQuery.save()">
                 {{'CREATE_QUERY_ACCESS_SERVICE_INFO.BUTTONS.SAVE' |
                 translate}}
             </paper-button>
