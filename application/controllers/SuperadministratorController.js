@@ -340,8 +340,8 @@
                     enableVerticalScrollbar: uiGridConstants.scrollbars.NEVER,
                     // Calling the externalScopes() method will allow you to reach up to the controller scope
                     rowTemplate: '<div  tabindex="1" ' +
-                    'ng-click="getExternalScopes().onRowClick(row)" ' +
-                    'ng-keyup="getExternalScopes().onRowKeyUp($event, row, index)" ' +
+                    'ng-click="grid.appScope.dataGridModel.onRowClick(row)" ' +
+                    'ng-keyup="grid.appScope.dataGridModel.onRowKeyUp($event, row, index)" ' +
                     'ng-repeat="col in colContainer.renderedColumns track by col.colDef.name" ' +
                     'class="ui-grid-cell" ' +
                     'ui-grid-cell>' +
@@ -409,9 +409,6 @@
 
 
                 $scope.saveRow = function (rowEntity) {
-                    console.info('save the row');
-                    console.info(rowEntity);
-
                     var promise = $http.post(
                         '/',
                         {

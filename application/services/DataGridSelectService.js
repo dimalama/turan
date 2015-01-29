@@ -90,7 +90,7 @@
                     break;
                 case 'down':
                     _goToRow = _currentRowIndex + 1;
-                    break
+                    break;
             }
 
 

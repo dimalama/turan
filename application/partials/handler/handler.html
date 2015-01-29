@@ -333,6 +333,9 @@
                 <a href="{{linkPcapFile}}" target="_blank" class="download-file" ng-show="showDownloadPcapFile">
                     <core-icon icon="file-download"></core-icon>
                     {{'HANDLER.DOWNLOAD.PCAP' | translate}}</a>
+                <div ng-show="showHttpDetailInfo">
+                    Shows HTTP protocol content here
+                </div>
             </div>
             <div ng-if="content == 'content-2'" class="access-service-info-results">
                 <div class="buttons-wrapper" horizontal layout>
@@ -380,7 +383,6 @@
                                   ng-click="">
                         <core-icon-button icon="save"></core-icon-button>
                     </core-tooltip>
-
 
                     <core-collapse class="filters-collapse" opened="{{showFilters}}">
 

@@ -50,7 +50,7 @@
                         id: 'd2VudHdvcnRobWFuOkNoYW5nZV9tZQ==',
                         user: {
                             name: 'Dimon',
-                            role: 1, //superadministrator
+                            role: 3, //superadministrator
                             organ: 'FSB'
                         }
                     };

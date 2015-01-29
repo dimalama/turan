@@ -188,6 +188,13 @@
                 $scope.currentQuery = '';
 
                 /**
+                 * Controls http protocol detail info display
+                 * @type {boolean}
+                 * @public
+                 */
+                $scope.showHttpDetailInfo = false;
+
+                /**
                  * angular tree control initialize options
                  * @type {{nodeChildren: string, dirSelectable: boolean, injectClasses: {ul: string, li: string, liSelected: string, iExpanded: string, iCollapsed: string, iLeaf: string, label: string, labelSelected: string}}}
                  * @public
@@ -221,10 +228,11 @@
                     enableVerticalScrollbar: uiGridConstants.scrollbars.NEVER,
                     minimumColumnSize: 100,
                     paginationPageSize: 10,
+                    enablePaginationControls: false,
                     // Calling the externalScopes() method will allow you to reach up to the controller scope
                     rowTemplate: '<div  tabindex="1" ' +
-                    'ng-click="getExternalScopes().onRowClick(row)" ' +
-                    'ng-keyup="getExternalScopes().onRowKeyUp($event, row, index)" ' +
+                    'ng-click="grid.appScope.dataGridModel.onRowClick(row)" ' +
+                    'ng-keyup="grid.appScope.dataGridModel.onRowKeyUp($event, row, index)" ' +
                     'ng-repeat="col in colContainer.renderedColumns track by col.colDef.name" ' +
                     'class="ui-grid-cell" ' +
                     'ui-grid-cell>' +
@@ -288,6 +296,11 @@
                                         protocolName: 'SIP',
                                         categoryType: 1,
                                         recordsAmount: '(10)'
+                                    },
+                                    {
+                                        protocolName: 'HTTP',
+                                        categoryType: 1,
+                                        recordsAmount: '(6)'
                                     }
                                 ]
                             }
@@ -388,6 +401,29 @@
 
                 ];
 
+                $scope.httpData = [
+                    {
+                        collectedTime: '1342132',
+                        sourceIp: '192.168.72.32',
+                        sourcePort: '8080',
+                        dstIp: '231.122.22.22',
+                        dstPort: '8080',
+                        protocolType: 'TCP',
+                        radiusUser: 'user-rad',
+                        locationInfo: 'lat:324329 long:4324243',
+                        action: 'request',
+                        rqVersion: '200',
+                        uri: 'http://www.yahoo.com',
+                        host: 'yahoo.com',
+                        cookie: 'cookie',
+                        setCookie: 'set cookie',
+                        status: '200',
+                        description: '',
+                        contentType: 'application/text',
+                        referer: 'http://www.google.com'
+                    }
+                ];
+
                 /**
                  * emulate complete query data for accessing service information
                  * @type {{number: string, idType: string, id: string, datetimeStarts: string, datetimeEnds: string, complete: string}[]}
@@ -419,38 +455,6 @@
                         complete: '80%'
                     }
                 ];
-
-                /**
-                 * emulate audio file from the server with mapping id's
-                 * @type {{12345: {src: string, type: string}, 123456: {src: string, type: string}, 1234567: {src: string, type: string}}}
-                 * @public
-                 */
-                $scope.audio = {
-                    12345: {
-                        sources: [
-                            {
-                                src: 'assets/audio/about_time.wav',
-                                type: 'audio/x-wav'
-                            }
-                        ]
-                    },
-                    123456: {
-                        sources: [
-                            {
-                                src: 'assets/audio/activity_unproductive.wav',
-                                type: 'audio/x-wav'
-                            }
-                        ]
-                    },
-                    1234567: {
-                        sources: [
-                            {
-                                src: 'assets/audio/edison.wav',
-                                type: 'audio/x-wav'
-                            }
-                        ]
-                    }
-                };
 
                 /**
                  * Access outside scope functions from ui-grid row template
@@ -488,7 +492,6 @@
                                 dataGridSelectService.selectRow(_row, false, 'down');
                                 break;
                         }
-
                     }
                 };
 
@@ -539,36 +542,21 @@
                     dataGridPagingService.initService($scope.gridApi, $scope.menuId);
                     $scope.pagesArray = dataGridPagingService.getPagesArray();
 
+                    /**
+                     * ui-grid row select handler
+                     */
                     gridApi.selection.on.rowSelectionChanged($scope, function (row) {
                         var _row = row;
-
-                        if (_row.isSelected) {
-                            if (_row.entity.linkWavFile.length) {
-                                $scope.showAudioPlayer = true;
-                                $scope.showDownloadWavFile = true;
-
-                                $scope.audioPlayerApi.stop();
-                                $scope.audioPlayerConfig.sources = [
-                                    {
-                                        src: _row.entity.linkWavFile,
-                                        type: 'audio/x-wav'
-                                    }
-                                ];
-                                $scope.linkWavFile = _row.entity.linkWavFile;
-                            }
-                            if (_row.entity.linkPcapFile.length) {
-                                $scope.showDownloadPcapFile = true;
-                                $scope.linkPcapFile = _row.entity.linkPcapFile;
-                            }
-                        } else {
-                            $scope.audioPlayerApi.stop();
-                            $scope.showAudioPlayer = false;
-                            $scope.showDownloadWavFile = false;
-                            $scope.showDownloadPcapFile = false;
+                        switch (_row.grid.options.protocol) {
+                            case 'sip':
+                                sipRowSelectHandler(_row);
+                                break;
+                            case 'http':
+                                httpRowSelectHandler(_row);
+                                break;
                         }
                     });
                 };
-
 
                 /**
                  * Select tree node handler
@@ -623,16 +611,54 @@
                                 {field: 'action', displayName: 'Action', minWidth: 100}
                             ];
                             $scope.gridOptions.data = $scope.sipData;
+                            $scope.gridOptions.protocol = 'sip';
+                            break;
+                        case 'HTTP':
+                            $scope.gridOptions.columnDefs = [
+                                {field: 'collectedTime', displayName: 'Collected Time', minWidth: 100},
+                                {field: 'sourceIp', displayName: 'Source IP', minWidth: 100},
+                                {field: 'sourcePort', displayName: 'Source Port', minWidth: 100},
+                                {field: 'dstIp', displayName: 'DST IP', minWidth: 100},
+                                {field: 'dstPort', displayName: 'DST PORT', minWidth: 100},
+                                {field: 'protocolType', displayName: 'Protocol Type', minWidth: 100},
+                                {field: 'radiusUser', displayName: 'Radius User', minWidth: 100},
+                                {field: 'locationInfo', displayName: 'Location Information', minWidth: 100},
+                                {field: 'action', displayName: 'Action', minWidth: 100},
+                                {field: 'rqVersion', displayName: 'RqVersion', minWidth: 100},
+                                {field: 'uri', displayName: 'URI', minWidth: 100},
+                                {field: 'host', displayName: 'Host', minWidth: 100},
+                                {field: 'cookie', displayName: 'Cookie', minWidth: 100},
+                                {field: 'setCookie', displayName: 'Set Cookie', minWidth: 100},
+                                {field: 'status', displayName: 'Status', minWidth: 100},
+                                {field: 'description', displayName: 'Description', minWidth: 100},
+                                {field: 'contentType', displayName: 'Content Type', minWidth: 100},
+                                {field: 'referer', displayName: 'Referer', minWidth: 100}
+                            ];
+                            $scope.gridOptions.data = $scope.httpData;
+                            $scope.gridOptions.protocol = 'http';
                             break;
                     }
+                    resetDetailView();
                     $scope.showMenuContent($scope.controlTreeRootCategoryType);
                 };
 
                 /**
-                 * Unselect selected node
-                 * @public
+                 * Reset detail view state (make it empty)
+                 * @private
                  */
-                $scope.clearSelectedNode = function () {
+                var resetDetailView = function () {
+                    //$scope.audioPlayerApi.stop();
+                    $scope.showAudioPlayer = false;
+                    $scope.showDownloadWavFile = false;
+                    $scope.showDownloadPcapFile = false;
+                    $scope.showHttpDetailInfo = false;
+                };
+
+                /**
+                 * Unselect selected node
+                 * @private
+                 */
+                var clearSelectedNode = function () {
                     $scope.selectedNode = undefined;
                 };
 
@@ -653,7 +679,7 @@
                     //for system menu
                     if ((index === HANDLER_MENU_TYPE.editAccount) || (index === HANDLER_MENU_TYPE.editSettings)) {
 
-                        $scope.clearSelectedNode();
+                        clearSelectedNode();
                     }
 
                     menuService.removeSelectedState('system-settings-menu');
@@ -664,6 +690,52 @@
                     //subscribe for this even and perform needed actions
                     $scope.$broadcast(HANDLER_EVENTS.menuStateChange);
 
+                };
+
+                /**
+                 * Http protocol data grid row select handler
+                 * @param {object} _row
+                 * @private
+                 */
+                var httpRowSelectHandler = function (_row) {
+                    if (_row.isSelected) {
+                        $scope.showHttpDetailInfo = true;
+                    } else {
+                        $scope.showHttpDetailInfo = false;
+                    }
+                };
+
+                /**
+                 * SIP protocol data grid row select handler
+                 * @param {object} row
+                 * @private
+                 */
+                var sipRowSelectHandler = function (_row) {
+
+                    if (_row.isSelected) {
+                        if (_row.entity.linkWavFile.length) {
+                            $scope.showAudioPlayer = true;
+                            $scope.showDownloadWavFile = true;
+
+                            $scope.audioPlayerApi.stop();
+                            $scope.audioPlayerConfig.sources = [
+                                {
+                                    src: _row.entity.linkWavFile,
+                                    type: 'audio/x-wav'
+                                }
+                            ];
+                            $scope.linkWavFile = _row.entity.linkWavFile;
+                        }
+                        if (_row.entity.linkPcapFile.length) {
+                            $scope.showDownloadPcapFile = true;
+                            $scope.linkPcapFile = _row.entity.linkPcapFile;
+                        }
+                    } else {
+                        $scope.audioPlayerApi.stop();
+                        $scope.showAudioPlayer = false;
+                        $scope.showDownloadWavFile = false;
+                        $scope.showDownloadPcapFile = false;
+                    }
                 };
 
                 /**
@@ -801,7 +873,7 @@
                          * @public
                          */
                         idTypeChange: function (type) {
-                            if(type.length){
+                            if (type.length) {
                                 this.isIdFieldDisable = false;
                                 this.isInvalidIdTypeDropdown = false;
                                 this.query.idType = type;
@@ -817,7 +889,7 @@
                             var _interval = null,
                                 _this = this;
 
-                            if(!_this.addNewQueryAccessServiceInfoForm.$valid) {
+                            if (!_this.addNewQueryAccessServiceInfoForm.$valid) {
                                 _this.addNewQueryAccessServiceInfoForm.id.$dirty = true;
                                 _this.addNewQueryAccessServiceInfoForm.number.$dirty = true;
                                 _this.addNewQueryAccessServiceInfoForm.starts.$dirty = true;
@@ -1092,7 +1164,5 @@
                 };
 
             }
-        ])
-    ;
-})
-();
+        ]);
+})();

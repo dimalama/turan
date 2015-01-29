@@ -290,6 +290,12 @@ input[type="text"].ui-grid-filter-input:hover {
   border-bottom-color: #d4d4d4;
   border-bottom-style: solid;
 }
+.ui-grid-row .ui-grid-cell {
+  cursor: pointer;
+}
+.ui-grid-row:hover .ui-grid-cell {
+  background-color: #e4e4e4;
+}
 .ui-grid-no-row-overlay {
   position: absolute;
   top: 0;
@@ -1248,7 +1254,7 @@ div.ui-grid-cell input.ng-valid {
 * @section font library path
 */
 /*-- END VARIABLES (DO NOT REMOVE THESE COMMENTS) --*/
-.ui-grid-row-selected > div.ui-grid-cell {
+.ui-grid-row-selected > [ui-grid-row] > .ui-grid-cell {
   background-color: #c9dde1 !important;
 }
 .ui-grid-disable-selection {
